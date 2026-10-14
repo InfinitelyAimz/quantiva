@@ -1,0 +1,8 @@
+date,horizon,prediction_gbp,forecast_origin,model,model_version,training_cutoff,interpretation
+2011-12-09,1,66565.61809650194,2011-12-08,random_forest,3.0.0,2011-12-08,retrospective historical demonstration
+2011-12-10,2,0.0,2011-12-08,random_forest,3.0.0,2011-12-08,retrospective historical demonstration
+2011-12-11,3,32980.27704499315,2011-12-08,random_forest,3.0.0,2011-12-08,retrospective historical demonstration
+2011-12-12,4,68354.8092072695,2011-12-08,random_forest,3.0.0,2011-12-08,retrospective historical demonstration
+2011-12-13,5,65180.142005698406,2011-12-08,random_forest,3.0.0,2011-12-08,retrospective historical demonstration
+2011-12-14,6,65684.02532200386,2011-12-08,random_forest,3.0.0,2011-12-08,retrospective historical demonstration
+2011-12-15,7,65637.91816637764,2011-12-08,random_forest,3.0.0,2011-12-08,retrospective historical demonstration
