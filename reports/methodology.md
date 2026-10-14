@@ -92,7 +92,8 @@ code; all published quality findings come from the downloaded workbook.
 
 The full-data validation script checks row reconciliation, unique source-row
 coverage, eligibility rules, source hash consistency, and manifest integrity.
-The source ends at midday on 9 December 2011 and includes partial December months;
+The source ends at midday on 9 December 2011, making that December incomplete.
+December 2010 lies within the observation span but contains a Christmas gap;
 later time-series analysis must avoid treating that final day as a full day or
 claiming December-to-December growth from unequal periods. Calendar gaps require
 investigation before equating them with zero demand.

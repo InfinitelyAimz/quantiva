@@ -18,3 +18,5 @@ build/
 dist/
 .venv-verify/
 reports/figures/*.html
+.venv-audit/
+.audit-data/

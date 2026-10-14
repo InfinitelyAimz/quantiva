@@ -121,3 +121,21 @@ def test_unsupported_monetary_precision_is_rejected(tmp_path, cleaning_result):
     bad.loc[0, "UnitPrice"] = 1.00001
     with pytest.raises(ValueError, match="four decimal"):
         build_database(bad, tmp_path / "bad.db")
+
+
+@pytest.mark.parametrize(
+    "manifest",
+    [
+        {},
+        [],
+        {"outputs": None, "source_sha256": "invalid", "policy_version": "1.0.0"},
+    ],
+)
+def test_malformed_manifest_is_reported_without_internal_key_errors(tmp_path, manifest):
+    import json
+
+    settings = Settings(tmp_path)
+    settings.processed_dir.mkdir()
+    (settings.processed_dir / "manifest.json").write_text(json.dumps(manifest))
+    with pytest.raises(ValueError, match="Malformed processed manifest"):
+        load_verified_ledger(settings)

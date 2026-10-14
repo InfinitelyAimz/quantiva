@@ -1,3 +1,204 @@
+# Phase 2 final verification and completion audit — 14 October 2026
+
+Status: **PASS — ready for Phase 2 approval.** This completion audit supersedes the
+implementation milestone report below for current Git and verification status.
+No approval, commit, merge, push, branch rename, or Phase 3 work is implied.
+
+## A. Implementation summary
+
+The committed implementation at `d18e571` comprises atomic SQLite storage, six
+relational tables, six query indexes, 14 SQL queries, independently reconciled
+pandas KPIs, two executable notebooks, eight Matplotlib charts, Plotly HTML, reports,
+and 37 original tests. Phase 1 is preserved at `17755ee`; its ingestion, inspection,
+cleaning, and preparation code is unchanged.
+
+Audit additions: `scripts/audit_phase2.py` independently recalculates source-workbook
+metrics, grouped revenue, duplicate sensitivity, NumPy statistics, and correlations.
+Two tests prove mismatched product/country keys fail even when overall totals match.
+Three tests reproduce malformed-manifest error handling; `database.py` now raises
+an actionable ValueError instead of exposing KeyError/TypeError. The actual CLI
+returns exit code 1 with no traceback. This is a scoped robustness correction,
+not a change to analytical definitions. `.gitignore` excludes the fresh audit
+runtime/data. README and methodology clarify December coverage and audit commands.
+
+A separate clean `.venv-audit` was installed successfully from the lock file and
+editable package instructions. A fresh official UCI workbook was downloaded into
+`.audit-data` and inspected. Its 23,715,344 bytes and SHA-256 match the original:
+`43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d`.
+Fresh preparation was repeated; every output/manifest hash matched across runs.
+
+One stale artifact was detected: original exclusions stored exclusion_reason as
+object dtype while committed code generates nullable string dtype. Every value
+matched exactly; transactions.parquet and both JSON reports already matched
+byte-for-byte. Original files were preserved in ignored
+`.audit-data/original_phase1_snapshot`, then default derived files were regenerated
+using unchanged cleaning rules. No rows, classifications, amounts, or ledger bytes
+changed. The manifest now reflects the correct exclusion-file metadata.
+
+## B. Verified business findings
+
+SQL/pandas reconciliation was rerun on the freshly built database: 3,982 passed,
+0 failed; maximum absolute difference 1.862645149230957e-09 GBP. All 14 queries execute.
+
+| KPI | Measured result |
+| --- | ---: |
+| Gross completed-sales revenue | £10,642,110.804 |
+| Distinct eligible invoices | 19,960 |
+| AOV | £533.171884 |
+| Units sold | 5,572,420 |
+| Identifiable purchasers | 4,338 |
+| Known-customer revenue | £8,887,208.894 |
+| Revenue per identifiable purchaser | £2,048.688081 |
+| Repeat purchasers | 2,845 |
+| Repeat purchase rate | 65.58% |
+
+Anonymous revenue remains included in gross sales (16.49%). Customer denominators
+exclude unknown IDs. Gross sales include eligible charges/postage; they are not
+merchandise-only sales or settled payment revenue. Orders are distinct invoices,
+not lines. Signed cancellations remain separate and are never called accounting
+net revenue. Complete-month growth excludes December 2011; December 2010's placement
+inside the observation span does not guarantee complete daily capture.
+
+Top codes: DOT £206,248.77; 22423 £174,156.54; 23843 £168,469.60. Top ten codes contribute
+10.82% and top ten known customers contribute 17.30% of their respective revenue
+bases. UK revenue is £9,001,744.09 (84.59%); Netherlands £285,446.34; EIRE £283,140.52;
+Germany £228,678.40; France £209,625.37. November's £1,503,866.78 is the largest
+full-month total. Comparable growth ranges from -25.03% (April) to +43.27% (May).
+
+Order median is £303.30, mean £533.17, sample std £1,780.41, IQR £341.77, skewness
+51.08. Above-p99 orders contribute 19.37% of revenue; the at/below-p99 mean is £434.24.
+Outliers are diagnostics, not deletion rules. Invoice units/value Pearson/rank
+correlations are 0.883/0.839; customer frequency/spending correlations are 0.553/0.807.
+They are partly mechanical associations, not causal conclusions. No annual
+seasonality, forecast improvement, clustering, or inferential-test result is claimed.
+
+Restoring eligible duplicate lines adds £24,573.74 (+0.2309%) and 15,956 units
+(+0.2863%), but no distinct invoices. AOV increases by £1.231149. Signed cancellation
+movements are -£893,979.73; the unmatched gross-plus-cancellation sensitivity is
+£9,748,131.074, not accounting net revenue. Two quarantined bad-debt rows total
+-£22,124.12. All 1,336 stock-adjustment candidates remain classified, not relabelled returns.
+
+## C. Verification results and completion checklist
+
+The explicit Phase 1 regression suite: 23 passed, 0 failed. Final combined suite:
+42 passed, 0 failed with warnings treated as errors (23 Phase 1 and 19 Phase 2/audit).
+The three new malformed-manifest cases failed before the correction, then passed.
+Ruff lint/format, pip check, original/fresh data integrity, provenance, SQL/pandas,
+foreign keys, SQLite integrity, counts, and independent monthly coverage checks pass.
+
+Database counts: 536,639 transaction lines, 25,898 invoices, 4,070 products,
+4,372 ledger customer IDs, 38 countries. Eligible purchasers number 4,338 because
+some IDs appear only on ineligible lines. Types retain 524,878 sales, 9,251
+cancellations, 1,336 stock-adjustment candidates, and 1,174 zero-value lines.
+
+The independent statistical audit recomputes mean/median, ddof=1 variance/std,
+linear quantiles/percentiles/IQR, bias-corrected sample skewness, normalized-dot-product
+Pearson correlations, and average-rank correlations without project analytics helpers.
+Statistical tolerance: atol 1e-8 and rtol 1e-10, appropriate to squared-currency scales;
+correlations use absolute 1e-12. Raw KPI/group checks use absolute 1e-6 and exact keys.
+Counts and sample helper sanity checks are separately verified.
+
+The independent raw-workbook audit completed **93 checks: 93 passed, 0 failed**.
+Maximum absolute statistical difference is 4.470348358154297e-08 (across different
+statistical units), inside the stated combined absolute/relative tolerance. No
+monetary discrepancy exists: SQL/pandas max difference remains 1.862645149230957e-09 GBP.
+Original and fresh processed artifacts now match byte-for-byte. Fresh SQLite matches
+the canonical original schema/row digest
+`92d6104f8eae89cb9c6ca78a9b8f2f3508a2ce8ed24abe0b0e9ef164b3002345`.
+Machine-readable evidence: `phase_2_audit_results.json`.
+
+Individual notebook execution results in the fresh audit runtime:
+
+| Notebook | Code cells | Errors | Result |
+| --- | ---: | ---: | --- |
+| 01_data_exploration.ipynb | 11 | 0 | PASS — fresh isolated kernel, outputs cleared |
+| 02_statistical_analysis.ipynb | 6 | 0 | PASS — separate fresh isolated kernel, outputs cleared |
+
+| Requirement | Status | Evidence |
+| --- | --- | --- |
+| SQLite implementation | PASS | Six tables, source-row PKs, nullable customer/country FKs, indexes/constraints inspected |
+| Rebuild-safe imports | PASS | Atomic rebuild tests; fresh independent database matches original logical contents |
+| Relational integrity | PASS | FK checks, SQLite integrity, enforced FK/amount/PK constraints |
+| SQL analytics | PASS | All 14 query files executed in fixtures and fresh full-data database |
+| KPI definitions | PASS | KPI specification reviewed against view/flags/denominators; distinct invoice counts |
+| SQL/pandas reconciliation | PASS | 3,982/3,982; tampering/key-change regression failures verified |
+| Exploratory analysis | PASS | Revenue/products/customers/geography queries and documented findings reviewed |
+| Statistical analysis | PASS | Five observation grains independently recomputed with NumPy, plus four correlations |
+| Duplicate sensitivity | PASS | Independently restored raw eligible duplicates; amounts, invoices, AOV, units match |
+| Cancellations/adjustments | PASS | Types and signed totals reviewed; no accounting-net or physical-return claims |
+| Calendar coverage | PASS | 374 dates, 305 activity dates, 69 gaps; partial-month growth suppressed |
+| Executable notebooks | PASS | Both notebooks finish; 17 executed cells, zero execution errors |
+| Reproducible charts | PASS | All eight PNGs reproduce identical hashes; titles, axes, units and interpretations visually reviewed |
+| Automated tests | PASS | 42/42 final tests; 23/23 explicit Phase 1 regression |
+| Documentation | PASS | Reviewed specs, README, KPI/methodology/findings; coverage wording clarified |
+| Actual findings | PASS | Fresh SQL/pandas and 93 independent raw-workbook checks agree |
+
+## D. Git status and merge readiness
+
+Current branch: phase/02-analytics, HEAD d18e571. Local branches: main (a48c30a),
+phase/01-foundation (17755ee), phase/02-analytics (d18e571). Convention is followed.
+History is a48c30a → 17755ee → d18e571; Phase 1 is an ancestor of Phase 2.
+GitHub heads were read with git ls-remote: only main at a48c30a was advertised.
+No phase branch is advertised and no push was performed. No fetch/merge/rename/history
+rewrite was performed in this audit. main is an ancestor of HEAD, so a future
+approved merge can fast-forward after approval of the uncommitted audit changes.
+
+Audit code, tests, documentation, regenerated findings, execution metadata, and
+machine-readable audit evidence remain uncommitted and unstaged. Existing phase
+milestones remain committed. Do not merge the dirty audit working tree blindly;
+review/approve the audit changes before committing and merging. No commit is made
+without the user's approval.
+
+## E. Outstanding issues and limits
+
+One scoped error-handling defect is corrected and covered by regressions. One stale
+Parquet dtype metadata discrepancy was diagnosed, backed up, and corrected by
+regeneration; no business-data difference existed. Coverage prose was clarified
+without changing monthly completeness semantics. Independent numerical, notebook,
+and visual checks pass. No blocking defects remain; audit changes await approval.
+
+Data limitations remain: ambiguous exact duplicates, missing customer IDs and selection
+bias, uncurated service/manual codes, extreme bulk orders/reversal candidates, one
+retailer, short history, missing dates, holiday gaps, partial final day/month, and
+unmatched cancellations. Product labels may be correction descriptions. Rebuilds
+are local snapshots rather than concurrent incremental ingestion. Remote CI has
+NOT BEEN VERIFIED in this audit because no GitHub push was authorized.
+
+## F. Phase 3 readiness
+
+The audited schema/KPI pipeline is a useful forecasting foundation; it does not prove
+predictive reliability. Before approved Phase 3 work, decide treatment of charges,
+exceptional bulk reversals, missing-date zeros, and boundary dates. Exclude or flag
+the last partial day. Examine Saturday/holiday schedules rather than asserting
+closure. Start with naive and weekly seasonal-naive baselines using expanding
+chronological folds and 7-day horizons, followed by an untouched test period.
+Shift lag/rolling features; recursive multi-day evaluation cannot use future actuals.
+One year cannot establish robust annual seasonality. Assess 30-day forecasts only
+with separate evidence. No model, feature pipeline, RFM, or dashboard is implemented.
+
+## G. Recommendation
+
+**Phase 2 is ready for approval.** All 16 completion requirements pass with actual
+execution evidence. The safe manifest correction and five additional regression
+cases are complete; the stale exclusion metadata was preserved and refreshed.
+KPI values and analytical definitions are unchanged. No unresolved reconciliation,
+test, notebook, data-integrity, or chart issue remains.
+
+Audit modifications are deliberately uncommitted and unstaged. Review them before
+authorizing a commit; an eventual merge can fast-forward main once approved.
+Neither commits nor branch changes, merges, pushes, models, or Phase 3 work occurred
+during this audit. GitHub CI was not run because nothing was pushed; this is recorded
+as NOT VERIFIED and is not a substitute for the passing local checks.
+
+The user retains approval for completion, committing, merging, pushing, and Phase 3.
+
+---
+
+## Historical implementation milestone report (superseded for audit/Git status)
+
+The original implementation report is retained below; its 37-test count and clean
+committed working-tree statements describe d18e571, not the current audit changes.
+
 # Quantiva Phase 2 progress — 14 October 2026
 
 ## A. Git state and scope

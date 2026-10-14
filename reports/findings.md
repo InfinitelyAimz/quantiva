@@ -49,7 +49,8 @@ Among comparable adjacent full months, growth ranges from
 43.27% in 2011-05.
 These changes describe this retailer's activity; one year cannot establish stable
 annual seasonality. December 2011 is truncated on 9 December at 12:50 and has no
-published month-over-month growth. December 2010 spans all calendar dates.
+published month-over-month growth. December 2010 lies inside the observation span,
+but its Christmas gap does not prove complete transaction capture.
 
 There are 374 calendar dates and
 305 dates with any ledger activity. Missing
