@@ -20,7 +20,20 @@ def main() -> None:
     """Run one pipeline stage and report failures with an actionable message."""
     parser = argparse.ArgumentParser(description="Quantiva local retail analytics")
     parser.add_argument(
-        "command", choices=["download", "inspect", "prepare", "database", "query", "analyze"]
+        "command",
+        choices=[
+            "download",
+            "inspect",
+            "prepare",
+            "database",
+            "query",
+            "analyze",
+            "forecast-prepare",
+            "forecast-train",
+            "forecast-compare",
+            "forecast",
+            "forecast-verify",
+        ],
     )
     parser.add_argument("query_name", nargs="?", help="Packaged SQL query name")
     args = parser.parse_args()
@@ -29,6 +42,35 @@ def main() -> None:
     try:
         if args.command == "download":
             download_dataset(settings.raw_file)
+        elif args.command == "forecast-prepare":
+            from quantiva.forecast_series import prepare_forecast_series
+
+            print(json.dumps(prepare_forecast_series(settings), indent=2))
+        elif args.command == "forecast-train":
+            from quantiva.forecast_experiment import train_experiment
+
+            print(
+                json.dumps(
+                    train_experiment(settings, Path(__file__).resolve().parents[2] / "reports"),
+                    indent=2,
+                )
+            )
+        elif args.command == "forecast-compare":
+            import pandas as pd
+
+            root = Path(__file__).resolve().parents[2] / "reports"
+            for name in ["validation", "test"]:
+                print(pd.read_csv(root / f"forecast_{name}_comparison.csv").to_string(index=False))
+        elif args.command == "forecast":
+            from quantiva.model_artifacts import forecast_saved
+
+            output = forecast_saved(settings.model_dir, trusted=True)
+            output.to_csv(settings.forecast_dir / "latest_forecast.csv", index=False)
+            print(output.to_string(index=False))
+        elif args.command == "forecast-verify":
+            from quantiva.model_artifacts import verify_artifact
+
+            print(json.dumps(verify_artifact(settings.model_dir), indent=2))
         elif args.command == "prepare":
             print(json.dumps(prepare_data(settings), indent=2))
         elif args.command == "database":
