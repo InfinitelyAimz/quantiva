@@ -1,0 +1,99 @@
+{
+  "cleaning": {
+    "policy_version": "1.0.0",
+    "original_records": 541909,
+    "cleaned_records": 536639,
+    "duplicate_records_removed": 5268,
+    "quarantined_records": 2,
+    "excluded_records": 5270,
+    "transaction_types": {
+      "completed_sale": 524878,
+      "cancellation": 9251,
+      "stock_adjustment_candidate": 1336,
+      "zero_value": 1174
+    },
+    "missing_or_invalid_customer_records": 135035,
+    "completed_sales_without_customer": 132186,
+    "missing_description_records": 1454,
+    "exclusion_reasons": {
+      "exact_duplicate": 5268,
+      "invalid_price": 2
+    },
+    "source_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d"
+  },
+  "inspection": {
+    "original_records": 541909,
+    "column_types": {
+      "InvoiceNo": "string",
+      "StockCode": "string",
+      "Description": "object",
+      "Quantity": "int64",
+      "InvoiceDate": "datetime64[ns]",
+      "UnitPrice": "float64",
+      "CustomerID": "float64",
+      "Country": "object"
+    },
+    "missing_values": {
+      "InvoiceNo": 0,
+      "StockCode": 0,
+      "Description": 1454,
+      "Quantity": 0,
+      "InvoiceDate": 0,
+      "UnitPrice": 0,
+      "CustomerID": 135080,
+      "Country": 0
+    },
+    "duplicate_records": 5268,
+    "duplicate_group_members": 10147,
+    "cancelled_records": 9288,
+    "negative_quantity_records": 10624,
+    "cancelled_negative_quantity_records": 9288,
+    "noncancelled_negative_quantity_records": 1336,
+    "cancelled_nonnegative_quantity_records": 0,
+    "zero_quantity_records": 0,
+    "zero_price_records": 2515,
+    "negative_price_records": 2,
+    "invalid_quantity_records": 0,
+    "invalid_price_records": 0,
+    "invalid_timestamp_records": 0,
+    "identifiable_customers": 4372,
+    "date_min": "2010-12-01 08:26:00",
+    "date_max": "2011-12-09 12:50:00",
+    "quantity_percentiles": {
+      "0.0": -80995.0,
+      "0.01": -2.0,
+      "0.25": 1.0,
+      "0.5": 3.0,
+      "0.75": 10.0,
+      "0.99": 100.0,
+      "1.0": 80995.0
+    },
+    "unit_price_percentiles": {
+      "0.0": -11062.06,
+      "0.01": 0.19,
+      "0.25": 1.25,
+      "0.5": 2.08,
+      "0.75": 4.13,
+      "0.99": 18.0,
+      "1.0": 38970.0
+    },
+    "negative_noncancelled_description_examples": {
+      "check": 120,
+      "damages": 45,
+      "damaged": 42,
+      "?": 41,
+      "sold as set on dotcom": 20,
+      "Damaged": 14,
+      "thrown away": 9,
+      "Unsaleable, destroyed.": 9,
+      "??": 7,
+      "damages?": 5,
+      "ebay": 5,
+      "wet damaged": 5,
+      "smashed": 4,
+      "CHECK": 3,
+      "missing": 3
+    },
+    "source_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d"
+  }
+}
