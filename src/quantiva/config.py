@@ -40,3 +40,11 @@ class Settings:
     @property
     def database_file(self) -> Path:
         return self.processed_dir / "quantiva.db"
+
+    @property
+    def forecast_dir(self) -> Path:
+        return self.processed_dir / "forecasting"
+
+    @property
+    def model_dir(self) -> Path:
+        return self.data_dir / "models"

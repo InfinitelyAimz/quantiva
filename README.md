@@ -4,9 +4,11 @@ Quantiva is a local, reproducible retail data science project using real UCI Onl
 Retail transactions. It examines sales, products, customers, geography, and the
 quality of the observations underlying business decisions.
 
-**Completed scope: Phase 1 foundation and Phase 2 analytics.** Forecasting,
-Streamlit, and portfolio finalization require later approval. Requirements:
-[master specification](PROJECT_SPECIFICATION.md) and [Phase 2](PHASE_2_SPECIFICATION.md).
+**Implemented scope: Phase 1 foundation, Phase 2 analytics, and Phase 3 forecasting.**
+Phase 3 is proposed for review on `phase-3`; dashboard and portfolio finalization
+require later approval. Requirements: [master specification](PROJECT_SPECIFICATION.md),
+[Phase 2](PHASE_2_SPECIFICATION.md), and [Phase 3](PHASE_3_SPECIFICATION.md).
+Current branch workflow is recorded in [AGENTS.md](AGENTS.md).
 
 ## Actual results
 
@@ -52,7 +54,8 @@ queries. Currency is stored in integer £0.0001 units before aggregation. See
 [Phase 2 methodology](reports/phase_2_methodology.md) for the schema and decisions.
 
 Stack: Python 3.11, pandas/NumPy, requests, openpyxl, PyArrow, SQLite/SQLAlchemy,
-Matplotlib, Plotly, nbformat/nbclient/ipykernel, pytest, and Ruff. All functionality
+Matplotlib, Plotly, scikit-learn, SciPy, joblib, nbformat/nbclient/ipykernel,
+pytest, and Ruff. All functionality
 runs locally without credentials, paid APIs, or cloud services. Descriptive
 statistics use pandas; no gratuitous significance tests or clustering are added.
 
@@ -157,9 +160,66 @@ validates execution, and saves successful results. No global kernel is registere
   geography, calendar coverage, adjustments, and duplicate sensitivity.
 - [Statistics](notebooks/02_statistical_analysis.ipynb): mean, median, variance/std,
   quartiles, percentiles, IQR, skewness, outlier influence, and correlations.
+- [Forecasting](notebooks/03_forecasting_experiments.ipynb): calendar policy,
+  leakage checks, recursive forecasts, chronological validation, held-out errors,
+  sensitivities, and trusted artifact inference. Run `forecast-train` first;
+  `scripts/execute_notebooks.py --phase 3` executes only this notebook.
 
 Open them in a notebook-capable editor using `.venv` as the kernel, or execute with
 the command above. Prepare/import actual data first.
+
+## Seven-day forecasting
+
+After preparing the ledger and database, run:
+
+```powershell
+.\.venv\Scripts\quantiva.exe forecast-prepare
+.\.venv\Scripts\quantiva.exe forecast-train
+.\.venv\Scripts\quantiva.exe forecast-compare
+.\.venv\Scripts\quantiva.exe forecast
+.\.venv\Scripts\quantiva.exe forecast-verify
+.\.venv\Scripts\python.exe scripts/verify_forecasting.py
+.\.venv\Scripts\python.exe scripts/execute_notebooks.py --phase 3
+```
+
+The unchanged gross-sales target includes eligible charges. Missing dates mean zero
+observed revenue; they do not prove zero demand. Both source boundary dates are
+excluded, leaving 2 December 2010–8 December 2011. Each origin forecasts seven
+calendar days recursively, using earlier predictions for unavailable future lags.
+Eight expanding validation origins select the model by MAE before opening a separate
+56-day test period. Test weights remain fixed while observed context advances between
+weekly origins. Full-history deployment refitting occurs only after evaluation.
+
+| Model | Validation MAE (GBP/day) | Test MAE (GBP/day) | Test WAPE |
+| --- | ---: | ---: | ---: |
+| Naive | 24,181.77 | 20,978.67 | 45.33% |
+| Weekly seasonal naive | 15,580.52 | 11,250.17 | 24.31% |
+| Linear Regression | 12,792.97 | Not evaluated | Not evaluated |
+| Random Forest | 11,431.53 | 12,344.71 | 26.68% |
+
+Random Forest is the validation-selected candidate. The weekly baseline is better
+on the held-out test; these results do not support general machine learning superiority.
+The selection remains frozen. Inference produces a **retrospective demonstration for
+9–15 December 2011**, rather than current business predictions.
+
+Training regenerates ignored `data/models` (model, context, metadata, checksums) and
+`data/processed/forecasting`. Only load locally generated trusted artifacts; checksums
+detect changes but do not authenticate serialized models. Models need the recorded
+dependency versions. Reports, CSV evidence, PNGs and the notebook are tracked;
+model binaries and interactive HTML are ignored. Do not run concurrent training or
+inference while artifacts are being replaced. Training reruns reproduce the frozen
+experiment and must not become test-guided tuning.
+
+The audit verifies validation-only selection in the committed code and reproduces
+its results. It cannot independently establish that earlier manual choices were
+uninfluenced by previously viewed test outcomes. The selection file is overwritten
+on reruns and is not an immutable historical record. Undefined autocorrelations
+are JSON `null`, meaning correlation cannot be estimated (for example, a constant
+history has no variance); this does not mean zero correlation.
+
+See [model evaluation](reports/model_evaluation.md),
+[Phase 3 methodology](reports/phase_3_methodology.md), and
+[Phase 3 progress](reports/phase_3_progress.md).
 
 ## Verification
 
@@ -170,6 +230,7 @@ the command above. Prepare/import actual data first.
 .\.venv\Scripts\python.exe -m pip check
 .\.venv\Scripts\python.exe scripts/verify_data.py
 .\.venv\Scripts\python.exe scripts/verify_analytics.py
+.\.venv\Scripts\python.exe scripts/verify_forecasting.py
 ```
 
 Tests cover Phase 1 plus schema constraints, atomic/repeatable imports, unknown
@@ -207,8 +268,9 @@ See [Phase 1 progress](reports/phase_1_progress.md),
 [Phase 2 progress](reports/phase_2_progress.md),
 [Phase 2 methodology](reports/phase_2_methodology.md), and [findings](reports/findings.md).
 
-Phase 3 will evaluate 7-day forecasts against naive/weekly baselines using chronological
-validation and leakage-safe features after resolving calendar and scope decisions.
-Phase 4 will deliver Streamlit; Phase 5 will finalize the portfolio and accurate CV
-bullets. None has started. No models, RFM segments, forecast scores, or dashboard
-screenshots are fabricated. Branches are not merged or pushed without approval.
+Phase 3 implements measured seven-day forecasts with chronological validation and
+historical-only features. Phase 4 will deliver Streamlit; Phase 5 will finalize the
+portfolio and accurate CV bullets. Neither later phase has started. Future phase
+branches are `phase-4`, `phase-5`, etc. Changes are proposed through draft pull
+requests targeting `main`; automatic merging and direct commits/pushes to `main`
+are prohibited by the current workflow.
