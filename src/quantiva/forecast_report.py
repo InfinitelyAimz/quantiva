@@ -263,7 +263,11 @@ Validation: {summary["split"]["validation_start_date"]}–{summary["split"]["val
 (eight expanding weekly origins). Held-out test:
 {summary["split"]["test_start_date"]}–{summary["split"]["test_end_date"]} (eight origins).
 Splits depend only on dates/length; primary policy, features, hyperparameters, seed,
-and selection rule are fixed before viewing final test metrics.
+and selection rule are fixed in the committed experiment. The code selects using
+validation before computing test metrics. This verifies the current execution order;
+it does not independently establish that earlier manual choices were uninfluenced
+by previously viewed test results. The selection file is overwritten on reruns,
+so it is not an immutable historical experiment record.
 
 The full seven-calendar-day horizon is recursive: unknown future lag/rolling inputs
 use earlier predictions. Known date predictors use no transaction counts, activity
@@ -280,7 +284,7 @@ Selected **{selected}** by lowest primary validation MAE
 Candidate ranking does not use sensitivity outcomes or held-out scores. A baseline
 win is reported without forcing a machine learning model into deployment.
 
-## Untouched held-out comparison
+## Held-out comparison
 
 {markdown_table(tested)}
 
@@ -311,6 +315,10 @@ normality, causal weekdays, or stable annual seasonality.
 
 Development-only autocorrelations (no test-based feature selection):
 {summary["development_diagnostics"]["autocorrelation"]}.
+Undefined autocorrelations are stored as JSON null: a constant series (zero or
+positive) has no variance, so correlation cannot be estimated. Null does not mean
+zero correlation or evidence of no temporal dependence; insufficient varying
+paired observations can also make an autocorrelation undefined.
 Lag correlations are descriptive and confounded by trend, weekday schedule and extremes;
 weekly structure should be judged alongside actual seasonal-naive performance.
 

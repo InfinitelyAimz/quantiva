@@ -210,6 +210,13 @@ model binaries and interactive HTML are ignored. Do not run concurrent training 
 inference while artifacts are being replaced. Training reruns reproduce the frozen
 experiment and must not become test-guided tuning.
 
+The audit verifies validation-only selection in the committed code and reproduces
+its results. It cannot independently establish that earlier manual choices were
+uninfluenced by previously viewed test outcomes. The selection file is overwritten
+on reruns and is not an immutable historical record. Undefined autocorrelations
+are JSON `null`, meaning correlation cannot be estimated (for example, a constant
+history has no variance); this does not mean zero correlation.
+
 See [model evaluation](reports/model_evaluation.md),
 [Phase 3 methodology](reports/phase_3_methodology.md), and
 [Phase 3 progress](reports/phase_3_progress.md).
