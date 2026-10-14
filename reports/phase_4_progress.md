@@ -6,8 +6,11 @@ Verified baseline main/origin main: `7eb1d20d044f17dc8061630419823a0e6fb36c82`.
 The original working tree was clean and 66 tests passed before `phase-4` was created.
 Phase 1–3 commits and branches are preserved. Complete user requirements are saved in
 `PHASE_4_SPECIFICATION.md`. Only `phase-4` is authorized for implementation commits
-and pushes; the resulting draft PR URL and final commit SHA are reported after
-publication, avoiding a self-referential hash in this report. No main modification,
+and pushes. Implementation commit: `924ae2cad8a7ed6bc55d1e36cdc262980be24864`,
+published on `origin/phase-4`. Draft [PR #2](https://github.com/InfinitelyAimz/quantiva/pull/2)
+targets `main` and remains unmerged. A following documentation commit records this
+publication; its final SHA is supplied in the delivery message to avoid a self-referential
+hash here. The branch exists on GitHub. No main modification,
 merge, force push, branch deletion or Phase 5 work is part of this delivery.
 
 ## B. Implementation
