@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=75,<81"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "quantiva"
+version = "0.1.0"
+description = "Reproducible retail intelligence using UCI Online Retail"
+requires-python = ">=3.11,<3.12"
+dependencies = ["pandas>=2.2,<3", "openpyxl>=3.1,<4", "pyarrow>=19,<24", "requests>=2.32,<3"]
+
+[project.optional-dependencies]
+dev = ["pytest>=8,<10", "ruff>=0.9,<1"]
+
+[project.scripts]
+quantiva = "quantiva.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B"]
