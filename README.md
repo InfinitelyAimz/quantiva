@@ -181,6 +181,13 @@ Synthetic fixtures test code only; published results use UCI records. CI checks
 fixtures/lint/format without downloading data. Full-data/notebook verification is
 performed locally and documented separately.
 
+For the final completion audit, `python scripts/audit_phase2.py` independently
+recalculates source-workbook KPIs, grouped revenue, duplicate sensitivity, NumPy
+descriptive statistics, and Pearson/rank correlations. It compares them with the
+published results and writes `reports/phase_2_audit_results.json`. This check does
+not call the project cleaner or analytics functions. `.venv-audit` and `.audit-data`
+contain the separate audit environment and data outputs and are ignored by Git.
+
 ## Source, limitations, and next phases
 
 Chen, D. (2015). *Online Retail*. UCI Machine Learning Repository.

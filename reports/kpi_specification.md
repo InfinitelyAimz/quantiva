@@ -40,8 +40,8 @@ may refer to purchases before the observation window; stock corrections are not
 proven returns. The two quarantined negative prices labelled “Adjust bad debt” are
 reported separately and are not reinstated into sales or cancellation KPIs.
 
-December 2011 ends on 9 December at 12:50 and is incomplete. December 2010 covers all
-calendar dates, although the first observation day is a boundary. Coverage flags
+December 2011 ends on 9 December at 12:50 and is incomplete. December 2010 lies fully
+inside the observation span, with a boundary first day and a Christmas gap. Coverage flags
 describe the dataset date span; they cannot prove complete capture on every trading
 day. Growth is descriptive and does not establish seasonality or causality.
 

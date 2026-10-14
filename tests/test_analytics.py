@@ -109,3 +109,22 @@ def test_duplicate_sensitivity_does_not_restore_invalid_positive_lines():
     assert result.loc["gross_revenue_gbp", "difference"] == 2
     assert result.loc["completed_orders", "difference"] == 0
     assert result.loc["units_sold", "difference"] == 1
+
+
+@pytest.mark.parametrize(
+    "column,new_value,metric",
+    [
+        ("StockCode", "REPLACED", "top_products"),
+        ("Country", "REPLACED", "country_revenue"),
+    ],
+)
+def test_reconciliation_rejects_mismatched_keys_even_when_totals_match(
+    cleaning_result, analytical_database, column, new_value, metric
+):
+    changed = cleaning_result.ledger.copy()
+    changed[column] = changed[column].where(changed[column].isna(), new_value)
+    result = reconcile(changed, analytical_database, fail_on_difference=False)
+    assert result.loc[result["metric"].eq("gross_revenue_gbp"), "passed"].all()
+    assert not result.loc[result["metric"].str.startswith(metric + ":"), "passed"].all()
+    with pytest.raises(ValueError, match="reconciliation failed"):
+        reconcile(changed, analytical_database)

@@ -122,6 +122,14 @@ def load_verified_ledger(settings: Settings) -> pd.DataFrame:
     if not manifest_path.is_file():
         raise FileNotFoundError("Processed manifest missing. Run quantiva prepare first.")
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    if (
+        not isinstance(manifest, dict)
+        or not {"outputs", "source_sha256", "policy_version"}.issubset(manifest)
+        or not isinstance(manifest["outputs"], dict)
+        or not isinstance(manifest["source_sha256"], str)
+        or not isinstance(manifest["policy_version"], str)
+    ):
+        raise ValueError("Malformed processed manifest. Re-run quantiva prepare.")
     required = {
         "transactions.parquet",
         "exclusions.parquet",

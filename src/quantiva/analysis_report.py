@@ -301,7 +301,8 @@ Among comparable adjacent full months, growth ranges from
 {changes.iloc[-1]["growth_pct"]:.2f}% in {changes.iloc[-1]["month"]}.
 These changes describe this retailer's activity; one year cannot establish stable
 annual seasonality. December 2011 is truncated on 9 December at 12:50 and has no
-published month-over-month growth. December 2010 spans all calendar dates.
+published month-over-month growth. December 2010 lies inside the observation span,
+but its Christmas gap does not prove complete transaction capture.
 
 There are {summary["coverage"]["calendar_days"]} calendar dates and
 {summary["coverage"]["observed_days"]} dates with any ledger activity. Missing
