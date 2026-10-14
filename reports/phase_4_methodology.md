@@ -1,0 +1,148 @@
+# Phase 4 dashboard methodology
+
+## Architecture and data flow
+
+`app/Home.py` is the Streamlit application frame. Supported `st.navigation`, `st.Page`
+and `st.page_link` APIs route five page functions in `dashboard/pages.py`. Streamlit
+reruns Python when widgets change; the frame owns the persistent appearance control
+and the page owns its scoped filters. Shared components render headings, KPI cards,
+bounded accessible tables and Plotly figures. Business calculations live in
+`dashboard/data.py`, `dashboard/evidence.py` and `segmentation.py`, separate from UI.
+
+The dashboard reads SQLite aggregates through existing SQLAlchemy connections and the
+existing `completed_sales` view. The authoritative packaged KPI SQL is reused inside
+a filtered CTE. Source eligibility, integer £0.0001 aggregation, invoice grain and
+anonymous-sale treatment remain unchanged. No raw workbook is read on reruns.
+Daily/weekly/monthly counts use distinct invoices within that period, not sums of
+daily counts. Product descriptions are labels, stock codes identifiers. Null countries
+have an explicit Unknown label. Orders can appear in more than one product group;
+group counts must not be added to obtain total distinct orders.
+
+## Filters and coverage
+
+Overview and Customer Intelligence share inclusive dates and country selections.
+Sales adds stock-code filtering. SQL binds all values, including list entries;
+column/period expressions are allowlisted. End dates become an exclusive next-day
+timestamp. Out-of-coverage and reversed dates are rejected; stale category selections
+are reset to available choices. An empty category selection means all categories.
+No hidden product filter applies on the other pages.
+
+Every commercial KPI/chart follows the visible scope. A product filter selects lines,
+so AOV becomes selected eligible GBP divided by affected distinct invoices, not full
+basket value. RFM segment choices affect its charts/tables only; customer KPI cards
+retain their labeled date/country scope. Predictive Analytics and Data Quality use
+fixed full-data evidence and explicitly disable commercial-filter semantics.
+
+Monthly completeness follows Phase 2, additionally requiring selected dates to cover
+the whole month. Growth exists only between adjacent complete months with a positive
+previous total. December 2011 is partial. Weekly periods start Monday and boundary
+weeks can be partial. Zero-filled daily gaps represent observed activity, not proven
+zero demand. Commercial/RFM analysis retains Phase 2 source coverage through the final
+partial day; the independent Phase 3 forecasting policy excludes both boundary days.
+
+## RFM definitions and scoring
+
+Use only identifiable eligible purchasers in the current date/country scope. Anonymous
+sales remain in commercial revenue but not RFM. Recency is calendar days between the
+latest eligible purchase and the day AFTER the selected end date (full-data reference:
+10 December 2011). Frequency is distinct eligible invoices, not transaction lines.
+Monetary is gross eligible GBP, with no cancellation netting.
+
+Higher F/M scores mean higher observed frequency/value. Lower recency gets a higher
+R score. For at least five distinct values, empirical 20/40/60/80 percentile thresholds
+define scores 1–5; equality belongs to the lower base bin before recency inversion.
+Tied values always get the same score; no ID-based tie breaking or jitter occurs.
+Fewer than five distinct values use evenly spaced dense-value ranks over 1–5, leaving
+unsupported score bins empty. A constant value gets neutral score 3. Sparse groups
+are therefore not forced into arbitrary five equally sized bins. Scores recalibrate
+within each scope, so they are relative group descriptions rather than absolute
+cross-scope classifications. RFM code is three-digit R/F/M, not a continuous risk score.
+
+First matching segment rule wins:
+
+| Segment | Exact ordered rule |
+| --- | --- |
+| Champions | R≥4 and F≥4 and M≥4 |
+| At Risk | Remaining R≤2 and (F≥3 or M≥4) |
+| Hibernating | Remaining R≤2 |
+| Loyal Customers | Remaining F≥4 |
+| New Customers | Remaining R≥4 and F≤2 |
+| Potential Loyalists | All remaining eligible customers |
+
+This partitions every eligible customer once. These labels are descriptive, not
+validated churn, first-ever acquisition, lifetime value or machine learning clustering.
+IDs are pseudonymous source identifiers, not verified identities. The full-data
+segment counts and independent recency/frequency/monetary checks are in
+`phase_4_verification.json`.
+
+## Themes, state and charting
+
+`dashboard/theme.py` centralizes dark/light tokens, a restrained palette, chart canvas,
+axes, legend and tooltip styling. Plotly uses explicit colors with Streamlit's automatic
+chart theme disabled, so the session control governs the real chart appearance.
+Tables are escaped HTML with bounded rows, scrolling and CSV export; no unthemeable
+canvas data grid is used. Chart headings wrap outside the figure at smaller widths.
+CSS stacks columns below 1,100px; Streamlit handles the mobile sidebar drawer.
+
+The visible Light/Dark control updates `quantiva_theme` in session state and persists
+across navigation/reruns. Initial appearance uses Streamlit's reported theme type where
+available; it may lag on first load. Direct operating-system theme detection is not
+claimed. Native widgets have no supported per-session runtime theme setter, so
+controlled CSS overrides cover application/sidebar/controls/date fields/popovers/
+tables/messages. Selectors use stable semantic roles and a small set of Streamlit
+test IDs, avoiding generated Emotion class names. This is version-specific styling,
+tested with locked Streamlit 1.66.0; widget/date-popup/contrast tests must be repeated
+before a Streamlit upgrade. Browser Settings theme changes after initial load do not
+override the app's visible session choice.
+
+The design uses text Quantiva branding, navy/white surfaces, blue accents and the
+same components on every page. Local configuration disables usage statistics and
+binds the app to loopback. No cloud services or credentials are required.
+
+Official API references: [navigation](https://docs.streamlit.io/develop/api-reference/navigation/st.navigation),
+[session context](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.context),
+[theme configuration](https://docs.streamlit.io/develop/concepts/configuration/theming).
+
+## Forecasting and evidence integrity
+
+The predictive view reads Phase 3 predictions and independently recomputes their
+reported metrics using the tested metric function. It checks validation/test separation
+and chronology. Model loading uses existing explicit local trust, checksums, dependency
+versions and context/metadata checks, plus a metadata hash comparison with the saved
+evaluation. No model is cached without validation, downloaded or silently retrained.
+Missing/invalid models leave saved evaluation evidence accessible with setup messages.
+
+Display the 9–15 December 2011 demonstration, model/version, training cutoff, horizon
+and GBP. It is retrospective, not live revenue. Validation selection and held-out
+evaluation are separate; Linear Regression has no invented test result. Weekly seasonal
+naive's better test MAE remains explicit. There are no fabricated uncertainty bands.
+Current code selection is validation-only; historical manual decision independence
+remains unverified. The post-evaluation deployment refit is distinct from pretest scores.
+
+Data Quality reads original Phase 1 summaries, coverage, duplicate sensitivity and
+stored Phase 2/3 verification evidence. It labels stored evidence as historical rather
+than implying a test suite ran during the session. A separate button explicitly runs
+current model integrity/inference verification. Cancellation, missing IDs, ambiguous
+duplicates/nonstandard codes, quarantine and observation boundaries remain explained.
+
+## Caching, performance and failures
+
+`st.cache_data` stores read-only catalog/aggregate results with bounded entry counts;
+presentation state and figure instances are separate. Keys include resolved path,
+nanosecond mtime/size and SQLite WAL signature. After atomic database replacement or
+WAL activity, reads are invalidated; a change detected during aggregate reading fails
+with a retry message rather than publishing a mixed snapshot. Avoid simultaneous
+rebuilds and dashboard reads. Signatures are invalidation, not cryptographic authentication.
+
+Only aggregate tables are loaded: roughly 4,000 products/customers and 20,000 order
+values for the full UCI scope, not 536,639 transaction rows. RFM scatter plots use the
+aggregate customer rows. HTML tables display at most 50 rows and provide CSV exports.
+Cold full-scope reads were 5.59 seconds on this Windows run; cached reads were 0.008
+seconds. These are observations, not cross-machine guarantees or an SLA. There is no
+distributed infrastructure, model retraining, or raw Excel load on reruns.
+
+The application frame handles expected file, metadata, filter and SQL failures with
+setup guidance while retaining navigation. It never substitutes synthetic business
+records. Pure services, synthetic SQLite fixtures, Streamlit AppTest and browser QA
+cover logic/widgets separately. The full-data verifier compares displayed calculations
+with independent verified Parquet aggregates; published findings use UCI data only.
