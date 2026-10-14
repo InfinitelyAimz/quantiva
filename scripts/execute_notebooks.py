@@ -1,5 +1,6 @@
 """Execute clean notebook kernels using this exact virtual environment's Python."""
 
+import argparse
 import json
 import os
 import sys
@@ -12,7 +13,7 @@ from jupyter_client.kernelspec import KernelSpecManager
 from nbclient import NotebookClient
 
 
-def execute_notebooks() -> None:
+def execute_notebooks(phase: int | None = None) -> None:
     """Clear outputs, launch isolated kernels, and save only successful executions."""
     root = Path(__file__).resolve().parents[1]
     with tempfile.TemporaryDirectory(prefix="quantiva-kernel-") as kernel_dir:
@@ -29,7 +30,8 @@ def execute_notebooks() -> None:
             ),
             encoding="utf-8",
         )
-        for path in sorted((root / "notebooks").glob("0[12]_*.ipynb")):
+        pattern = f"0{phase}_*.ipynb" if phase is not None else "0[123]_*.ipynb"
+        for path in sorted((root / "notebooks").glob(pattern)):
             notebook = nbformat.read(path, as_version=4)
             for cell in notebook.cells:
                 if cell.cell_type == "code":
@@ -54,4 +56,6 @@ def execute_notebooks() -> None:
 if __name__ == "__main__":
     # Windows asyncio compatibility is provided by the notebook client's kernel stack.
     os.environ.setdefault("MPLBACKEND", "Agg")
-    execute_notebooks()
+    parser = argparse.ArgumentParser(description="Execute Quantiva notebooks in fresh kernels")
+    parser.add_argument("--phase", type=int, choices=[1, 2, 3])
+    execute_notebooks(parser.parse_args().phase)

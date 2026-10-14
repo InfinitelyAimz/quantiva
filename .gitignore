@@ -20,3 +20,6 @@ dist/
 reports/figures/*.html
 .venv-audit/
 .audit-data/
+data/models/
+.venv-phase3/
+*.joblib

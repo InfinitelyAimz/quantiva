@@ -1,0 +1,415 @@
+{
+  "selected_model": "random_forest",
+  "selection_metric": "primary validation MAE",
+  "split": {
+    "validation_start": 260,
+    "test_start": 316,
+    "training_start_date": "2010-12-02",
+    "initial_training_end_date": "2011-08-18",
+    "validation_start_date": "2011-08-19",
+    "validation_end_date": "2011-10-13",
+    "test_start_date": "2011-10-14",
+    "test_end_date": "2011-12-08"
+  },
+  "split_config": {
+    "validation_days": 56,
+    "test_days": 56,
+    "horizon": 7,
+    "minimum_training_days": 140
+  },
+  "seed": 42,
+  "features": [
+    "weekday",
+    "month_sin",
+    "month_cos",
+    "day_of_month",
+    "lag_1",
+    "lag_7",
+    "lag_14",
+    "lag_28",
+    "mean_7",
+    "mean_14",
+    "mean_28",
+    "std_7",
+    "trend_7_28"
+  ],
+  "strategy": "recursive",
+  "primary_policy": "phase1_completed_sales_gross_including_eligible_charges",
+  "calendar": "zero_observed_calendar",
+  "clip_negative_predictions": true,
+  "sensitivity_inactive_weekdays": [
+    5
+  ],
+  "initial_p99_gbp": 71392.91770000003,
+  "series": {
+    "target_policy": "phase1_completed_sales_gross_including_eligible_charges",
+    "calendar_policy": "zero_observed_calendar",
+    "first_source_timestamp": "2010-12-01 08:26:00",
+    "last_source_timestamp": "2011-12-09 12:50:00",
+    "modeling_start": "2010-12-02",
+    "modeling_end": "2011-12-08",
+    "first_day_policy": "exclude_uncertain_boundary_not_proven_incomplete",
+    "last_day_policy": "exclude_partial_midday_boundary",
+    "full_revenue_gbp": 10642110.804000001,
+    "modeled_revenue_gbp": 10382433.034,
+    "excluded_boundary_revenue_gbp": 259677.77000000002,
+    "record_status_counts": {
+      "eligible_sales": 305,
+      "other_ledger_only": 0,
+      "no_records": 69
+    },
+    "missing_dates": [
+      "2010-12-04",
+      "2010-12-11",
+      "2010-12-18",
+      "2010-12-24",
+      "2010-12-25",
+      "2010-12-26",
+      "2010-12-27",
+      "2010-12-28",
+      "2010-12-29",
+      "2010-12-30",
+      "2010-12-31",
+      "2011-01-01",
+      "2011-01-02",
+      "2011-01-03",
+      "2011-01-08",
+      "2011-01-15",
+      "2011-01-22",
+      "2011-01-29",
+      "2011-02-05",
+      "2011-02-12",
+      "2011-02-19",
+      "2011-02-26",
+      "2011-03-05",
+      "2011-03-12",
+      "2011-03-19",
+      "2011-03-26",
+      "2011-04-02",
+      "2011-04-09",
+      "2011-04-16",
+      "2011-04-22",
+      "2011-04-23",
+      "2011-04-24",
+      "2011-04-25",
+      "2011-04-29",
+      "2011-04-30",
+      "2011-05-02",
+      "2011-05-07",
+      "2011-05-14",
+      "2011-05-21",
+      "2011-05-28",
+      "2011-05-30",
+      "2011-06-04",
+      "2011-06-11",
+      "2011-06-18",
+      "2011-06-25",
+      "2011-07-02",
+      "2011-07-09",
+      "2011-07-16",
+      "2011-07-23",
+      "2011-07-30",
+      "2011-08-06",
+      "2011-08-13",
+      "2011-08-20",
+      "2011-08-27",
+      "2011-08-29",
+      "2011-09-03",
+      "2011-09-10",
+      "2011-09-17",
+      "2011-09-24",
+      "2011-10-01",
+      "2011-10-08",
+      "2011-10-15",
+      "2011-10-22",
+      "2011-10-29",
+      "2011-11-05",
+      "2011-11-12",
+      "2011-11-19",
+      "2011-11-26",
+      "2011-12-03"
+    ],
+    "missing_weekdays": {
+      "Saturday": 53,
+      "Monday": 6,
+      "Friday": 4,
+      "Sunday": 3,
+      "Tuesday": 1,
+      "Wednesday": 1,
+      "Thursday": 1
+    },
+    "source_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d",
+    "ledger_sha256": "53aa6a4fc07981e3b4b96a028c8d1ba2d003087a1854e83b7c98c414c7d65c88",
+    "series_sha256": "54d7880b93d1e74e365840b48427a05f295b3eb1ae2d8321dc1a4821039f40ce",
+    "daily_sql_reconciliation": "passed"
+  },
+  "development_diagnostics": {
+    "start": "2010-12-02",
+    "end": "2011-10-13",
+    "mean_gbp": 24655.076120253165,
+    "median_gbp": 24708.725,
+    "std_gbp": 18988.98903090347,
+    "max_gbp": 109553.9,
+    "autocorrelation": {
+      "1": 0.3498477651131965,
+      "7": 0.598464302760094,
+      "14": 0.44454324770734754,
+      "28": 0.4880124462931671
+    },
+    "weekday_mean_gbp": {
+      "0": 27177.547133333333,
+      "1": 38870.22624444444,
+      "2": 29237.104444444445,
+      "3": 36972.336304347824,
+      "4": 27103.256688888887,
+      "5": 0.0,
+      "6": 12951.345133333332
+    },
+    "monthly_observed_revenue_gbp": {
+      "2010-12": 762675.9400000001,
+      "2011-01": 689811.61,
+      "2011-02": 522545.56,
+      "2011-03": 716215.26,
+      "2011-04": 536968.491,
+      "2011-05": 769296.61,
+      "2011-06": 760547.01,
+      "2011-07": 718076.121,
+      "2011-08": 757841.38,
+      "2011-09": 1056435.192,
+      "2011-10": 500590.88
+    }
+  },
+  "validation": [
+    {
+      "experiment": "primary",
+      "model": "linear_regression",
+      "mae_gbp": 12792.966805569495,
+      "rmse_gbp": 18258.305860024902,
+      "wape_pct": 39.57014117313896,
+      "bias_gbp": -5324.387934501778,
+      "observations": 56
+    },
+    {
+      "experiment": "primary",
+      "model": "naive",
+      "mae_gbp": 24181.77014285714,
+      "rmse_gbp": 30305.705675592762,
+      "wape_pct": 74.79704066398985,
+      "bias_gbp": 16260.736214285715,
+      "observations": 56
+    },
+    {
+      "experiment": "primary",
+      "model": "random_forest",
+      "mae_gbp": 11431.529499851807,
+      "rmse_gbp": 17764.131098051952,
+      "wape_pct": 35.35905650416497,
+      "bias_gbp": -4906.076008602353,
+      "observations": 56
+    },
+    {
+      "experiment": "primary",
+      "model": "seasonal_naive",
+      "mae_gbp": 15580.52017857143,
+      "rmse_gbp": 21661.31885936144,
+      "wape_pct": 48.192369478251486,
+      "bias_gbp": -967.7248214285717,
+      "observations": 56
+    }
+  ],
+  "heldout_test": [
+    {
+      "experiment": "heldout_primary",
+      "model": "naive",
+      "mae_gbp": 20978.671785714287,
+      "rmse_gbp": 28049.45279567551,
+      "wape_pct": 45.33427807849862,
+      "bias_gbp": 10402.734999999999,
+      "observations": 56
+    },
+    {
+      "experiment": "heldout_primary",
+      "model": "random_forest",
+      "mae_gbp": 12344.707215206989,
+      "rmse_gbp": 17396.902901242713,
+      "wape_pct": 26.676540603153686,
+      "bias_gbp": -6379.5731752895,
+      "observations": 56
+    },
+    {
+      "experiment": "heldout_primary",
+      "model": "seasonal_naive",
+      "mae_gbp": 11250.169107142856,
+      "rmse_gbp": 16218.794164916855,
+      "wape_pct": 24.311276707262884,
+      "bias_gbp": -2658.581607142857,
+      "observations": 56
+    }
+  ],
+  "sensitivities": [
+    {
+      "experiment": "calendar_training_schedule",
+      "model": "linear_regression",
+      "mae_gbp": 12371.755253372277,
+      "rmse_gbp": 18373.731159966374,
+      "wape_pct": 38.267284624105734,
+      "bias_gbp": -5921.755581767478,
+      "observations": 56
+    },
+    {
+      "experiment": "calendar_training_schedule",
+      "model": "naive",
+      "mae_gbp": 17240.257999999998,
+      "rmse_gbp": 23190.05449515601,
+      "wape_pct": 53.32613249839268,
+      "bias_gbp": 9319.22407142857,
+      "observations": 56
+    },
+    {
+      "experiment": "calendar_training_schedule",
+      "model": "random_forest",
+      "mae_gbp": 11716.153120372152,
+      "rmse_gbp": 17768.73039730105,
+      "wape_pct": 36.23943062037832,
+      "bias_gbp": -4713.560125023709,
+      "observations": 56
+    },
+    {
+      "experiment": "calendar_training_schedule",
+      "model": "seasonal_naive",
+      "mae_gbp": 15580.52017857143,
+      "rmse_gbp": 21661.31885936144,
+      "wape_pct": 48.192369478251486,
+      "bias_gbp": -967.7248214285717,
+      "observations": 56
+    },
+    {
+      "experiment": "evaluation_below_initial_training_p99",
+      "model": "linear_regression",
+      "mae_gbp": 10527.773504737745,
+      "rmse_gbp": 13624.876166224532,
+      "wape_pct": 36.06089521438031,
+      "bias_gbp": -2636.444886251099,
+      "observations": 53
+    },
+    {
+      "experiment": "evaluation_below_initial_training_p99",
+      "model": "naive",
+      "mae_gbp": 23444.597886792453,
+      "rmse_gbp": 29775.160229686993,
+      "wape_pct": 80.30503195746375,
+      "bias_gbp": 19287.10694339623,
+      "observations": 53
+    },
+    {
+      "experiment": "evaluation_below_initial_training_p99",
+      "model": "random_forest",
+      "mae_gbp": 9040.343639261706,
+      "rmse_gbp": 12688.6736847603,
+      "wape_pct": 30.96598578328998,
+      "bias_gbp": -2145.5248560547384,
+      "observations": 53
+    },
+    {
+      "experiment": "evaluation_below_initial_training_p99",
+      "model": "seasonal_naive",
+      "mae_gbp": 13870.99528301887,
+      "rmse_gbp": 19273.387116878333,
+      "wape_pct": 47.51246853810115,
+      "bias_gbp": 1568.9394339622638,
+      "observations": 53
+    },
+    {
+      "experiment": "excluding_named_charges",
+      "model": "linear_regression",
+      "mae_gbp": 12616.084413377353,
+      "rmse_gbp": 18017.495097626786,
+      "wape_pct": 39.87667845086861,
+      "bias_gbp": -5045.293253285102,
+      "observations": 56
+    },
+    {
+      "experiment": "excluding_named_charges",
+      "model": "naive",
+      "mae_gbp": 24060.64623214285,
+      "rmse_gbp": 30029.78889742586,
+      "wape_pct": 76.05043067894428,
+      "bias_gbp": 16336.407303571426,
+      "observations": 56
+    },
+    {
+      "experiment": "excluding_named_charges",
+      "model": "random_forest",
+      "mae_gbp": 11346.993063468994,
+      "rmse_gbp": 17624.827138428005,
+      "wape_pct": 35.86535877141136,
+      "bias_gbp": -4558.318443908692,
+      "observations": 56
+    },
+    {
+      "experiment": "excluding_named_charges",
+      "model": "seasonal_naive",
+      "mae_gbp": 15315.573785714285,
+      "rmse_gbp": 21491.99513666675,
+      "wape_pct": 48.40917285682509,
+      "bias_gbp": -900.8508928571422,
+      "observations": 56
+    }
+  ],
+  "extreme_influence": [
+    {
+      "model": "linear_regression",
+      "threshold_gbp": 71392.91770000003,
+      "extreme_days": 3,
+      "extreme_squared_error_share_pct": 47.29740326928885
+    },
+    {
+      "model": "naive",
+      "threshold_gbp": 71392.91770000003,
+      "extreme_days": 3,
+      "extreme_squared_error_share_pct": 8.641858771162239
+    },
+    {
+      "model": "random_forest",
+      "threshold_gbp": 71392.91770000003,
+      "extreme_days": 3,
+      "extreme_squared_error_share_pct": 51.712762421037034
+    },
+    {
+      "model": "seasonal_naive",
+      "threshold_gbp": 71392.91770000003,
+      "extreme_days": 3,
+      "extreme_squared_error_share_pct": 25.07372515543238
+    }
+  ],
+  "model_feature_diagnostics": {
+    "weekday__weekday_1": 0.003084043818691242,
+    "weekday__weekday_2": 0.0001498602461570522,
+    "weekday__weekday_3": 0.0020406378923902755,
+    "weekday__weekday_4": 0.001339625177766291,
+    "weekday__weekday_5": 0.03283097000397341,
+    "weekday__weekday_6": 0.005933726046354068,
+    "numeric__month_sin": 0.008614545787319077,
+    "numeric__month_cos": 0.010608478505535207,
+    "numeric__day_of_month": 0.017827451212417123,
+    "numeric__lag_1": 0.04699337168268032,
+    "numeric__lag_7": 0.5404435713917644,
+    "numeric__lag_14": 0.05819670475047952,
+    "numeric__lag_28": 0.06847999550558129,
+    "numeric__mean_7": 0.03529838957040972,
+    "numeric__mean_14": 0.03575386074848446,
+    "numeric__mean_28": 0.09921366525600155,
+    "numeric__std_7": 0.013513815204394096,
+    "numeric__trend_7_28": 0.01967728719960101
+  },
+  "deployment_training_cutoff": "2011-12-08",
+  "artifact_metadata_sha256": "ba1d2077274117647bf110824f7b5d70ca5197b00808261a95e8f12294e169d4",
+  "dependencies": {
+    "python": "3.11.9",
+    "numpy": "2.4.6",
+    "pandas": "2.3.3",
+    "scikit-learn": "1.9.1",
+    "scipy": "1.17.1",
+    "joblib": "1.6.0"
+  }
+}
