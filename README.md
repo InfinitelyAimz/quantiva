@@ -4,10 +4,10 @@ Quantiva is a local, reproducible retail data science project using real UCI Onl
 Retail transactions. It examines sales, products, customers, geography, and the
 quality of the observations underlying business decisions.
 
-**Implemented scope: Phase 1 foundation, Phase 2 analytics, and Phase 3 forecasting.**
-Phase 3 is proposed for review on `phase-3`; dashboard and portfolio finalization
-require later approval. Requirements: [master specification](PROJECT_SPECIFICATION.md),
-[Phase 2](PHASE_2_SPECIFICATION.md), and [Phase 3](PHASE_3_SPECIFICATION.md).
+**Phases 1–3 are merged; Phase 4 dashboard is proposed for review on `phase-4`.**
+Portfolio finalization requires later approval. Requirements:
+[master specification](PROJECT_SPECIFICATION.md), [Phase 2](PHASE_2_SPECIFICATION.md),
+[Phase 3](PHASE_3_SPECIFICATION.md), and [Phase 4](PHASE_4_SPECIFICATION.md).
 Current branch workflow is recorded in [AGENTS.md](AGENTS.md).
 
 ## Actual results
@@ -168,6 +168,49 @@ validates execution, and saves successful results. No global kernel is registere
 Open them in a notebook-capable editor using `.venv` as the kernel, or execute with
 the command above. Prepare/import actual data first.
 
+## Launch the dashboard
+
+After installing the lock and preparing the data/database, generate the analytics
+and forecasting artifacts using the commands below, then launch from the checkout:
+
+```powershell
+.\.venv\Scripts\quantiva.exe analyze
+.\.venv\Scripts\quantiva.exe forecast-train
+.\.venv\Scripts\python.exe -m streamlit run app/Home.py
+```
+
+Open the localhost URL printed by Streamlit. The five pages cover Overview, Sales
+Analytics, Customer Intelligence, Predictive Analytics and Data Quality. SQLite
+aggregates supply the metrics; the raw workbook is not loaded on reruns. Missing
+prerequisites produce setup messages and navigation stays available. No credentials,
+paid service, model download or silent retraining is required. Use only locally
+generated trusted model artifacts. `.streamlit/config.toml` binds to loopback.
+
+Use the sidebar Light/Dark control; appearance persists within the session. Both
+charts and bounded accessible HTML tables follow it. Initial appearance uses
+Streamlit's reported theme where available, which may lag on first load; no direct
+OS-theme detection is claimed. Controlled CSS is tested against locked Streamlit
+1.66.0; recheck controls and popovers before upgrading Streamlit.
+
+Dates/countries apply to Overview, Sales and Customer views. Sales also supports
+stock-code filtering; AOV then measures selected eligible lines per affected invoice,
+not the complete basket. Customer segments filter RFM charts/tables, while customer
+KPI cards retain their labeled dates/countries. RFM uses the day after the selected
+end date, identifiable purchasers and distinct eligible invoices. Scores handle
+ties/sparse samples without ID-based tie breaking; labels are descriptive, not churn
+predictions or lifetime value. Predictive Analytics and Data Quality explicitly use
+their full-data evidence, independent of commercial filters.
+
+```powershell
+.\.venv\Scripts\python.exe scripts/verify_dashboard.py
+```
+
+See [Phase 4 methodology](reports/phase_4_methodology.md),
+[UI verification](reports/phase_4_ui_verification.md), and
+[Phase 4 progress](reports/phase_4_progress.md). Cold SQL reads can take several
+seconds; matching repeat scopes are cached, with database/WAL signatures invalidating
+results after changes. Tables show bounded rows and offer complete CSV exports.
+
 ## Seven-day forecasting
 
 After preparing the ledger and database, run:
@@ -269,8 +312,9 @@ See [Phase 1 progress](reports/phase_1_progress.md),
 [Phase 2 methodology](reports/phase_2_methodology.md), and [findings](reports/findings.md).
 
 Phase 3 implements measured seven-day forecasts with chronological validation and
-historical-only features. Phase 4 will deliver Streamlit; Phase 5 will finalize the
-portfolio and accurate CV bullets. Neither later phase has started. Future phase
+historical-only features. Phase 4 adds the local Streamlit dashboard and descriptive
+RFM grouping. Phase 5 will finalize the portfolio and accurate CV bullets; it has
+not started. Future phase
 branches are `phase-4`, `phase-5`, etc. Changes are proposed through draft pull
 requests targeting `main`; automatic merging and direct commits/pushes to `main`
 are prohibited by the current workflow.
