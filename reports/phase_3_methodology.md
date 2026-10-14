@@ -88,7 +88,10 @@ At each validation origin, refit preprocessing and the estimator on earlier hist
 Already completed validation weeks are observable history at later origins; their
 targets are never used to predict their own window. Selection minimizes pooled
 primary validation MAE across 56 dates, with alphabetical model-name tie breaking.
-No search or test-based calendar/outlier/feature optimization occurs.
+No search or test-based calendar/outlier/feature optimization occurs in the committed
+execution path. Code review and reproduction do not independently establish whether
+earlier manual choices were influenced by already viewed test outcomes. The selection
+file is overwritten on reruns and is not an immutable historical experiment record.
 
 Write the frozen selection before computing test results. Refit the selected model
 through 13 October for test, then freeze learned weights across all test origins.
@@ -114,6 +117,12 @@ Development-only daily mean is £24,655.08, median £24,708.73, standard deviati
 lag 1, suggesting useful weekly structure without proving a causal calendar effect.
 Trend and weekday activity confound correlations. Approximately one year is too
 short to establish recurring annual seasonality from month features.
+
+Undefined autocorrelations are represented as JSON `null`. Correlation needs varying
+paired observations: constant-zero and constant-positive histories have zero variance,
+so their autocorrelations cannot be estimated. Null is not a zero correlation estimate
+or evidence of no temporal dependence. Too few varying paired observations can also
+make an autocorrelation undefined.
 
 Run three validation-only sensitivity analyses and preserve the primary selection:
 

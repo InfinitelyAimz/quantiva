@@ -2,6 +2,7 @@
 
 import json
 import logging
+import math
 from dataclasses import asdict
 from pathlib import Path
 
@@ -40,7 +41,16 @@ def select_candidate(validation: pd.DataFrame) -> str:
 
 
 def series_diagnostics(development: pd.Series) -> dict:
-    """Describe development data only; holdout is not inspected to choose features/policies."""
+    """Describe development data; undefined correlations are None, not zero association."""
+    autocorrelation = {}
+    for lag in [1, 7, 14, 28]:
+        current, previous = development.iloc[lag:], development.iloc[:-lag]
+        # Correlation requires two varying samples. Avoid NumPy's zero-variance warning.
+        if len(current) < 2 or current.nunique() < 2 or previous.nunique() < 2:
+            autocorrelation[str(lag)] = None
+        else:
+            value = float(development.autocorr(lag))
+            autocorrelation[str(lag)] = value if math.isfinite(value) else None
     return {
         "start": str(development.index[0].date()),
         "end": str(development.index[-1].date()),
@@ -48,7 +58,7 @@ def series_diagnostics(development: pd.Series) -> dict:
         "median_gbp": float(development.median()),
         "std_gbp": float(development.std(ddof=1)),
         "max_gbp": float(development.max()),
-        "autocorrelation": {str(lag): float(development.autocorr(lag)) for lag in [1, 7, 14, 28]},
+        "autocorrelation": autocorrelation,
         "weekday_mean_gbp": {
             str(day): float(value)
             for day, value in development.groupby(development.index.dayofweek).mean().items()

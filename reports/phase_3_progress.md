@@ -104,7 +104,10 @@ All lag/rolling features stop at t−1 or earlier. Within each seven-day window,
 unavailable future observations are replaced by earlier predictions. Each validation
 fit uses only preceding dates; test weights remain fixed through 13 October, with
 past observed context advancing between completed weeks. Selection, features, seed,
-policies and hyperparameters stay unchanged after opening test results. The final
+policies and hyperparameters are fixed in the committed execution path. This audit
+does not independently establish whether earlier manual decisions were influenced
+by already viewed test results; the overwritten selection file is not an immutable
+historical experiment record. The final
 deployment refit through 8 December is separately labeled and has no new unbiased
 performance estimate. Its 9–15 December 2011 output is a retrospective demonstration.
 
@@ -112,7 +115,7 @@ performance estimate. Its 9–15 December 2011 output is a retrospective demonst
 
 Fresh Windows Python 3.11.9 environment `.venv-phase3` was installed from the lock
 and the package installed editable without dependency resolution or build isolation.
-All 64 tests pass with warnings treated as errors, including all 42 existing
+The original 64 tests passed with warnings treated as errors, including all 42 existing
 regression tests. Ruff lint and formatting pass; pip reports no broken requirements.
 The initial feature test exposed only a DatetimeIndex frequency-metadata difference;
 its assertion now checks equivalent dates/values without demanding identical optional
@@ -141,13 +144,19 @@ for readability. Self-contained Plotly HTML is regenerated locally and ignored.
 | Seven-day naive and weekly baselines | Full-horizon fixtures and measured comparisons |
 | Leakage-safe features and recursive inference | Adversarial future perturbation and spy-estimator tests |
 | OLS and seeded Random Forest | Shared fitted pipeline and deterministic test fixtures |
-| Chronological validation and untouched selection | Eight expanding origins, frozen pretest selection |
+| Chronological validation and validation-only code selection | Eight expanding origins; current execution selects before test; earlier manual decisions not independently verified |
 | Final held-out candidate plus baselines | Fixed-weight 56-day test and complete horizon accounting |
 | MAE, RMSE, WAPE and zero handling | Hand-calculated metrics tests, recomputed report checks |
 | Statistical diagnostics and sensitivities | Development diagnostics, three labeled validation experiments |
 | Trusted persistence, metadata and fresh inference | Checksums, dependency checks, tampering/trust tests and separate processes |
 | Executable notebook, seven charts, documentation | Fresh-kernel execution, visual QA, README and reports |
 | Preserved Phase 1/2 functionality | Full 64-test suite and full-data reconciliation |
+
+The completion audit reproduced the full workflow in a fresh GitHub checkout and
+executed all three notebooks. It confirmed a constant-history diagnostic defect;
+the follow-up corrects undefined autocorrelations to JSON null and adds two regression
+cases. See `phase_3_audit_followup.md` for current verification evidence and remaining
+limitations; the 64-test counts above describe the original implementation baseline.
 
 No known blocking implementation defect remains. This is completion evidence for
 review, not user approval of Phase 3 or authorization to begin Phase 4.
