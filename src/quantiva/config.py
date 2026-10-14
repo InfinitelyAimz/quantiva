@@ -36,3 +36,7 @@ class Settings:
     @property
     def processed_dir(self) -> Path:
         return self.data_dir / "processed"
+
+    @property
+    def database_file(self) -> Path:
+        return self.processed_dir / "quantiva.db"

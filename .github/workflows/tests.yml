@@ -1,4 +1,4 @@
-name: Phase 1 checks
+name: Quantiva checks
 on: [push, pull_request]
 jobs:
   tests:

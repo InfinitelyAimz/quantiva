@@ -16,3 +16,5 @@ models/*
 *.sqlite*
 build/
 dist/
+.venv-verify/
+reports/figures/*.html
