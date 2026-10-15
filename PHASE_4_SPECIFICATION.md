@@ -1276,3 +1276,24 @@ Do not begin Phase 5.
 Provide the completed Phase 4 progress report and wait for my review.
 
 **Begin Phase 4 implementation now.**
+
+## User-approved follow-up — 15 October 2026
+
+Correct the Overview KPI truncation at 1280px through the shared presentation layer.
+Keep both themes professional and verify 600px, 1024px, 1280px and 1440px, including
+revenue, AOV, orders, units and customers. Preserve business calculations and models.
+
+Add dashboard-wide GBP/ZAR display selection, default ZAR, persistent across pages
+and reruns. Keep GBP authoritative for data, SQL, calculations, RFM scoring,
+forecasting, model selection/evaluation and stored artifacts. Convert monetary displays
+only, using a fixed explicitly dated rate appropriate to the 2010–2011 dataset.
+Label ZAR as illustrative rather than actual historical ZAR transactions. Apply the
+choice consistently to monetary cards, charts, axes, tooltips, tables, exports, RFM
+values, forecasts and narrative amounts. Counts, percentages, scores and model
+rankings must not change. Document the rate source, conversion and limitations.
+
+Test conversion, formatting, persistence and dashboard consistency; run the original
+88-test suite plus new coverage, lint, formatting and relevant verification. Perform
+actual browser checks and update visual evidence. Commit/push only `phase-4` and
+update draft PR #2. Do not modify main, merge/close the PR or begin Phase 5. Stop if
+the correction introduces significant layout regressions rather than expanding scope.

@@ -7,6 +7,7 @@ import streamlit as st
 
 from quantiva.config import Settings
 from quantiva.dashboard.components import chart, filters, heading, kpi_cards, table
+from quantiva.dashboard.currency import currency_state
 from quantiva.dashboard.data import bundle, read_json
 from quantiva.dashboard.evidence import load_evidence
 from quantiva.forecast_evaluation import summarize_predictions
@@ -25,6 +26,7 @@ SALES_KPIS = {
 
 
 def overview(settings: Settings, root) -> None:
+    currency = currency_state(st.session_state)
     heading(
         "A clearer view of retail.",
         "Overview / recorded sales, customer activity and commercial concentration",
@@ -94,14 +96,14 @@ def overview(settings: Settings, root) -> None:
         best = full.loc[full["revenue_gbp"].idxmax()]
         st.write(
             f"**{best['period']}** is the highest complete month in this scope, "
-            f"at £{best['revenue_gbp']:,.2f}."
+            f"at {currency.money(best['revenue_gbp'])}."
         )
     k = data["kpis"]
     share = data["products"].head(10)["revenue_gbp"].sum() / k["gross_revenue_gbp"]
     st.write(
         f"The ten leading stock codes contribute **{share:.1%}** of selected revenue. "
         f"Anonymous purchases contribute "
-        f"**£{k['gross_revenue_gbp'] - k['identifiable_revenue_gbp']:,.2f}**; "
+        f"**{currency.money(k['gross_revenue_gbp'] - k['identifiable_revenue_gbp'])}**; "
         "customer analytics cover identifiable purchasers only."
     )
     st.caption(
@@ -114,6 +116,7 @@ def overview(settings: Settings, root) -> None:
 
 
 def sales(settings: Settings, root) -> None:
+    currency = currency_state(st.session_state)
     heading(
         "Sales, in context.",
         "Sales Analytics / explore recorded demand across time, products and geography",
@@ -156,7 +159,7 @@ def sales(settings: Settings, root) -> None:
         "Rank products by",
         ["revenue_gbp", "units"],
         horizontal=True,
-        format_func={"revenue_gbp": "Revenue (GBP)", "units": "Units sold"}.get,
+        format_func={"revenue_gbp": f"Revenue ({currency.code})", "units": "Units sold"}.get,
     )
     products = data["products"].sort_values(ranking, ascending=False)
     chart(
@@ -184,7 +187,7 @@ def sales(settings: Settings, root) -> None:
         "Country metric",
         ["revenue_gbp", "orders"],
         horizontal=True,
-        format_func={"revenue_gbp": "Revenue (GBP)", "orders": "Distinct orders"}.get,
+        format_func={"revenue_gbp": f"Revenue ({currency.code})", "orders": "Distinct orders"}.get,
     )
     chart(
         data["countries"],
@@ -296,7 +299,8 @@ def customers(settings: Settings, root) -> None:
     with st.expander("How RFM works · rules, ties and scope"):
         st.markdown(
             "Recency = days since latest eligible purchase; frequency = "
-            "distinct eligible invoices; monetary = gross eligible GBP. "
+            "distinct eligible invoices; monetary = gross eligible GBP, "
+            "converted only for display. "
             "Lower recency scores higher. Higher frequency/value score higher."
             " Empirical 20/40/60/80 percentiles define five-point scores; "
             "ties receive the same score (equal threshold goes to lower base "
@@ -317,6 +321,7 @@ def customers(settings: Settings, root) -> None:
 
 
 def predictive(settings: Settings, root) -> None:
+    currency = currency_state(st.session_state)
     heading(
         "Forecasts, with the evidence.",
         "Predictive Analytics / retrospective December 2011 demonstration",
@@ -385,14 +390,16 @@ def predictive(settings: Settings, root) -> None:
     best = evidence["test_metrics"].sort_values("mae_gbp").iloc[0]
     st.warning(
         f"Weekly comparison: lowest held-out MAE belongs to {best['model']} "
-        f"(£{best['mae_gbp']:,.2f}/day). "
+        f"({currency.money(best['mae_gbp'])}/day in this view). "
         f"Validation selected {result['selected_model']}; its selection is not changed after test. "
         "Random Forest did not demonstrate superior held-out "
         "generalization. Linear Regression has validation results only."
     )
     st.caption(
-        "MAE/RMSE and bias are GBP/day; WAPE = summed absolute errors / "
-        "summed actual GBP ×100, undefined for all-zero totals. "
+        f"Displayed MAE/RMSE and bias are {currency.code}/day. "
+        "Authoritative evaluation and selection remain GBP; fixed positive conversion "
+        "does not change model ranking. WAPE = summed absolute errors / "
+        "summed actual GBP ×100, unchanged by conversion and undefined for all-zero totals. "
         "Bias is prediction minus actual. Historical manual tuning "
         "independence is not independently verified; current code "
         "selection is validation-only."
@@ -471,6 +478,7 @@ def predictive(settings: Settings, root) -> None:
 
 
 def quality(settings: Settings, root) -> None:
+    currency = currency_state(st.session_state)
     heading(
         "Trust starts with traceability.",
         "Data Quality / source coverage, processing decisions and verification evidence",
@@ -592,7 +600,7 @@ def quality(settings: Settings, root) -> None:
                 currency=True,
             )
             st.caption(
-                f"Retaining eligible duplicate lines adds £{values['difference']:,.2f} "
+                f"Retaining eligible duplicate lines adds {currency.money(values['difference'])} "
                 f"({values['change_pct']:.2f}%). "
                 "This is a separate sensitivity, not the primary KPI."
             )

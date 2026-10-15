@@ -103,6 +103,51 @@ Official API references: [navigation](https://docs.streamlit.io/develop/api-refe
 [session context](https://docs.streamlit.io/develop/api-reference/caching-and-state/st.context),
 [theme configuration](https://docs.streamlit.io/develop/concepts/configuration/theming).
 
+## Display currency
+
+Added 15 October 2026 following the recovery audit and additional user requirements.
+The sidebar defaults to ZAR and offers GBP; its separate session-state value persists
+across pages and reruns. GBP remains the dataset and authoritative analytical unit.
+Conversion happens on copies in `dashboard/currency.py`, called by the shared KPI,
+chart, table and CSV components. SQL, cached GBP aggregates, RFM scoring, model
+selection, evaluation calculations and saved artifacts are unchanged.
+
+Use one fixed illustrative rate for the entire dashboard, including forecasts:
+
+- Reference date: **8 December 2011**, within the source observation period.
+- ECB series `EXR.D.GBP.EUR.SP00.A`: **0.8528 GBP per EUR**.
+- ECB series `EXR.D.ZAR.EUR.SP00.A`: **10.8374 ZAR per EUR**.
+- Cross-rate: `10.8374 / 0.8528`, rounded once to six decimal places:
+  **1 GBP = 12.708021 ZAR**.
+- [Official ECB observations, date and series identifiers](https://data-api.ecb.europa.eu/service/data/EXR/D.GBP+ZAR.EUR.SP00.A?startPeriod=2011-12-08&endPeriod=2011-12-08&format=csvdata),
+  retrieved and inspected on 15 October 2026. No runtime network lookup is made.
+
+Every page labels ZAR as illustrative and displays the rate/date. This is not a
+transaction-date FX conversion, a period average, an accounting restatement, an
+inflation adjustment or a current quote. It cannot establish historical South African
+revenue. GBP mode restores the original units. Initial ZAR preference is a display
+choice, not an inferred customer location.
+
+Monetary columns use explicit `_gbp` source names. Presentation copies scale these
+values, relabel displayed headers/axes/hover text, and leave dates, counts, percentages,
+RFM scores/segments and metadata identifiers unchanged. Mixed duplicate-sensitivity
+tables scale only monetary rows, retain count rows and percentages, and label row units.
+Narrative amounts use the same currency formatter. KPI values use decimal half-up
+rounding to cents; table/chart formatting is for presentation and CSV exports retain
+numeric precision. Monetary exports identify source/display currency, reference rate,
+date and illustrative-conversion status. Source report files are never converted.
+
+A fixed positive multiplier scales MAE, RMSE and bias for display; WAPE and model
+rankings remain unchanged. Selection still uses the frozen GBP results. RFM monetary
+plots/tables convert after GBP scoring, so ties, segment membership and scores remain
+unchanged. No currency selector feeds training, validation or model inference.
+
+The KPI fix uses bounded CSS container-relative type with normal wrapping as a
+fallback, scoped to the existing metric value. It removes ellipsis without reducing
+all cards to one fixed small font. The existing small-screen column stacking remains.
+Current browser checks cover both currencies/themes at 600, 1024, 1280 and 1440px;
+see UI verification for observations and capture scope.
+
 ## Forecasting and evidence integrity
 
 The predictive view reads Phase 3 predictions and independently recomputes their

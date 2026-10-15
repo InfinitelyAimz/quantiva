@@ -1,0 +1,1022 @@
+{
+  "date": "2026-10-15",
+  "source": "Actual local UCI artifacts; browser DOM measurements after viewport changes",
+  "height": 950,
+  "states": [
+    {
+      "currency": "ZAR",
+      "theme": "dark",
+      "background": "rgb(11, 20, 36)",
+      "metrics": [
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "R 135,240,167.58",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "R 6,775.56",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 521
+        }
+      ],
+      "pageOverflow": false,
+      "width": 600
+    },
+    {
+      "currency": "ZAR",
+      "theme": "dark",
+      "background": "rgb(11, 20, 36)",
+      "metrics": [
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "R 135,240,167.58",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "R 6,775.56",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 645
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1024
+    },
+    {
+      "currency": "ZAR",
+      "theme": "dark",
+      "background": "rgb(11, 20, 36)",
+      "metrics": [
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "R 135,240,167.58",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "R 6,775.56",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 222
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1280
+    },
+    {
+      "currency": "ZAR",
+      "theme": "dark",
+      "background": "rgb(11, 20, 36)",
+      "metrics": [
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "R 135,240,167.58",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "R 6,775.56",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 275
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1440
+    },
+    {
+      "currency": "ZAR",
+      "theme": "light",
+      "background": "rgb(245, 247, 251)",
+      "metrics": [
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "R 135,240,167.58",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "R 6,775.56",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 521
+        }
+      ],
+      "pageOverflow": false,
+      "width": 600
+    },
+    {
+      "currency": "ZAR",
+      "theme": "light",
+      "background": "rgb(245, 247, 251)",
+      "metrics": [
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "R 135,240,167.58",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "R 6,775.56",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 645
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1024
+    },
+    {
+      "currency": "ZAR",
+      "theme": "light",
+      "background": "rgb(245, 247, 251)",
+      "metrics": [
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "R 135,240,167.58",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "R 6,775.56",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 222
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1280
+    },
+    {
+      "currency": "ZAR",
+      "theme": "light",
+      "background": "rgb(245, 247, 251)",
+      "metrics": [
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "R 135,240,167.58",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "R 6,775.56",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 275
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1440
+    },
+    {
+      "currency": "GBP",
+      "theme": "light",
+      "background": "rgb(245, 247, 251)",
+      "metrics": [
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "£10,642,110.80",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "£533.17",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 521
+        }
+      ],
+      "pageOverflow": false,
+      "width": 600
+    },
+    {
+      "currency": "GBP",
+      "theme": "light",
+      "background": "rgb(245, 247, 251)",
+      "metrics": [
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "£10,642,110.80",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "£533.17",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 645
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1024
+    },
+    {
+      "currency": "GBP",
+      "theme": "light",
+      "background": "rgb(245, 247, 251)",
+      "metrics": [
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "£10,642,110.80",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "£533.17",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 222
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1280
+    },
+    {
+      "currency": "GBP",
+      "theme": "light",
+      "background": "rgb(245, 247, 251)",
+      "metrics": [
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "£10,642,110.80",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "£533.17",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 275
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1440
+    },
+    {
+      "currency": "GBP",
+      "theme": "dark",
+      "background": "rgb(11, 20, 36)",
+      "metrics": [
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "£10,642,110.80",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "£533.17",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 521
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 521,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 521
+        }
+      ],
+      "pageOverflow": false,
+      "width": 600
+    },
+    {
+      "currency": "GBP",
+      "theme": "dark",
+      "background": "rgb(11, 20, 36)",
+      "metrics": [
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "£10,642,110.80",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "£533.17",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 645
+        },
+        {
+          "fontSize": "32px",
+          "height": 40,
+          "scrollHeight": 41,
+          "scrollWidth": 645,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 645
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1024
+    },
+    {
+      "currency": "GBP",
+      "theme": "dark",
+      "background": "rgb(11, 20, 36)",
+      "metrics": [
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "£10,642,110.80",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "£533.17",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 222
+        },
+        {
+          "fontSize": "22.2px",
+          "height": 28,
+          "scrollHeight": 28,
+          "scrollWidth": 222,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 222
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1280
+    },
+    {
+      "currency": "GBP",
+      "theme": "dark",
+      "background": "rgb(11, 20, 36)",
+      "metrics": [
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "£10,642,110.80",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "19,960",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "£533.17",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "5,572,420",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "4,338",
+          "whiteSpace": "normal",
+          "width": 275
+        },
+        {
+          "fontSize": "27.5328px",
+          "height": 34,
+          "scrollHeight": 35,
+          "scrollWidth": 275,
+          "text": "65.58%",
+          "whiteSpace": "normal",
+          "width": 275
+        }
+      ],
+      "pageOverflow": false,
+      "width": 1440
+    }
+  ],
+  "rfm_csv": {
+    "customers": 4338,
+    "currency": "ZAR",
+    "monetary_reconciled": true,
+    "rfm_scores_and_counts_unchanged": true
+  },
+  "note": "All 16 states had six complete metrics and no horizontal metric/page overflow. Screenshots are representative, not one per state."
+}

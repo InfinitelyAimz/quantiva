@@ -7,6 +7,7 @@ from sqlalchemy.exc import SQLAlchemyError
 
 from quantiva.config import Settings
 from quantiva.dashboard import pages
+from quantiva.dashboard.components import currency_selector
 from quantiva.dashboard.data import catalog
 from quantiva.dashboard.theme import css, theme_state
 
@@ -59,6 +60,7 @@ with st.sidebar:
         key="appearance",
     )
     st.session_state["quantiva_theme"] = chosen
+    currency_selector()
     st.divider()
 st.html(css(chosen))
 
@@ -71,5 +73,5 @@ with st.sidebar:
         st.caption("SQLite available · December 2011 partial")
     except (OSError, ValueError, SQLAlchemyError):
         st.caption("SQLite not available · setup required")
-    st.caption("Local application · gross sales · GBP")
+    st.caption("Local application · gross sales · source GBP")
 navigation.run()
