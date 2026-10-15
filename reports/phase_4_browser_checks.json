@@ -1,0 +1,58 @@
+{
+  "viewport": {
+    "width": 1440,
+    "height": 950
+  },
+  "pages_and_themes": [
+    {
+      "page": "Data Quality",
+      "theme": "Light",
+      "checked": true
+    },
+    {
+      "page": "Data Quality",
+      "theme": "Dark",
+      "checked": true
+    },
+    {
+      "page": "Overview",
+      "theme": "Light",
+      "checked": true
+    },
+    {
+      "page": "Overview",
+      "theme": "Dark",
+      "checked": true
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "Light",
+      "checked": true
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "Dark",
+      "checked": true
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "Light",
+      "checked": true
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "Dark",
+      "checked": true
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "Light",
+      "checked": true
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "Dark",
+      "checked": true
+    }
+  ]
+}
