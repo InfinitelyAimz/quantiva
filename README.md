@@ -1,11 +1,13 @@
 # Quantiva — Retail Intelligence & Predictive Analytics
 
-This snapshot uses a fixed historical retail dataset, not a live sales feed.
-Analytics and forecast outputs describe their documented historical windows.
-
 Trace real retail transactions from an immutable source workbook to verified SQL
 metrics, customer segments, evaluated forecasts and an interactive Streamlit dashboard.
 Quantiva is a data science portfolio that runs locally with free tools.
+
+This is a **historical analytical dashboard**, not a live business intelligence feed.
+Its five pages explore verified 2010–2011 transactions and a historical forecasting
+demonstration; they do not report current sales or real-time exchange rates.
+
 
 **Explore:** [Case study](reports/portfolio_case_study.md) ·
 [Dashboard gallery](docs/dashboard_gallery.md) · [Architecture](docs/architecture.md) ·
@@ -216,13 +218,15 @@ completed features or guaranteed accuracy gains.
 
 ## Author and project purpose
 
-Developed by [InfinitelyAimz](https://github.com/InfinitelyAimz) as a portfolio for
-data analyst, junior data scientist and junior data engineer roles, demonstrating
-traceable engineering, defensible analysis and honest model comparison.
-The [technical case study](reports/portfolio_case_study.md) supports presenting the work.
-Private preparation material is withheld in this privacy-redacted historical edition.
+Developed by [InfinitelyAimz](https://github.com/InfinitelyAimz) as a retail analytics
+portfolio demonstrating traceable engineering, defensible analysis and honest
+model comparison.
 
-Public technical guidance: [public technical scope](docs/technical_scope.md), [architecture](docs/architecture.md) and [reproduction](docs/reproducibility.md).
+Public technical guidance: [scope and verification contract](docs/technical_scope.md),
+[architecture](docs/architecture.md), [reproduction](docs/reproducibility.md),
+[methodology](docs/methodology.md) and [dashboard gallery](docs/dashboard_gallery.md).
+These documents describe the implemented system, its measured results and its limits.
+
 Technical milestone evidence: [data foundation](reports/phase_1_progress.md),
 [SQL analytics](reports/phase_2_progress.md), [forecasting](reports/phase_3_progress.md),
 [dashboard](reports/phase_4_progress.md) and [portfolio verification](reports/phase_5_progress.md).

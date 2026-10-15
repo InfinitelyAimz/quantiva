@@ -43,6 +43,10 @@ def verify_portfolio(root: Path | None = None) -> dict:
         root / "reports/phase_3_progress.md",
         root / "reports/phase_4_progress.md",
         root / "reports/phase_5_progress.md",
+        root / "docs/architecture.md",
+        root / "docs/reproducibility.md",
+        root / "docs/methodology.md",
+        root / "docs/dashboard_gallery.md",
     ]
     paths = sorted(set(required_paths) | set((root / "docs").glob("*.md")))
     errors = []

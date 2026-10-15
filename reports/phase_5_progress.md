@@ -31,7 +31,7 @@ measurements, implementation decisions, reproduction evidence and limitations.
 | [Reproducibility](../docs/reproducibility.md) | Exact commands, checksum, stage dependencies, writes, cross-platform guidance and troubleshooting |
 | [Methodology index](../docs/methodology.md) | Central route to preserved Phase 1–4 reports and caveats |
 | [Gallery](../docs/dashboard_gallery.md) | Six existing verified screenshots; no added image copies |
-| [Documentation verifier](../scripts/verify_portfolio.py) | Local references/anchors, image decoding/dimensions, headline tables, CLI choices and required public technical documents; also runs in CI |
+| [Documentation verifier](../scripts/verify_portfolio.py) | Required technical documents, local references/anchors, image decoding/dimensions, headline tables and CLI choices; also runs in CI |
 
 No application, dataset, SQL, cleaning, model, feature, dependency or evaluation
 change is included. Source currency remains GBP; ZAR remains illustrative.
@@ -82,7 +82,7 @@ timings, comparisons and checks without machine-specific absolute paths.
 | Ruff lint and formatting verification | Passed |
 | `python -m pip check`; installed versions versus dependency lock | Passed; no mismatches |
 | Primary Phase 1–4 verification | 7 data checks, 3,982 SQL/pandas comparisons, 30 forecast checks and 63 dashboard checks passed |
-| `python scripts/verify_portfolio.py` | 11 documents, 31 headline facts, all 11 CLI choices, six readable 1440×1000 captures and all local references passed |
+| `python scripts/verify_portfolio.py` | Initial 11-document structure passed; the current public documentation contract replaces internal process documents |
 | Three documentation failure probes in the temporary checkout | Broken local link, stale revenue and invented CLI command each rejected |
 | README external links | UCI, DOI, license and author profile each returned HTTP 200 |
 | Fresh-artifact browser smoke test | Overview amounts correct; Predictive page loaded seven regenerated forecast rows and five charts without exceptions |

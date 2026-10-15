@@ -17,6 +17,7 @@ merged; Phase 5 packages the existing system for review.
 | What was corrected or unverified? | [Phase 3 audit follow-up](../reports/phase_3_audit_followup.md) |
 | What do RFM, filters and currency mean? | [Phase 4 methodology](../reports/phase_4_methodology.md), [UI verification](../reports/phase_4_ui_verification.md) |
 | How was this portfolio package checked? | [Phase 5 progress](../reports/phase_5_progress.md) |
+| What is implemented and independently checked? | [Technical scope and verification contract](technical_scope.md) |
 
 ## Interpretive boundaries
 

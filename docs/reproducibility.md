@@ -177,8 +177,9 @@ illustrative fixed-rate conversion. See [methodology](methodology.md).
 
 The 105 tests use fixtures and do not require a downloaded workbook. Full-data
 verification requires the stages above. `verify_portfolio.py` checks the published
-documentation, local links/anchors, PNGs, headline evidence and actual CLI choices;
-it does not regenerate analytical files or replace visual review.
+documentation, required technical files, local links/anchors, images, headline evidence
+and actual CLI choices; approved personal-preparation files must remain absent. It
+does not regenerate analytical files or replace visual review.
 
 | Command group | Writes |
 | --- | --- |
