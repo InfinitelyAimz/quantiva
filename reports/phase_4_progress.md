@@ -26,7 +26,7 @@ Data preparation, SQL analytics and forecasting definitions remain the baseline.
 - Streamlit 1.66.0 and its dependencies are locked; local configuration binds loopback
   and disables usage statistics. No credentials/cloud/paid service is required.
 - README setup/launch instructions, Phase 4 methodology, UI verification, screenshots,
-  machine-readable browser/data verification and 22 dashboard/RFM test cases added.
+  machine-readable browser/data verification and 30 dashboard/RFM/currency cases added.
 
 Streamlit reruns the page after widget interaction; session state preserves theme and
 the shared commercial scope. Cached SQL aggregates avoid repeated transaction scans.
@@ -42,8 +42,8 @@ editable package with `--no-deps --no-build-isolation`. No runtime dependency co
 
 | Executed command | Result |
 | --- | --- |
-| `python -m pytest -W error` | 88 passed, including all 66 Phase 1–3 cases and 22 new cases |
-| Fresh locked environment: `python -m pytest -W error` | 88 passed |
+| `python -m pytest -W error` | 96 passed, including all original 88 and eight currency cases |
+| Fresh locked environment: `python -m pytest -W error` | 96 passed |
 | `ruff check .` | Passed |
 | `ruff format --check .` | Passed |
 | `python -m pip check` | No broken requirements |
@@ -111,3 +111,31 @@ simultaneous data rebuilds are unsupported; no formal accessibility certificatio
 all-device testing. Business limitations and weaker forest held-out performance remain
 visible. No production deployment, calibrated intervals, new model tuning or K-Means
 was introduced.
+
+
+## Follow-up: KPI layout and currency — 15 October 2026
+
+Browser inspection identified a truncated revenue value at 1280px.
+The shared metric CSS now uses bounded container-relative type and wrapping fallback,
+preserving the existing layout, themes and other KPI values. Browser measurements
+cover 600/1024/1280/1440px × GBP/ZAR × dark/light: 16 passing Overview states.
+Full revenue is £10,642,110.80 or illustrative R 135,240,167.58, with unchanged counts.
+
+`dashboard/currency.py` adds immutable presentation conversion, labels and export
+provenance. ZAR is the session default; the sidebar selector persists on all pages.
+Use a fixed 2011-12-08 ECB cross-rate, 1 GBP = 12.708021 ZAR, explicitly illustrative.
+All monetary cards/charts/hover labels/tables/narratives and dashboard exports follow
+the selection. RFM scores, counts, WAPE and model ranking remain unchanged; only
+monetary displays scale. Source GBP aggregates, SQL, model code and artifacts are
+untouched. See methodology for primary source, derivation, precision and limitations.
+
+Eight new tests cover formatting, conversion, row units, unchanged source frames,
+model ranking, RFM values, export metadata, charts/tables/CSV consistency and widget
+persistence. The complete suite now has 96 tests. Full-data regressions again pass
+(7 Phase 1, 3,982 Phase 2, 30 forecasting, 63 dashboard checks). Report-writing
+statements were omitted in memory during verification so historical stored evidence
+was not overwritten; the verification logic and repository scripts were unchanged.
+The browser-downloaded ZAR CSV reconciles all 4,338 customers and unchanged RFM scores.
+Original screenshots remain historical; new currency captures and the extended browser
+record document the correction. This presentation correction includes no dependency
+change, dataset rebuild or model retraining.

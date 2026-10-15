@@ -58,3 +58,40 @@ Manual repeat procedure:
 The UI is not claimed to have undergone a formal WCAG certification, screen-reader
 audit, exhaustive keyboard audit or testing on every browser/device. Styling depends
 on the documented Streamlit version; current tests and screenshots are scoped evidence.
+
+## KPI correction and illustrative currency verification — 15 October 2026
+
+The recovery audit identified revenue-card ellipsis at 1280px. The shared metric
+value now uses container-relative type bounded between 1.25rem and 2rem, normal
+wrapping and no ellipsis. The existing responsive column stacking is unchanged.
+
+A real local browser exercised the following 16 Overview states at height 950px:
+
+| Width | GBP dark | GBP light | ZAR dark | ZAR light |
+| --- | --- | --- | --- | --- |
+| 600px | Pass | Pass | Pass | Pass |
+| 1024px | Pass | Pass | Pass | Pass |
+| 1280px | Pass | Pass | Pass | Pass |
+| 1440px | Pass | Pass | Pass | Pass |
+
+All six metric values were inspected in the rendered DOM at every state. Revenue
+was fully formatted as **£10,642,110.80** or **R 135,240,167.58**; AOV as **£533.17**
+or **R 6,775.56**. Orders 19,960, units 5,572,420, customers 4,338 and repeat rate
+65.58% stayed unchanged. No metric horizontal overflow or page horizontal overflow
+was detected; small screens retain vertical scrolling. Representative actual captures
+are `figures/dashboard_currency_*.png`; full measurement records are in
+`phase_4_currency_browser_checks.json`. Earlier screenshots above are historical GBP captures,
+not evidence of the new ZAR default.
+
+The sidebar selector defaults to ZAR. Both currency settings were exercised on Sales,
+Customer Intelligence, Predictive Analytics and Data Quality. Navigation retained the
+selection. Monetary headers and plotted values followed the chosen unit; counts,
+percentages, RFM scores and the winning baseline remained unchanged. A browser-downloaded
+ZAR RFM CSV was independently compared with all 4,338 GBP customer aggregates: monetary
+values scaled by the fixed rate, while IDs, recency, frequency, scores and segments
+matched. Export source/display currency, rate/date and illustrative status were checked.
+
+The default 2011-12-08 ECB cross-rate and historical-illustration caveat are visible
+on each ZAR page. Saved forecast/report data remain GBP. The automated suite is now
+96 passing tests, including the original 88 plus eight currency tests. No production
+artifacts were rebuilt or retrained for these checks.

@@ -4,6 +4,12 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
+from quantiva.dashboard.currency import (
+    currency_state,
+    display_values,
+    monetary_columns,
+    table_values,
+)
 from quantiva.dashboard.data import Filters, catalog
 from quantiva.dashboard.theme import PALETTE, chart_theme
 
@@ -12,6 +18,21 @@ def heading(title: str, description: str) -> None:
     st.html('<div class="q-eyebrow">QUANTIVA / RETAIL INTELLIGENCE</div>')
     st.title(title)
     st.caption(description)
+    st.caption(currency_state(st.session_state).notice)
+
+
+def currency_selector() -> None:
+    """Shared application-shell widget; its selection survives all page navigation."""
+    selected = currency_state(st.session_state)
+    code = st.radio(
+        "Display currency",
+        ["ZAR", "GBP"],
+        index=["ZAR", "GBP"].index(selected.code),
+        horizontal=True,
+        key="display_currency_choice",
+    )
+    st.session_state["display_currency"] = code
+    st.caption("Source currency: GBP · ZAR is illustrative")
 
 
 def table(frame: pd.DataFrame, limit: int = 50) -> None:
@@ -19,12 +40,14 @@ def table(frame: pd.DataFrame, limit: int = 50) -> None:
     if frame.empty:
         st.info("No records match this selection.")
         return
-    display = frame.head(limit).copy()
+    currency = currency_state(st.session_state)
+    display = table_values(frame, currency).head(limit)
     display.columns = [
         str(c)
         .replace("_", " ")
         .title()
         .replace("Gbp", "GBP")
+        .replace("Zar", "ZAR")
         .replace("Rfm", "RFM")
         .replace(" Id", " ID")
         for c in display.columns
@@ -42,7 +65,11 @@ def table(frame: pd.DataFrame, limit: int = 50) -> None:
     )
     if len(frame) > limit:
         st.caption(f"Showing {limit:,} of {len(frame):,} rows. Export the table for all rows.")
-        st.download_button("Export table as CSV", frame.to_csv(index=False), "quantiva_table.csv")
+        st.download_button(
+            "Export table as CSV",
+            table_values(frame, currency, export=True).to_csv(index=False),
+            f"quantiva_table_{currency.code.lower()}.csv",
+        )
 
 
 def chart(
@@ -62,19 +89,25 @@ def chart(
     factory = {"bar": px.bar, "line": px.line, "scatter": px.scatter, "histogram": px.histogram}[
         kind
     ]
-    kwargs.setdefault(
-        "labels", {c: str(c).replace("_", " ").title().replace("Gbp", "GBP") for c in frame.columns}
-    )
+    unit = currency_state(st.session_state)
+    shown = display_values(frame, unit)
+    if "series" in shown:
+        shown["series"] = shown["series"].str.replace("_gbp", "_" + unit.code.lower(), regex=False)
+    labels = {c: unit.label(str(c).replace("_", " ").title()) for c in frame.columns}
+    labels.update({c: unit.label(v) for c, v in kwargs.pop("labels", {}).items()})
+    kwargs["labels"] = labels
+    hover = kwargs.pop("hover_data", [])
+    kwargs["hover_data"] = {**dict.fromkeys(hover), **{c: ":,.2f" for c in monetary_columns(frame)}}
     fig = factory(
-        frame, x=x, y=y, title=title, color=color, color_discrete_sequence=PALETTE, **kwargs
+        shown, x=x, y=y, title=title, color=color, color_discrete_sequence=PALETTE, **kwargs
     )
     chart_theme(fig, st.session_state["quantiva_theme"])
     st.markdown(f"**{title}**")
     fig.update_layout(title_text="", margin={"l": 12, "r": 12, "t": 15, "b": 25})
     if x.endswith("gbp"):
-        fig.update_xaxes(tickprefix="£", separatethousands=True)
+        fig.update_xaxes(tickprefix=unit.symbol, separatethousands=True)
     if currency:
-        fig.update_yaxes(tickprefix="£", separatethousands=True)
+        fig.update_yaxes(tickprefix=unit.symbol, separatethousands=True)
     st.plotly_chart(fig, width="stretch", theme=None, config={"displaylogo": False})
 
 
@@ -150,7 +183,7 @@ def kpi_cards(kpis: dict, names: dict[str, tuple[str, str]]) -> None:
                 "—"
                 if missing
                 else (
-                    f"£{value:,.2f}"
+                    currency_state(st.session_state).money(value)
                     if unit == "gbp"
                     else f"{value:.2%}"
                     if unit == "pct"

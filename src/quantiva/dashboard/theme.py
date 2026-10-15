@@ -119,6 +119,12 @@ def css(theme: str) -> str:
     }}
     [data-testid="stMetricValue"], [data-testid="stMetricLabel"] {{color:var(--q-text);
     }}
+    [data-testid="stMetric"] {{container-type:inline-size;}}
+    [data-testid="stMetricValue"] > div {{
+      font-size:clamp(1.25rem, 10cqi, 2rem);
+      white-space:normal; overflow-wrap:anywhere;
+      overflow:visible; text-overflow:clip; line-height:1.25;
+    }}
     .q-brand {{font-size:25px;
     font-weight:800;
     letter-spacing:3px;

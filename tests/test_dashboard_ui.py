@@ -41,6 +41,7 @@ from quantiva.config import Settings
 from quantiva.dashboard.pages import {page}
 from quantiva.dashboard.theme import css
 st.session_state['quantiva_theme']={theme!r}
+st.session_state['display_currency']='GBP'
 st.html(css({theme!r}))
 {page}(Settings(Path({str(data)!r})),Path({str(tmp_path)!r}))
 """

@@ -186,6 +186,15 @@ prerequisites produce setup messages and navigation stays available. No credenti
 paid service, model download or silent retraining is required. Use only locally
 generated trusted model artifacts. `.streamlit/config.toml` binds to loopback.
 
+The sidebar **Display currency** selector defaults to **ZAR** and also offers GBP.
+ZAR amounts are illustrative conversions using a fixed **8 December 2011** ECB
+cross-rate: **1 GBP = 12.708021 ZAR**. They are not actual historical ZAR transactions.
+Source data, SQL calculations, RFM scoring, model selection, evaluation and stored
+artifacts remain GBP. Only displayed monetary values and dashboard CSV exports
+change; counts, percentages and scores do not. The selection persists within the
+session. See the [currency methodology](reports/phase_4_methodology.md#display-currency)
+for the source, formula, rounding and limitations.
+
 Use the sidebar Light/Dark control; appearance persists within the session. Both
 charts and bounded accessible HTML tables follow it. Initial appearance uses
 Streamlit's reported theme where available, which may lag on first load; no direct
