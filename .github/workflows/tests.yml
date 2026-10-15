@@ -14,3 +14,4 @@ jobs:
       - run: python -m pytest -W error
       - run: ruff check .
       - run: ruff format --check .
+      - run: python scripts/verify_portfolio.py

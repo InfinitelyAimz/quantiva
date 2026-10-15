@@ -3,277 +3,172 @@
 This snapshot uses a fixed historical retail dataset, not a live sales feed.
 Analytics and forecast outputs describe their documented historical windows.
 
-Quantiva is a local, reproducible retail data science project using real UCI Online
-Retail transactions. It examines sales, products, customers, geography, and the
-quality of the observations underlying business decisions.
+Trace real retail transactions from an immutable source workbook to verified SQL
+metrics, customer segments, evaluated forecasts and an interactive Streamlit dashboard.
+Quantiva is a data science portfolio that runs locally with free tools.
 
-Verified ingestion, SQL analytics, customer segmentation, chronological seven-day forecasting and a five-page Streamlit dashboard are implemented in this snapshot.
-See [data methodology](reports/methodology.md) and the technical evidence linked below.
+**Explore:** [Case study](reports/portfolio_case_study.md) ·
+[Dashboard gallery](docs/dashboard_gallery.md) · [Architecture](docs/architecture.md) ·
+[Reproduce the project](docs/reproducibility.md)
 
-## Actual results
+## Project overview
 
-| Metric | Result |
+Retail reporting depends on decisions a revenue chart alone cannot explain: which
+transactions qualify, how anonymous purchases affect customer analysis, whether
+spikes are errors, and whether a forecast beats a simple baseline. Quantiva makes
+those decisions explicit using one UK retailer's 2010–2011 records.
+
+The project investigates where recorded sales concentrate, how identifiable customers
+purchase and how reliably seven-day sales can be forecast. It demonstrates analytical
+engineering and communication. No commercial adoption, measured revenue uplift or
+production deployment is claimed.
+
+## Key capabilities
+
+- Checksums, deterministic cleaning, exclusions and source-row lineage.
+- Rebuildable SQLite schema and 14 SQL analyses using joins, CTEs and window functions.
+- SQL/pandas reconciliation, exploratory notebooks and descriptive statistics.
+- Transparent Recency, Frequency, Monetary (RFM) customer segmentation.
+- Naive, weekly seasonal naive, Linear Regression and Random Forest comparisons
+  using chronological validation and recursive seven-day forecasts.
+- Five dashboard pages, dark/light themes, filters and GBP/illustrative ZAR display,
+  with original GBP calculations preserved.
+
+## Dashboard preview
+
+![Quantiva Overview in dark theme with illustrative ZAR display](reports/figures/dashboard_polish_overview_dark.png)
+
+Real application capture using verified UCI data. ZAR is illustrative display currency,
+not historical ZAR transaction revenue. The [six-view gallery](docs/dashboard_gallery.md)
+includes light appearance and each analytical page.
+
+| Page | What a reviewer can explore |
+| --- | --- |
+| Overview | Gross sales, orders, AOV, units, identifiable purchasers and concentration |
+| Sales Analytics | Daily/weekly/monthly activity, products, countries and complete-month growth |
+| Customer Intelligence | Purchase frequency, spend, RFM segments and log/linear plots |
+| Predictive Analytics | Historical inference, validation/test comparisons, errors and limitations |
+| Data Quality | Source/ledger counts, exclusions, missingness, calendar coverage and provenance |
+
+Dates/countries filter the first three pages. Sales adds product-code filtering;
+its AOV then measures selected lines per affected invoice, not full baskets.
+Segment selection affects RFM charts/tables; customer KPI cards retain their
+labeled date/country scope. Predictive Analytics and Data Quality use fixed full-data evidence.
+
+## Key analytical findings
+
+Historical dataset measurements cover 1 December 2010–9 December 2011, with a
+partial final day/month, under the documented eligibility policy.
+
+| Metric | Verified result |
 | --- | ---: |
-| Gross completed-sales revenue | £10,642,110.80 |
-| Completed orders (distinct eligible invoices) | 19,960 |
+| Gross eligible completed-sales revenue | £10,642,110.80 |
+| Completed orders | 19,960 |
 | Average order value | £533.17 |
-| Eligible source units sold | 5,572,420 |
+| Units sold | 5,572,420 |
 | Identifiable purchasers | 4,338 |
-| Within-period repeat purchase rate | 65.58% |
+| Within-period repeat purchasers | 2,845 |
+| Within-period repeat rate | 65.58% |
 
-Sales include anonymous purchases and eligible service/charge codes. These are
-observed gross transaction amounts, not profit or accounting net revenue. See
-[KPI definitions](reports/kpi_specification.md) and [findings](reports/findings.md).
+Gross sales include anonymous purchases and eligible charges/postage. They are not
+profit, settled payments or accounting net revenue. Mean order value exceeds the
+£303.30 median, showing the influence of bulk orders. The UK contributes 84.59% of
+recorded revenue; this describes the retailer, not national demand.
+See [findings](reports/findings.md) and [KPI definitions](reports/kpi_specification.md).
 
-![Monthly revenue with partial coverage marked](reports/figures/monthly_revenue.png)
+| Model | Validation MAE (GBP/day) | Held-out MAE (GBP/day) |
+| --- | ---: | ---: |
+| Naive | 24,181.77 | 20,978.67 |
+| Weekly Seasonal Naive | 15,580.52 | 11,250.17 |
+| Linear Regression | 12,792.97 | Not evaluated |
+| Random Forest | 11,431.53 | 12,344.71 |
 
-November 2011 has the largest complete-month revenue. December 2011 ends on
-9 December and is not compared with full months. Mean order value exceeds the
-£303.30 median because of a long right tail. All major charts have interpretations.
+Random Forest wins validation; **Weekly Seasonal Naive performs better on the
+held-out test**. Selection remains frozen; no general machine learning superiority
+is claimed. Inference for 9–15 December 2011 is a historical demonstration without
+calibrated prediction intervals. [Model evaluation](reports/model_evaluation.md)
+explains the chronology, recursive strategy and limits of historical tuning provenance.
 
-## Architecture
+## Technical architecture
 
-```text
-Official UCI ZIP → immutable raw XLSX → inspect → auditable Phase 1 cleaning
-                                                       ↓
-                                  Parquet ledger + exclusions + checksums
-                                                       ↓
-                                  atomic SQLite rebuild (SQLAlchemy)
-                                                       ↓
-                       packaged SQL ⇄ independent pandas reconciliation
-                                                       ↓
-                        executable notebooks → figures + measured reports
+```mermaid
+flowchart LR
+    A[UCI workbook] --> B[Checksums and cleaning]
+    B --> C[Parquet ledger and exclusions]
+    C --> D[SQLite and packaged SQL]
+    C --> E[pandas reconciliation and EDA]
+    D --> E
+    C --> F[Chronological forecasting]
+    D --> G[RFM customer analysis]
+    D --> H[Streamlit dashboard]
+    G --> H
+    F --> H
+    E --> H
 ```
 
-`src/quantiva` contains reusable logic. Tables represent transaction lines,
-invoices, products, customers, and countries. Each line retains its Excel row,
-timestamp, description, nullable customer, and classification. Invoices are counted
-distinctly; stock codes identify products while names are labels. Foreign keys,
-monetary/eligibility constraints, and six indexes support integrity and efficient
-queries. Currency is stored in integer £0.0001 units before aggregation. See
-[Phase 2 methodology](reports/phase_2_methodology.md) for the schema and decisions.
+Source data and models are regenerated locally; lightweight reports and figures
+provide reviewable evidence. [Architecture](docs/architecture.md) maps the modules,
+storage and presentation boundaries.
 
-Stack: Python 3.11, pandas/NumPy, requests, openpyxl, PyArrow, SQLite/SQLAlchemy,
-Matplotlib, Plotly, scikit-learn, SciPy, joblib, nbformat/nbclient/ipykernel,
-pytest, and Ruff. All functionality
-runs locally without credentials, paid APIs, or cloud services. Descriptive
-statistics use pandas; no gratuitous significance tests or clustering are added.
+## Technology stack and repository structure
 
-## Install — Windows PowerShell
+Python 3.11; pandas, NumPy, openpyxl, requests and PyArrow; SQLite and SQLAlchemy;
+scikit-learn, SciPy and joblib; Matplotlib, Plotly and Streamlit; Jupyter tooling;
+pytest, Ruff and GitHub Actions. The [lock](requirements-lock.txt) records the tested
+Windows environment.
+
+```text
+app/                 Streamlit entry point
+src/quantiva/        Ingestion, analytics, SQL, RFM, forecasting and dashboard services
+notebooks/           Exploration, statistics and forecasting experiments
+reports/             Measured findings, evaluation, figures and verification evidence
+docs/                Architecture, reproduction and portfolio materials
+scripts/             Data, forecasting, dashboard and documentation verification
+tests/               Automated fixtures, regressions and Streamlit tests
+data/                Ignored raw, processed and model artifacts; regenerate locally
+```
+
+## Getting started
+
+Run from the checkout root in Windows PowerShell with Git and Python **3.11**:
 
 ```powershell
+git clone https://github.com/InfinitelyAimz/quantiva.git
+cd quantiva
 py -3.11 -m venv .venv
 .\.venv\Scripts\python.exe -m pip install -r requirements-lock.txt
 .\.venv\Scripts\python.exe -m pip install --no-deps --no-build-isolation -e .
-```
-
-No activation or execution-policy changes are needed. On macOS/Linux use Python
-3.11 and `.venv/bin/python` / `.venv/bin/quantiva`. The lock pins the tested Windows
-Python 3.11 environment. Use this source checkout for notebooks/reports; SQL files
-are included as package resources.
-
-## Download, inspect, clean, and rebuild
-
-```powershell
 .\.venv\Scripts\quantiva.exe download
 .\.venv\Scripts\quantiva.exe inspect
 .\.venv\Scripts\quantiva.exe prepare
-.\.venv\Scripts\python.exe scripts/verify_data.py
 .\.venv\Scripts\quantiva.exe database
-```
-
-Download uses the [official UCI archive](https://archive.ics.uci.edu/static/public/352/online+retail.zip),
-records source/checksum provenance, and preserves existing raw workbooks. If it
-fails, visit the [dataset page](https://archive.ics.uci.edu/dataset/352/online+retail),
-download/extract `Online Retail.xlsx` to `data/raw/Online Retail.xlsx`, then inspect
-and prepare. Never substitute generated business records.
-
-`prepare` replaces derived Parquet/audit outputs. `database` verifies the manifest
-and raw hash, builds a temporary sibling database, validates it, then atomically
-replaces `data/processed/quantiva.db`. Failed rebuilds preserve the previous
-database. Close consumers on Windows before rebuilding. Do not run concurrent
-preparation/rebuild commands. Set `$env:QUANTIVA_DATA_DIR = '.\data'` to relocate
-data; configuration is centralized. `.env` is not loaded automatically.
-
-Raw workbooks, Parquet, databases, environments, and generated Plotly HTML are
-ignored by Git. Small report tables, PNG figures, and executed notebooks are tracked.
-
-## Execute SQL
-
-```powershell
-.\.venv\Scripts\quantiva.exe query
-.\.venv\Scripts\quantiva.exe query kpis
-.\.venv\Scripts\quantiva.exe query monthly_growth
-.\.venv\Scripts\quantiva.exe query top_products
-.\.venv\Scripts\quantiva.exe query customer_frequency
-```
-
-The 14 files under `src/quantiva/sql` cover daily/monthly revenue, country contribution,
-product revenue/units rankings, invoice values/AOV, customer frequency/spending,
-repeat purchasing, monthly growth, running revenue, and signed adjustments. They
-show INNER/LEFT JOIN, GROUP BY, HAVING, CTEs, window functions, ranking, running
-totals, and percentage contributions.
-
-```sql
-SELECT invoice_no, SUM(revenue_units) / 10000.0 AS order_value_gbp
-FROM completed_sales
-GROUP BY invoice_no;
-```
-
-```python
-from quantiva.config import Settings
-from quantiva.reconciliation import run_query
-
-orders = run_query(Settings.from_environment().database_file, "order_values")
-```
-
-## Analyze and reconcile
-
-```powershell
-.\.venv\Scripts\quantiva.exe analyze
-.\.venv\Scripts\python.exe scripts/verify_analytics.py
-```
-
-`analyze` executes every query, independently calculates pandas KPIs from Parquet,
-and refuses publication if reconciliation fails or provenance is stale. It produces
-findings, JSON metrics, duplicate sensitivity, monthly totals, eight PNG charts,
-and `reports/figures/daily_revenue.html`. The interactive HTML embeds Plotly locally
-and requires no CDN. Generated reports overwrite prior derived reports.
-
-[Reconciliation](reports/reconciliation.csv) records SQL/pandas values, absolute and
-relative differences, and pass/fail for 3,982 comparisons. Counts match exactly;
-monetary tolerance is absolute £0.000001 with no relative tolerance. Every monthly,
-country, and selling-product revenue key is compared, and absent keys fail even at
-zero revenue. SQL sums stored fixed-point values; pandas separately sums the original
-cleaned float amounts.
-
-## Execute notebooks
-
-```powershell
-.\.venv\Scripts\python.exe scripts/execute_notebooks.py
-```
-
-The runner clears outputs, starts an isolated kernel using the exact calling Python,
-validates execution, and saves successful results. No global kernel is registered.
-
-- [Exploration](notebooks/01_data_exploration.ipynb): revenue, products, customers,
-  geography, calendar coverage, adjustments, and duplicate sensitivity.
-- [Statistics](notebooks/02_statistical_analysis.ipynb): mean, median, variance/std,
-  quartiles, percentiles, IQR, skewness, outlier influence, and correlations.
-- [Forecasting](notebooks/03_forecasting_experiments.ipynb): calendar policy,
-  leakage checks, recursive forecasts, chronological validation, held-out errors,
-  sensitivities, and trusted artifact inference. Run `forecast-train` first;
-  `scripts/execute_notebooks.py --phase 3` executes only this notebook.
-
-Open them in a notebook-capable editor using `.venv` as the kernel, or execute with
-the command above. Prepare/import actual data first.
-
-## Launch the dashboard
-
-After installing the lock and preparing the data/database, generate the analytics
-and forecasting artifacts using the commands below, then launch from the checkout:
-
-```powershell
 .\.venv\Scripts\quantiva.exe analyze
 .\.venv\Scripts\quantiva.exe forecast-train
+```
+
+No activation is needed. Existing environments must also install the current lock;
+an older environment may lack Streamlit or model dependencies. Generating the data
+and models takes longer than starting the prepared app. These commands replace
+derived outputs: use a separate checkout to preserve historical report evidence.
+
+### Running the dashboard
+
+```powershell
 .\.venv\Scripts\python.exe -m streamlit run app/Home.py
 ```
 
-Open the localhost URL printed by Streamlit. The five pages cover Overview, Sales
-Analytics, Customer Intelligence, Predictive Analytics and Data Quality. SQLite
-aggregates supply the metrics; the raw workbook is not loaded on reruns. Missing
-prerequisites produce setup messages and navigation stays available. No credentials,
-paid service, model download or silent retraining is required. Use only locally
-generated trusted model artifacts. `.streamlit/config.toml` binds to loopback.
+Open the localhost URL printed by Streamlit. No account, API key or cloud service
+is needed. The sidebar defaults to **illustrative ZAR**, with GBP available throughout.
+The fixed ECB cross-rate is **1 GBP = 12.708021 ZAR on 8 December 2011**. Currency
+and appearance persist within the session. Calculations, RFM scoring, evaluation
+and stored artifacts remain GBP; only monetary presentation and exports convert.
 
-The sidebar **Display currency** selector defaults to **ZAR** and also offers GBP.
-ZAR amounts are illustrative conversions using a fixed **8 December 2011** ECB
-cross-rate: **1 GBP = 12.708021 ZAR**. They are not actual historical ZAR transactions.
-Source data, SQL calculations, RFM scoring, model selection, evaluation and stored
-artifacts remain GBP. Only displayed monetary values and dashboard CSV exports
-change; counts, percentages and scores do not. The selection persists within the
-session. See the [currency methodology](reports/phase_4_methodology.md#display-currency)
-for the source, formula, rounding and limitations.
+On macOS/Linux use `python3.11 -m venv .venv` and `.venv/bin/python` /
+`.venv/bin/quantiva`; this is guidance, not a claim of platform testing.
+The full [reproducibility guide](docs/reproducibility.md) covers manual download,
+checksums, stage prerequisites, SQL commands, notebooks, outputs and troubleshooting.
 
-Use the sidebar Light/Dark control; appearance persists within the session. Both
-charts and bounded accessible HTML tables follow it. Initial appearance uses
-Streamlit's reported theme where available, which may lag on first load; no direct
-OS-theme detection is claimed. Controlled CSS is tested against locked Streamlit
-1.66.0; recheck controls and popovers before upgrading Streamlit.
-
-Dates/countries apply to Overview, Sales and Customer views. Sales also supports
-stock-code filtering; AOV then measures selected eligible lines per affected invoice,
-not the complete basket. Customer segments filter RFM charts/tables, while customer
-KPI cards retain their labeled dates/countries. RFM uses the day after the selected
-end date, identifiable purchasers and distinct eligible invoices. Scores handle
-ties/sparse samples without ID-based tie breaking; labels are descriptive, not churn
-predictions or lifetime value. Predictive Analytics and Data Quality explicitly use
-their full-data evidence, independent of commercial filters.
-
-```powershell
-.\.venv\Scripts\python.exe scripts/verify_dashboard.py
-```
-
-See [Phase 4 methodology](reports/phase_4_methodology.md),
-[UI verification](reports/phase_4_ui_verification.md), and
-[Phase 4 progress](reports/phase_4_progress.md). Cold SQL reads can take several
-seconds; matching repeat scopes are cached, with database/WAL signatures invalidating
-results after changes. Tables show bounded rows and offer complete CSV exports.
-
-## Seven-day forecasting
-
-After preparing the ledger and database, run:
-
-```powershell
-.\.venv\Scripts\quantiva.exe forecast-prepare
-.\.venv\Scripts\quantiva.exe forecast-train
-.\.venv\Scripts\quantiva.exe forecast-compare
-.\.venv\Scripts\quantiva.exe forecast
-.\.venv\Scripts\quantiva.exe forecast-verify
-.\.venv\Scripts\python.exe scripts/verify_forecasting.py
-.\.venv\Scripts\python.exe scripts/execute_notebooks.py --phase 3
-```
-
-The unchanged gross-sales target includes eligible charges. Missing dates mean zero
-observed revenue; they do not prove zero demand. Both source boundary dates are
-excluded, leaving 2 December 2010–8 December 2011. Each origin forecasts seven
-calendar days recursively, using earlier predictions for unavailable future lags.
-Eight expanding validation origins select the model by MAE before opening a separate
-56-day test period. Test weights remain fixed while observed context advances between
-weekly origins. Full-history deployment refitting occurs only after evaluation.
-
-| Model | Validation MAE (GBP/day) | Test MAE (GBP/day) | Test WAPE |
-| --- | ---: | ---: | ---: |
-| Naive | 24,181.77 | 20,978.67 | 45.33% |
-| Weekly seasonal naive | 15,580.52 | 11,250.17 | 24.31% |
-| Linear Regression | 12,792.97 | Not evaluated | Not evaluated |
-| Random Forest | 11,431.53 | 12,344.71 | 26.68% |
-
-Random Forest is the validation-selected candidate. The weekly baseline is better
-on the held-out test; these results do not support general machine learning superiority.
-The selection remains frozen. Inference produces a **retrospective demonstration for
-9–15 December 2011**, rather than current business predictions.
-
-Training regenerates ignored `data/models` (model, context, metadata, checksums) and
-`data/processed/forecasting`. Only load locally generated trusted artifacts; checksums
-detect changes but do not authenticate serialized models. Models need the recorded
-dependency versions. Reports, CSV evidence, PNGs and the notebook are tracked;
-model binaries and interactive HTML are ignored. Do not run concurrent training or
-inference while artifacts are being replaced. Training reruns reproduce the frozen
-experiment and must not become test-guided tuning.
-
-The audit verifies validation-only selection in the committed code and reproduces
-its results. It cannot independently establish that earlier manual choices were
-uninfluenced by previously viewed test outcomes. The selection file is overwritten
-on reruns and is not an immutable historical record. Undefined autocorrelations
-are JSON `null`, meaning correlation cannot be estimated (for example, a constant
-history has no variance); this does not mean zero correlation.
-
-See [model evaluation](reports/model_evaluation.md),
-[Phase 3 methodology](reports/phase_3_methodology.md), and
-[Phase 3 progress](reports/phase_3_progress.md).
-
-## Verification
+## Testing and verification
 
 ```powershell
 .\.venv\Scripts\python.exe -m pytest -W error
@@ -283,44 +178,51 @@ See [model evaluation](reports/model_evaluation.md),
 .\.venv\Scripts\python.exe scripts/verify_data.py
 .\.venv\Scripts\python.exe scripts/verify_analytics.py
 .\.venv\Scripts\python.exe scripts/verify_forecasting.py
+.\.venv\Scripts\python.exe scripts/verify_dashboard.py
+.\.venv\Scripts\python.exe scripts/verify_portfolio.py
 ```
 
-Tests cover Phase 1 plus schema constraints, atomic/repeatable imports, unknown
-customers/countries, invoice grain, eligibility, monetary precision, tampered inputs,
-SQL/pandas discrepancies, calendar gaps/partial months, duplicates, and empty inputs.
-Synthetic fixtures test code only; published results use UCI records. CI checks
-fixtures/lint/format without downloading data. Full-data/notebook verification is
-performed locally and documented separately.
+The suite has **105 tests**. Actual-data checks cover seven data-integrity conditions,
+3,982 SQL/pandas comparisons, 30 forecasting conditions and 63 dashboard conditions.
+CI runs fixtures, lint, formatting and portfolio checks without the workbook; it does not
+substitute for full-data or browser checks. Report-writing commands are identified
+in the reproduction guide. [Phase 5 verification](reports/phase_5_progress.md)
+records this delivery's results.
 
-For the final completion audit, `python scripts/audit_phase2.py` independently
-recalculates source-workbook KPIs, grouped revenue, duplicate sensitivity, NumPy
-descriptive statistics, and Pearson/rank correlations. It compares them with the
-published results and writes `reports/phase_2_audit_results.json`. This check does
-not call the project cleaner or analytics functions. `.venv-audit` and `.audit-data`
-contain the separate audit environment and data outputs and are ignored by Git.
-
-## Source, limitations, and next phases
+## Data source, methodology and limitations
 
 Chen, D. (2015). *Online Retail*. UCI Machine Learning Repository.
-[DOI: 10.24432/C5BW33](https://doi.org/10.24432/C5BW33),
+[Dataset](https://archive.ics.uci.edu/dataset/352/online+retail),
+[DOI 10.24432/C5BW33](https://doi.org/10.24432/C5BW33),
 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/).
 
-The workbook has 541,909 lines; the ledger has 536,639 after 5,268 duplicate exclusions
-and two negative-price quarantines. Cancellations and stock-adjustment candidates
-remain classified. Missing IDs may bias customer findings. Exact duplicates are
-ambiguous without a unique line key; restoring eligible repeats adds £24,573.74
-(0.23%) in revenue but no distinct invoices. Charges/postage remain in KPI scope.
-Cancellations are unmatched signed movements, not proven physical returns. Extreme
-bulk orders affect averages. Missing dates, including every Saturday, are not verified
-zero demand. The final day/month is partial; one retailer over about one year cannot
-establish annual seasonality or represent all retail. Timestamps remain source wall time.
+The workbook has 541,909 lines; 536,639 remain in the ledger after explicit duplicate
+exclusions and quarantines. Missing IDs limit customer analysis. Duplicate rows are
+ambiguous; cancellation movements are not matched physical returns. Missing dates
+mean zero recorded sales, not proven zero demand. One retailer over roughly one year
+cannot establish robust annual seasonality, causality or broad retail generalization.
+ZAR is not transaction-date conversion.
 
-See [Phase 1 progress](reports/phase_1_progress.md),
-[Phase 1 methodology](reports/methodology.md),
-[Phase 2 progress](reports/phase_2_progress.md),
-[Phase 2 methodology](reports/phase_2_methodology.md), and [findings](reports/findings.md).
+The [methodology index](docs/methodology.md) connects the detailed Phase 1–4 decisions,
+data-quality evidence, metric definitions and forecasting qualifications.
 
-Verified ingestion, SQL analytics, customer segmentation, chronological seven-day forecasting and a five-page Streamlit dashboard are implemented in this snapshot.
+## Future improvements
+
+Archive immutable pretest experiments; evaluate direct horizon models and calibrated
+intervals on new data; investigate gap causes and curated charge codes; extend
+accessibility/device checks. Production adaptation needs access controls, batch
+identities, monitoring and operational ownership. These are future options, not
+completed features or guaranteed accuracy gains.
+
+## Author and project purpose
+
+Developed by [InfinitelyAimz](https://github.com/InfinitelyAimz) as a portfolio for
+data analyst, junior data scientist and junior data engineer roles, demonstrating
+traceable engineering, defensible analysis and honest model comparison.
+The [technical case study](reports/portfolio_case_study.md) supports presenting the work.
+Private preparation material is withheld in this privacy-redacted historical edition.
+
+Public technical guidance: [public technical scope](docs/technical_scope.md), [architecture](docs/architecture.md) and [reproduction](docs/reproducibility.md).
 Technical milestone evidence: [data foundation](reports/phase_1_progress.md),
-[SQL analytics](reports/phase_2_progress.md), [forecasting](reports/phase_3_progress.md)
-and [dashboard verification](reports/phase_4_progress.md).
+[SQL analytics](reports/phase_2_progress.md), [forecasting](reports/phase_3_progress.md),
+[dashboard](reports/phase_4_progress.md) and [portfolio verification](reports/phase_5_progress.md).
