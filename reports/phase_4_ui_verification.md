@@ -95,3 +95,54 @@ The default 2011-12-08 ECB cross-rate and historical-illustration caveat are vis
 on each ZAR page. Saved forecast/report data remain GBP. The automated suite is now
 96 passing tests, including the original 88 plus eight currency tests. No production
 artifacts were rebuilt or retrained for these checks.
+
+## Professional UI refinement — 15 October 2026
+
+Baseline: `811abdfd2abeb71dc7c833812490a8600eeb1873`, clean and synchronized on
+`phase-4`; baseline suite 96 passed. Current full suite: **105 passed**. The nine new
+presentation cases check readable/escaped tables, export identifiers, stable colors,
+unlogged scatter values, non-positive log fallback and unchanged source month flags.
+No dependencies were added. Source data, SQL, RFM and forecasting artifacts are unchanged.
+
+| Before | Completed refinement |
+| --- | --- |
+| Marketing-style headings and repeated technical labels | Clear page names, concise business questions, consistent scope and currency context |
+| True/False month legend and largest country at bottom | Complete month/Partial month labels and largest-first country ranking |
+| One-color segment bars and compressed spending plots | Sorted horizontal segment bars, stable segment colors and optional logarithmic monetary axes |
+| Raw model identifiers and dense metric paragraphs | Readable model names, selected-period Lowest MAE labels and expandable technical methodology |
+| Generic numeric table formatting | Grouped integer counts, percentage signs, explicit currency units, aligned numeric cells and scoped headers |
+| Low-contrast icons and pale multiselect surrounds in dark mode | Explicit icon/surface colors, active-page accent and visible keyboard focus |
+| Undifferentiated quality cards | Source, cleaning, customer/transaction, calendar and provenance sections |
+
+An actual local browser inspected **five pages × two themes × four widths** at
+600, 1024, 1280 and 1440px (height 1000px): **40 rendered states**, recorded in
+`phase_4_polish_browser_checks.json`. This matrix used the default illustrative ZAR
+display. Every state retained its expected title/charts, reported no page horizontal
+overflow, no clipped KPI values and no application exceptions. Wide tables scroll
+internally. Representative captures at 1440px are `figures/dashboard_polish_{page}_{theme}.png`;
+these are not claims of a separate screenshot at every width. Earlier captures remain
+historical evidence for before/after comparison.
+
+Additional interactions actually exercised:
+
+- Germany plus GBP: £228,678.40, 457 orders and £500.39 AOV; source scope and currency
+  changed visibly and were restored before the remaining full-data matrix checks.
+- Customer Logarithmic/Linear control: labels changed correctly; the logarithmic
+  view was restored, its scatter legends/axes and RFM histogram were visually inspected.
+- Downloaded full ZAR customer CSV: byte-for-byte identical to the prior verified
+  4,338-customer export, preserving identifiers, scores, segments and FX provenance.
+- Held-out test selection: Weekly Seasonal Naive MAE R142,967.39, Random Forest
+  R156,876.80; WAPE 24.31% and 26.68%; selected-model control still Random Forest.
+- Keyboard Tab navigation produced a visible themed outline on a sidebar page link.
+- The explicit current-artifact button reported successful checksums and repeat
+  inference, with the seven-day period and model in a separate table; it explicitly
+  states that this is not a test-suite run.
+- At 600px the sidebar drawer opened with readable appearance/currency controls;
+  GBP persisted when navigating to Overview and all six full KPI values remained.
+
+Supporting captures include `dashboard_polish_customer_patterns_light.png`,
+`dashboard_polish_evaluation_dark.png`, `dashboard_polish_mobile_navigation.png` and
+`dashboard_polish_mobile_gbp.png`. Capture dimensions and image validity were checked.
+The temporary viewport override was reset after review, and the temporary server was
+stopped. This is scoped practical verification, not formal WCAG certification,
+exhaustive keyboard/screen-reader coverage or testing on every browser/device.

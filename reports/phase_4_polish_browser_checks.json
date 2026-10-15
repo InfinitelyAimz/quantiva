@@ -1,0 +1,722 @@
+{
+  "date": "2026-10-15",
+  "baseline_commit": "811abdfd2abeb71dc7c833812490a8600eeb1873",
+  "height": 1000,
+  "currency": "ZAR",
+  "states": [
+    {
+      "page": "Overview",
+      "theme": "dark",
+      "width": 600,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56",
+        "5,572,420",
+        "4,338",
+        "65.58%"
+      ],
+      "charts": 5,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Overview",
+      "theme": "dark",
+      "width": 1024,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56",
+        "5,572,420",
+        "4,338",
+        "65.58%"
+      ],
+      "charts": 5,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Overview",
+      "theme": "dark",
+      "width": 1280,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56",
+        "5,572,420",
+        "4,338",
+        "65.58%"
+      ],
+      "charts": 5,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Overview",
+      "theme": "dark",
+      "width": 1440,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56",
+        "5,572,420",
+        "4,338",
+        "65.58%"
+      ],
+      "charts": 5,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Overview",
+      "theme": "light",
+      "width": 600,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56",
+        "5,572,420",
+        "4,338",
+        "65.58%"
+      ],
+      "charts": 5,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Overview",
+      "theme": "light",
+      "width": 1024,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56",
+        "5,572,420",
+        "4,338",
+        "65.58%"
+      ],
+      "charts": 5,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Overview",
+      "theme": "light",
+      "width": 1280,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56",
+        "5,572,420",
+        "4,338",
+        "65.58%"
+      ],
+      "charts": 5,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Overview",
+      "theme": "light",
+      "width": 1440,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56",
+        "5,572,420",
+        "4,338",
+        "65.58%"
+      ],
+      "charts": 5,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "light",
+      "width": 600,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56"
+      ],
+      "charts": 3,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "light",
+      "width": 1024,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56"
+      ],
+      "charts": 3,
+      "scrollable_tables": 1,
+      "errors": 0
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "light",
+      "width": 1280,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56"
+      ],
+      "charts": 3,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "light",
+      "width": 1440,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56"
+      ],
+      "charts": 3,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "dark",
+      "width": 600,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56"
+      ],
+      "charts": 3,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "dark",
+      "width": 1024,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56"
+      ],
+      "charts": 3,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "dark",
+      "width": 1280,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56"
+      ],
+      "charts": 3,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Sales Analytics",
+      "theme": "dark",
+      "width": 1440,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "R 135,240,167.58",
+        "19,960",
+        "R 6,775.56"
+      ],
+      "charts": 3,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "dark",
+      "width": 600,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "4,338",
+        "R 112,938,837.26",
+        "R 26,034.77",
+        "2,845",
+        "65.58%"
+      ],
+      "charts": 6,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "dark",
+      "width": 1024,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "4,338",
+        "R 112,938,837.26",
+        "R 26,034.77",
+        "2,845",
+        "65.58%"
+      ],
+      "charts": 6,
+      "scrollable_tables": 1,
+      "errors": 0
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "dark",
+      "width": 1280,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "4,338",
+        "R 112,938,837.26",
+        "R 26,034.77",
+        "2,845",
+        "65.58%"
+      ],
+      "charts": 6,
+      "scrollable_tables": 1,
+      "errors": 0
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "dark",
+      "width": 1440,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "4,338",
+        "R 112,938,837.26",
+        "R 26,034.77",
+        "2,845",
+        "65.58%"
+      ],
+      "charts": 6,
+      "scrollable_tables": 1,
+      "errors": 0
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "light",
+      "width": 600,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "4,338",
+        "R 112,938,837.26",
+        "R 26,034.77",
+        "2,845",
+        "65.58%"
+      ],
+      "charts": 6,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "light",
+      "width": 1024,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "4,338",
+        "R 112,938,837.26",
+        "R 26,034.77",
+        "2,845",
+        "65.58%"
+      ],
+      "charts": 6,
+      "scrollable_tables": 1,
+      "errors": 0
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "light",
+      "width": 1280,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "4,338",
+        "R 112,938,837.26",
+        "R 26,034.77",
+        "2,845",
+        "65.58%"
+      ],
+      "charts": 6,
+      "scrollable_tables": 1,
+      "errors": 0
+    },
+    {
+      "page": "Customer Intelligence",
+      "theme": "light",
+      "width": 1440,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "4,338",
+        "R 112,938,837.26",
+        "R 26,034.77",
+        "2,845",
+        "65.58%"
+      ],
+      "charts": 6,
+      "scrollable_tables": 1,
+      "errors": 0
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "light",
+      "width": 600,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [],
+      "charts": 5,
+      "scrollable_tables": 4,
+      "errors": 0
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "light",
+      "width": 1024,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [],
+      "charts": 5,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "light",
+      "width": 1280,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [],
+      "charts": 5,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "light",
+      "width": 1440,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [],
+      "charts": 5,
+      "scrollable_tables": 1,
+      "errors": 0
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "dark",
+      "width": 600,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [],
+      "charts": 5,
+      "scrollable_tables": 4,
+      "errors": 0
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "dark",
+      "width": 1024,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [],
+      "charts": 5,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "dark",
+      "width": 1280,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [],
+      "charts": 5,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Predictive Analytics",
+      "theme": "dark",
+      "width": 1440,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [],
+      "charts": 5,
+      "scrollable_tables": 1,
+      "errors": 0
+    },
+    {
+      "page": "Data Quality",
+      "theme": "dark",
+      "width": 600,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "541,909",
+        "536,639",
+        "524,878",
+        "5,268",
+        "2",
+        "1,454",
+        "135,080",
+        "9,251",
+        "1,336",
+        "1,174"
+      ],
+      "charts": 6,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Data Quality",
+      "theme": "dark",
+      "width": 1024,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "541,909",
+        "536,639",
+        "524,878",
+        "5,268",
+        "2",
+        "1,454",
+        "135,080",
+        "9,251",
+        "1,336",
+        "1,174"
+      ],
+      "charts": 6,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Data Quality",
+      "theme": "dark",
+      "width": 1280,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "541,909",
+        "536,639",
+        "524,878",
+        "5,268",
+        "2",
+        "1,454",
+        "135,080",
+        "9,251",
+        "1,336",
+        "1,174"
+      ],
+      "charts": 6,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Data Quality",
+      "theme": "dark",
+      "width": 1440,
+      "background": "rgb(11, 20, 36)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "541,909",
+        "536,639",
+        "524,878",
+        "5,268",
+        "2",
+        "1,454",
+        "135,080",
+        "9,251",
+        "1,336",
+        "1,174"
+      ],
+      "charts": 6,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Data Quality",
+      "theme": "light",
+      "width": 600,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "541,909",
+        "536,639",
+        "524,878",
+        "5,268",
+        "2",
+        "1,454",
+        "135,080",
+        "9,251",
+        "1,336",
+        "1,174"
+      ],
+      "charts": 6,
+      "scrollable_tables": 2,
+      "errors": 0
+    },
+    {
+      "page": "Data Quality",
+      "theme": "light",
+      "width": 1024,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "541,909",
+        "536,639",
+        "524,878",
+        "5,268",
+        "2",
+        "1,454",
+        "135,080",
+        "9,251",
+        "1,336",
+        "1,174"
+      ],
+      "charts": 6,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Data Quality",
+      "theme": "light",
+      "width": 1280,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "541,909",
+        "536,639",
+        "524,878",
+        "5,268",
+        "2",
+        "1,454",
+        "135,080",
+        "9,251",
+        "1,336",
+        "1,174"
+      ],
+      "charts": 6,
+      "scrollable_tables": 0,
+      "errors": 0
+    },
+    {
+      "page": "Data Quality",
+      "theme": "light",
+      "width": 1440,
+      "background": "rgb(245, 247, 251)",
+      "page_overflow": false,
+      "clipped_kpis": 0,
+      "kpi_values": [
+        "541,909",
+        "536,639",
+        "524,878",
+        "5,268",
+        "2",
+        "1,454",
+        "135,080",
+        "9,251",
+        "1,336",
+        "1,174"
+      ],
+      "charts": 6,
+      "scrollable_tables": 0,
+      "errors": 0
+    }
+  ],
+  "additional_checks": {
+    "germany_gbp_revenue": 228678.4,
+    "germany_orders": 457,
+    "linear_and_log_controls": true,
+    "mobile_preferences_navigation_and_gbp_persistence": true,
+    "keyboard_focus_visible": true,
+    "customer_csv_identical_to_before_refinement": true,
+    "current_artifact_action_passed_separately_from_test_suite": true
+  },
+  "scope": "40 rendered page/theme/viewport states. Representative screenshots; not an exhaustive accessibility/device audit."
+}

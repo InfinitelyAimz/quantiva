@@ -11,7 +11,15 @@ from quantiva.dashboard.currency import (
     table_values,
 )
 from quantiva.dashboard.data import Filters, catalog
-from quantiva.dashboard.theme import PALETTE, chart_theme
+from quantiva.dashboard.presentation import MODEL_NAMES, friendly_frame, table_html
+from quantiva.dashboard.presentation import label as readable_label
+from quantiva.dashboard.theme import (
+    COVERAGE_COLORS,
+    MODEL_COLORS,
+    PALETTE,
+    SEGMENT_COLORS,
+    chart_theme,
+)
 
 
 def heading(title: str, description: str) -> None:
@@ -41,28 +49,7 @@ def table(frame: pd.DataFrame, limit: int = 50) -> None:
         st.info("No records match this selection.")
         return
     currency = currency_state(st.session_state)
-    display = table_values(frame, currency).head(limit)
-    display.columns = [
-        str(c)
-        .replace("_", " ")
-        .title()
-        .replace("Gbp", "GBP")
-        .replace("Zar", "ZAR")
-        .replace("Rfm", "RFM")
-        .replace(" Id", " ID")
-        for c in display.columns
-    ]
-    st.html(
-        '<div class="q-table">'
-        + display.to_html(
-            index=False,
-            escape=True,
-            float_format=lambda value: f"{value:,.2f}",
-            na_rep="Not available",
-            border=0,
-        )
-        + "</div>"
-    )
+    st.html(table_html(table_values(frame.head(limit), currency)))
     if len(frame) > limit:
         st.caption(f"Showing {limit:,} of {len(frame):,} rows. Export the table for all rows.")
         st.download_button(
@@ -81,6 +68,8 @@ def chart(
     kind: str = "bar",
     color: str | None = None,
     currency: bool = False,
+    showlegend: bool = True,
+    height: int = 360,
     **kwargs,
 ) -> None:
     if frame.empty:
@@ -90,20 +79,62 @@ def chart(
         kind
     ]
     unit = currency_state(st.session_state)
-    shown = display_values(frame, unit)
-    if "series" in shown:
-        shown["series"] = shown["series"].str.replace("_gbp", "_" + unit.code.lower(), regex=False)
-    labels = {c: unit.label(str(c).replace("_", " ").title()) for c in frame.columns}
+    shown = friendly_frame(display_values(frame, unit))
+    monthly_axis = (
+        x == "period"
+        and not shown.empty
+        and shown[x].astype(str).str.fullmatch(r"\d{4}-\d{2}").all()
+    )
+    if monthly_axis:
+        shown[x] = pd.to_datetime(shown[x], format="%Y-%m")
+    labels = {c: unit.label(readable_label(str(c))) for c in frame.columns}
     labels.update({c: unit.label(v) for c, v in kwargs.pop("labels", {}).items()})
     kwargs["labels"] = labels
     hover = kwargs.pop("hover_data", [])
-    kwargs["hover_data"] = {**dict.fromkeys(hover), **{c: ":,.2f" for c in monetary_columns(frame)}}
+    hover = dict(hover) if isinstance(hover, dict) else dict.fromkeys(hover)
+    kwargs["hover_data"] = {
+        **hover,
+        **{c: ":,.2f" for c in monetary_columns(frame) if c in {x, y} or c in hover},
+    }
+    palette = {"model": MODEL_COLORS, "segment": SEGMENT_COLORS, "month_coverage": COVERAGE_COLORS}
+    if color in palette:
+        kwargs.setdefault("color_discrete_map", palette[color])
+    if "category_orders" in kwargs:
+        kwargs["category_orders"] = {
+            key: [MODEL_NAMES.get(v, v) for v in values]
+            for key, values in kwargs["category_orders"].items()
+        }
     fig = factory(
         shown, x=x, y=y, title=title, color=color, color_discrete_sequence=PALETTE, **kwargs
     )
     chart_theme(fig, st.session_state["quantiva_theme"])
-    st.markdown(f"**{title}**")
-    fig.update_layout(title_text="", margin={"l": 12, "r": 12, "t": 15, "b": 25})
+    st.markdown(f"#### {title}")
+    fig.update_layout(title_text="", height=height, showlegend=showlegend)
+    if kind == "line":
+        fig.update_traces(line_width=2.5)
+    if fig.layout.yaxis.type == "log":
+        fig.update_yaxes(dtick=1)
+    if kind == "bar" and kwargs.get("text") == "customers":
+        fig.update_traces(texttemplate="%{text:,.0f}")
+    if pd.api.types.is_datetime64_any_dtype(shown[x]):
+        span = (shown[x].max() - shown[x].min()).days
+        fig.update_xaxes(
+            tickformat="%d %b" if span < 62 and not monthly_axis else "%b %Y",
+            hoverformat="%b %Y" if monthly_axis else "%d %b %Y",
+            nticks=6,
+        )
+    if kind == "histogram":
+        fig.update_yaxes(
+            title_text=(
+                "Customers"
+                if "customer_id" in frame or "customer" in title.lower()
+                else "Orders"
+                if "invoice_no" in frame
+                else "Forecast days"
+                if x == "residual_gbp"
+                else "Observations"
+            )
+        )
     if x.endswith("gbp"):
         fig.update_xaxes(tickprefix=unit.symbol, separatethousands=True)
     if currency:
@@ -158,24 +189,37 @@ def filters(path, *, product: bool = False) -> Filters:
         # A hidden product filter is never applied to a page that does not show it.
         products = []
     st.caption(
-        "All displayed sales/customer metrics use these dates and countries. "
+        f"Scope: {dates[0]:%d %b %Y} – {dates[1]:%d %b %Y} · "
+        + (
+            ", ".join(country)
+            if 0 < len(country) <= 2
+            else f"{len(country)} countries"
+            if country
+            else "All countries"
+        )
+        + (f" · {len(products)} selected product codes" if products else "")
+    )
+    st.caption(
+        "Gross eligible sales include charges; cancellations are excluded. "
         + (
             (
                 "Product selection restricts eligible lines and counts affected "
                 "invoices; AOV is not full-basket value. "
             )
-            if product
+            if products
             else ""
         )
-        + "Gross completed sales include eligible charges; cancellations are separate."
     )
     return Filters(dates[0], dates[1], tuple(country), tuple(products))
 
 
 def kpi_cards(kpis: dict, names: dict[str, tuple[str, str]]) -> None:
-    for start in range(0, len(names), 3):
+    columns = 2 if len(names) == 4 else 3
+    for start in range(0, len(names), columns):
         for column, (key, (label, unit)) in zip(
-            st.columns(3), list(names.items())[start : start + 3], strict=False
+            st.columns(min(columns, len(names) - start)),
+            list(names.items())[start : start + columns],
+            strict=False,
         ):
             value = kpis.get(key)
             missing = value is None or pd.isna(value)

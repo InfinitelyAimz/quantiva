@@ -48,9 +48,11 @@ navigation = st.navigation(page_list, position="hidden")
 with st.sidebar:
     st.html('<div class="q-brand"><b>Q</b>UANTIVA</div>')
     st.caption("RETAIL INTELLIGENCE / 2010–2011")
+    st.caption("WORKSPACE")
     for page in page_list:
         st.page_link(page)
     st.divider()
+    st.caption("PREFERENCES")
     chosen = st.radio(
         "Appearance",
         ["light", "dark"],
@@ -62,10 +64,9 @@ with st.sidebar:
     st.session_state["quantiva_theme"] = chosen
     currency_selector()
     st.divider()
-st.html(css(chosen))
+st.html(css(chosen, active_path=navigation.url_path))
 
 with st.sidebar:
-    st.divider()
     st.caption("SOURCE / UCI Online Retail")
     try:
         coverage = catalog(settings.database_file)
