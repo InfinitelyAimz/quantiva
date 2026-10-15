@@ -170,6 +170,56 @@ than implying a test suite ran during the session. A separate button explicitly 
 current model integrity/inference verification. Cancellation, missing IDs, ambiguous
 duplicates/nonstandard codes, quarantine and observation boundaries remain explained.
 
+## UI refinement — 15 October 2026
+
+The user-approved refinement requirements are preserved in
+the archived interface requirements. This extends the existing Streamlit shell;
+it does not introduce a new framework, dependency, analytical pipeline or data source.
+
+`dashboard/presentation.py` separates readable UI labels and escaped tables from
+technical export fields. Models use business-readable names in charts, controls and
+tables; CSVs retain model identifiers. Counts have grouping without false decimal
+precision, percentages have explicit percent signs, and monetary headers retain the
+selected unit. Numeric cells align right, headers have column scope, and bounded table
+regions support keyboard focus and internal scrolling. Currency conversion is unchanged.
+
+Theme tokens now cover selection, hover, focus, spacing and radius alongside existing
+colors. Sidebar links use the observed Streamlit page-link test IDs and the supported
+current page URL path; no generated Emotion class names are targeted. Inactive icons,
+multiselect surfaces and focus outlines have explicit theme colors. Native sidebar
+navigation and the persistent theme/currency widgets remain unchanged.
+
+The Overview names complete/partial months explicitly and ranks countries largest-first.
+Source calendar policy, filtered scope and the distinction between recorded sales and
+underlying demand remain visible. Date axes show month/year for longer histories and
+day/month for short windows; hovers retain the appropriate full date or month.
+
+Customer bar charts sort by customer count or recorded revenue and use one semantic
+segment palette, shared with both scatterplots. The new monetary-axis control defaults
+to a **logarithmic axis**, rather than transforming source data. Equal distances on this
+axis indicate multiplicative differences. Plotly still receives original positive
+display-currency values, and hover values remain unlogged. All observations and outliers
+are retained. If any monetary value is non-positive or missing, a requested log view
+falls back to a linear axis with an explicit message; rows are not silently discarded.
+The linear option remains available. Axis ticks use whole powers of ten for readability.
+RFM scores, thresholds, reference dates, segment membership and source monetary values
+remain unchanged; the score distribution is labeled RFM Score and scope relativity is
+explicit. The spending histogram retains original monetary units and its full range.
+
+Forecast comparisons sort presentation copies by the selected period's MAE and label
+its lowest MAE explicitly. This highlights an observed result, not a new selection
+decision. Random Forest remains validation-selected; Weekly Seasonal Naive's stronger
+held-out result remains visible. Model colors are stable across plots and periods.
+Retrospective labeling, zero-prediction caveats and absent calibrated intervals remain
+visible. Detailed metric definitions and chronology move into a labeled expander, while
+the weaker held-out forest result remains outside it. No scores or model weights change.
+
+Data Quality groups source/eligibility, exclusions and customer/transaction conditions,
+then calendar coverage and provenance. Source metadata has an expander, but material
+quality caveats and the historical/current verification distinction remain visible.
+The explicit current-artifact action reports its successful checks separately from
+the test suite. These changes add no SQL calls or model loads to the existing paths.
+
 ## Caching, performance and failures
 
 `st.cache_data` stores read-only catalog/aggregate results with bounded entry counts;

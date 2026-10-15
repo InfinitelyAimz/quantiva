@@ -116,7 +116,7 @@ def test_chart_table_and_csv_share_selected_currency(monkeypatch):
     np.testing.assert_allclose(fig.data[0].y, [1270.8021, 635.40105])
     assert fig.layout.yaxis.tickprefix == "R "
     assert "ZAR" in fig.data[0].hovertemplate and "GBP" not in fig.data[0].hovertemplate
-    assert "Revenue ZAR" in captured["html"] and "1,270.80" in captured["html"]
+    assert "Revenue (ZAR)" in captured["html"] and "1,270.80" in captured["html"]
     exported = pd.read_csv(io.StringIO(captured["csv"]))
     np.testing.assert_allclose(exported.revenue_zar, fig.data[0].y)
     assert exported.orders.tolist() == [2, 1]

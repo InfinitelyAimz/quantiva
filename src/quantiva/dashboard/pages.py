@@ -10,6 +10,7 @@ from quantiva.dashboard.components import chart, filters, heading, kpi_cards, ta
 from quantiva.dashboard.currency import currency_state
 from quantiva.dashboard.data import bundle, read_json
 from quantiva.dashboard.evidence import load_evidence
+from quantiva.dashboard.presentation import MODEL_NAMES, log_monetary_available
 from quantiva.forecast_evaluation import summarize_predictions
 from quantiva.ingestion import sha256
 from quantiva.model_artifacts import forecast_saved, load_artifact, verify_artifact
@@ -28,8 +29,8 @@ SALES_KPIS = {
 def overview(settings: Settings, root) -> None:
     currency = currency_state(st.session_state)
     heading(
-        "A clearer view of retail.",
-        "Overview / recorded sales, customer activity and commercial concentration",
+        "Overview",
+        "Recorded retail performance, customer activity and revenue concentration.",
     )
     selected = filters(settings.database_file)
     data = bundle(settings.database_file, selected)
@@ -40,34 +41,43 @@ def overview(settings: Settings, root) -> None:
     a, b = st.columns([3, 2])
     with a:
         chart(
-            data["monthly"],
+            data["monthly"].assign(
+                month_coverage=data["monthly"]["complete_month"].map(
+                    {True: "Complete month", False: "Partial month"}
+                )
+            ),
             "period",
             "revenue_gbp",
             "Monthly gross sales",
             currency=True,
-            color="complete_month",
+            color="month_coverage",
             labels={
                 "period": "Month",
                 "revenue_gbp": "Gross sales (GBP)",
-                "complete_month": "Full month",
+                "month_coverage": "Coverage",
             },
         )
+        st.caption("Partial months are highlighted and should not be compared as full months.")
     with b:
         chart(
             data["countries"].head(8),
             "revenue_gbp",
             "country",
-            "Where recorded revenue comes from",
+            "Revenue by country",
             labels={"revenue_gbp": "Gross sales (GBP)", "country": "Country"},
+            category_orders={"country": data["countries"].head(8)["country"].tolist()},
         )
     chart(
         data["daily"],
         "period",
         "revenue_gbp",
-        "Daily observed revenue",
+        "Daily recorded eligible sales",
         kind="line",
         currency=True,
         labels={"period": "Calendar date", "revenue_gbp": "Observed gross sales (GBP)"},
+    )
+    st.caption(
+        "Missing dates show zero recorded sales; they do not establish zero underlying demand."
     )
     a, b = st.columns(2)
     with a:
@@ -118,8 +128,8 @@ def overview(settings: Settings, root) -> None:
 def sales(settings: Settings, root) -> None:
     currency = currency_state(st.session_state)
     heading(
-        "Sales, in context.",
-        "Sales Analytics / explore recorded demand across time, products and geography",
+        "Sales Analytics",
+        "Explore when sales were recorded and which products and countries contributed.",
     )
     selected = filters(settings.database_file, product=True)
     data = bundle(settings.database_file, selected)
@@ -195,6 +205,9 @@ def sales(settings: Settings, root) -> None:
         metric,
         "Recorded activity by country",
         currency=metric.endswith("gbp"),
+        category_orders={
+            "country": data["countries"].sort_values(metric, ascending=False)["country"].tolist()
+        },
     )
     countries = data["countries"]
     if not countries.empty and total:
@@ -214,8 +227,8 @@ def sales(settings: Settings, root) -> None:
 
 def customers(settings: Settings, root) -> None:
     heading(
-        "Understand purchasing patterns.",
-        "Customer Intelligence / identifiable customers and transparent RFM grouping",
+        "Customer Intelligence",
+        "Understand identifiable purchasing activity and descriptive customer segments.",
     )
     selected = filters(settings.database_file)
     data = bundle(settings.database_file, selected)
@@ -256,9 +269,43 @@ def customers(settings: Settings, root) -> None:
     )
     a, b = st.columns(2)
     with a:
-        chart(summary, "segment", "customers", "Customer segment distribution")
+        chart(
+            summary.sort_values("customers", ascending=False),
+            "customers",
+            "segment",
+            "Customers by segment",
+            color="segment",
+            showlegend=False,
+            category_orders={
+                "segment": summary.sort_values("customers", ascending=False)["segment"].tolist()
+            },
+            text="customers",
+        )
     with b:
-        chart(summary, "segment", "revenue_gbp", "Revenue attributed to segments", currency=True)
+        chart(
+            summary.sort_values("revenue_gbp", ascending=False),
+            "revenue_gbp",
+            "segment",
+            "Recorded revenue by segment",
+            color="segment",
+            showlegend=False,
+            category_orders={
+                "segment": summary.sort_values("revenue_gbp", ascending=False)["segment"].tolist()
+            },
+        )
+    st.subheader("Purchasing patterns")
+    scale = st.radio("Monetary axis", ["Logarithmic", "Linear"], horizontal=True)
+    use_log = scale == "Logarithmic" and log_monetary_available(shown["monetary_gbp"])
+    if scale == "Logarithmic" and not use_log:
+        st.warning(
+            "Logarithmic axes require positive values. Showing all customers on a linear axis."
+        )
+    st.caption(
+        "Logarithmic spacing compares multiples of spend and makes dense groups easier to see. "
+        "Hover values remain in the selected currency; no outliers are removed."
+        if use_log
+        else "Linear spacing shows absolute differences in recorded spend. No outliers are removed."
+    )
     a, b = st.columns(2)
     with a:
         chart(
@@ -270,6 +317,12 @@ def customers(settings: Settings, root) -> None:
             color="segment",
             currency=True,
             opacity=0.55,
+            log_y=use_log,
+            height=450,
+            labels={
+                "monetary_gbp": "Recorded spend (GBP)" + (" · log scale" if use_log else ""),
+                "recency_days": "Days since last purchase",
+            },
         )
     with b:
         chart(
@@ -281,6 +334,12 @@ def customers(settings: Settings, root) -> None:
             color="segment",
             currency=True,
             opacity=0.55,
+            log_y=use_log,
+            height=450,
+            labels={
+                "monetary_gbp": "Recorded spend (GBP)" + (" · log scale" if use_log else ""),
+                "frequency": "Distinct eligible invoices",
+            },
         )
     a, b = st.columns(2)
     with a:
@@ -294,6 +353,10 @@ def customers(settings: Settings, root) -> None:
             kind="histogram",
             nbins=35,
         )
+    st.caption(
+        "RFM scores are relative to the selected dates and countries, not absolute risk scores."
+    )
+    st.subheader("Segment summary & customer detail")
     table(summary)
     table(shown.sort_values("monetary_gbp", ascending=False))
     with st.expander("How RFM works · rules, ties and scope"):
@@ -323,8 +386,8 @@ def customers(settings: Settings, root) -> None:
 def predictive(settings: Settings, root) -> None:
     currency = currency_state(st.session_state)
     heading(
-        "Forecasts, with the evidence.",
-        "Predictive Analytics / retrospective December 2011 demonstration",
+        "Predictive Analytics",
+        "Explore a historical seven-day sales forecast and the evidence behind it.",
     )
     st.caption(
         "This page uses the fixed Phase 3 full-data target. Date, country,"
@@ -340,12 +403,8 @@ def predictive(settings: Settings, root) -> None:
         return
     result = evidence["summary"]
     st.info(
-        "Target: daily gross eligible sales including charges. Seven "
-        "calendar days, recursive strategy. "
-        f"Modeled history {result['series']['modeling_start']}–{result['series']['modeling_end']}. "
-        "Gaps are zero observed revenue, not verified zero demand; both "
-        "source boundaries excluded. "
-        "No calibrated prediction intervals are available."
+        "Historical demonstration, not a live forecast. Target: recorded gross eligible sales, "
+        "including charges. No calibrated prediction intervals are available."
     )
     st.subheader("Retrospective forecast demonstration — December 2011")
     try:
@@ -359,12 +418,17 @@ def predictive(settings: Settings, root) -> None:
             demo,
             "date",
             "prediction_gbp",
-            "Next seven days after modeled history",
+            "Seven-day historical sales forecast",
             kind="line",
             currency=True,
             hover_data=["horizon", "model", "training_cutoff", "model_version"],
         )
         table(demo)
+        st.caption(
+            f"{MODEL_NAMES.get(metadata['model_name'], metadata['model_name'])} · "
+            f"training cutoff {metadata['training_end']} · seven calendar days. "
+            "Zero predictions do not establish zero underlying demand."
+        )
         st.caption(
             "Checksums, dependency versions and metadata validated during this session. "
             "Deployment is refitted after evaluation; its cutoff differs from "
@@ -385,30 +449,58 @@ def predictive(settings: Settings, root) -> None:
         horizontal=True,
     )
     scores = evidence[f"{sample}_metrics"]
-    table(scores.drop(columns="experiment", errors="ignore"))
-    chart(scores, "model", "mae_gbp", f"{sample.title()} mean absolute error", currency=True)
+    ranked = scores.sort_values("mae_gbp").copy()
+    period_best = ranked.iloc[0]["model"]
+    ranked["period_result"] = ranked["model"].map(
+        lambda name: "Lowest MAE" if name == period_best else ""
+    )
+    table(ranked.drop(columns="experiment", errors="ignore"))
+    chart(
+        ranked,
+        "mae_gbp",
+        "model",
+        "Mean absolute error (MAE)",
+        color="model",
+        showlegend=False,
+        text="period_result",
+        category_orders={"model": ranked["model"].tolist()},
+    )
+    st.caption(
+        f"Lowest {'held-out test' if sample == 'test' else 'validation'} MAE: "
+        f"{MODEL_NAMES[period_best]}. "
+        "This comparison does not change the validation-selected model."
+    )
     best = evidence["test_metrics"].sort_values("mae_gbp").iloc[0]
     st.warning(
-        f"Weekly comparison: lowest held-out MAE belongs to {best['model']} "
+        f"Weekly comparison: lowest held-out MAE belongs to {MODEL_NAMES[best['model']]} "
         f"({currency.money(best['mae_gbp'])}/day in this view). "
-        f"Validation selected {result['selected_model']}; its selection is not changed after test. "
+        f"Validation selected {MODEL_NAMES[result['selected_model']]}; "
+        "its selection is not changed after test. "
         "Random Forest did not demonstrate superior held-out "
         "generalization. Linear Regression has validation results only."
     )
-    st.caption(
-        f"Displayed MAE/RMSE and bias are {currency.code}/day. "
-        "Authoritative evaluation and selection remain GBP; fixed positive conversion "
-        "does not change model ranking. WAPE = summed absolute errors / "
-        "summed actual GBP ×100, unchanged by conversion and undefined for all-zero totals. "
-        "Bias is prediction minus actual. Historical manual tuning "
-        "independence is not independently verified; current code "
-        "selection is validation-only."
-    )
+    with st.expander("How the experiment and metrics work"):
+        st.write(
+            f"Modeled history: {result['series']['modeling_start']}–"
+            f"{result['series']['modeling_end']}. "
+            "Seven calendar days are forecast recursively. Both source boundaries are excluded. "
+            "Calendar gaps represent zero observed sales, not verified zero demand."
+        )
+        st.write(
+            f"Displayed MAE/RMSE and bias are {currency.code}/day. "
+            "Authoritative evaluation and selection remain GBP; fixed positive conversion "
+            "does not change model ranking. WAPE = summed absolute errors / "
+            "summed actual GBP ×100, unchanged by conversion and undefined for all-zero totals. "
+            "Bias is prediction minus actual. Historical manual tuning "
+            "independence is not independently verified; current code "
+            "selection is validation-only."
+        )
     predictions = evidence[sample]
     model = st.selectbox(
         "Diagnostic model",
         predictions["model"].unique().tolist(),
         index=list(predictions["model"].unique()).index(result["selected_model"]),
+        format_func=MODEL_NAMES.get,
     )
     rows = predictions.loc[predictions["model"].eq(model)].copy()
     lines = rows.melt(
@@ -480,8 +572,8 @@ def predictive(settings: Settings, root) -> None:
 def quality(settings: Settings, root) -> None:
     currency = currency_state(st.session_state)
     heading(
-        "Trust starts with traceability.",
-        "Data Quality / source coverage, processing decisions and verification evidence",
+        "Data Quality",
+        "Understand the source, cleaning decisions and limits of the recorded sales.",
     )
     st.caption("Full-dataset quality reports; commercial filters on other pages do not apply.")
     report = read_json(settings.processed_dir / "cleaning_report.json")
@@ -511,7 +603,16 @@ def quality(settings: Settings, root) -> None:
         "zero_value": "Zero-value lines",
         "quarantined": "Quarantined invalid lines",
     }
-    kpi_cards(counts, {key: (labels[key], "count") for key in counts})
+    for title, keys in [
+        ("Source & eligible sales", ["raw", "cleaned", "eligible"]),
+        ("Cleaning & exclusions", ["duplicates", "quarantined", "missing_descriptions"]),
+        (
+            "Customer coverage & transaction types",
+            ["missing_ids", "cancellations", "adjustments", "zero_value"],
+        ),
+    ]:
+        st.subheader(title)
+        kpi_cards(counts, {key: (labels[key], "count") for key in keys})
     a, b = st.columns(2)
     with a:
         chart(
@@ -533,6 +634,7 @@ def quality(settings: Settings, root) -> None:
         "lines",
         "Excluded records by reason",
     )
+    st.subheader("Calendar coverage")
     try:
         series = pd.read_parquet(settings.forecast_dir / "daily_series.parquet")
         chart(series, "date", "ledger_lines", "Daily ledger observation coverage", kind="line")
@@ -553,26 +655,27 @@ def quality(settings: Settings, root) -> None:
         )
     st.subheader("Lineage & interpretation")
     st.write("Raw UCI workbook → Cleaning → Parquet → SQLite → Analytics → Forecasting → Dashboard")
-    table(
-        pd.DataFrame(
-            {
-                "field": [
-                    "Dataset",
-                    "First timestamp",
-                    "Last timestamp",
-                    "Raw SHA256",
-                    "Policy version",
-                ],
-                "value": [
-                    "UCI Online Retail · DOI 10.24432/C5BW33",
-                    inspection["date_min"],
-                    inspection["date_max"],
-                    report["source_sha256"],
-                    report["policy_version"],
-                ],
-            }
+    with st.expander("Source provenance & processing details"):
+        table(
+            pd.DataFrame(
+                {
+                    "field": [
+                        "Dataset",
+                        "First timestamp",
+                        "Last timestamp",
+                        "Raw SHA256",
+                        "Policy version",
+                    ],
+                    "value": [
+                        "UCI Online Retail · DOI 10.24432/C5BW33",
+                        inspection["date_min"],
+                        inspection["date_max"],
+                        report["source_sha256"],
+                        report["policy_version"],
+                    ],
+                }
+            )
         )
-    )
     st.write(
         "Exact duplicate lines are ambiguous without a unique line key. "
         "Missing customer IDs limit customer coverage. "
@@ -627,6 +730,11 @@ def quality(settings: Settings, root) -> None:
         st.info(f"Stored verification unavailable: {exc}")
     if st.button("Check current forecast artifact integrity"):
         try:
-            st.success(str(verify_artifact(settings.model_dir)))
+            verified = verify_artifact(settings.model_dir)
+            st.success(
+                "Current artifact checksums and repeat inference passed. "
+                "This is not a test-suite run."
+            )
+            table(pd.DataFrame([verified]))
         except (OSError, ValueError, RuntimeError) as exc:
             st.warning(f"Current model integrity check failed: {exc}. Run quantiva forecast-train.")

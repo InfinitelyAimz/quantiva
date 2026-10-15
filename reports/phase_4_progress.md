@@ -26,7 +26,7 @@ Data preparation, SQL analytics and forecasting definitions remain the baseline.
 - Streamlit 1.66.0 and its dependencies are locked; local configuration binds loopback
   and disables usage statistics. No credentials/cloud/paid service is required.
 - README setup/launch instructions, Phase 4 methodology, UI verification, screenshots,
-  machine-readable browser/data verification and 30 dashboard/RFM/currency cases added.
+  machine-readable browser/data verification and 39 dashboard/RFM/presentation cases added.
 
 Streamlit reruns the page after widget interaction; session state preserves theme and
 the shared commercial scope. Cached SQL aggregates avoid repeated transaction scans.
@@ -42,8 +42,8 @@ editable package with `--no-deps --no-build-isolation`. No runtime dependency co
 
 | Executed command | Result |
 | --- | --- |
-| `python -m pytest -W error` | 96 passed, including all original 88 and eight currency cases |
-| Fresh locked environment: `python -m pytest -W error` | 96 passed |
+| `python -m pytest -W error` | 105 passed, including the previous 96 and nine presentation cases |
+| Fresh locked environment: `python -m pytest -W error` | 96 passed during the earlier currency follow-up; not reinstalled for styling |
 | `ruff check .` | Passed |
 | `ruff format --check .` | Passed |
 | `python -m pip check` | No broken requirements |
@@ -139,3 +139,41 @@ The browser-downloaded ZAR CSV reconciles all 4,338 customers and unchanged RFM 
 Original screenshots remain historical; new currency captures and the extended browser
 record document the correction. This presentation correction includes no dependency
 change, dataset rebuild or model retraining.
+
+## Follow-up: professional UI refinement — 15 October 2026
+
+`app/Home.py` and shared theme,
+components and page modules retain the five-page architecture. New
+`dashboard/presentation.py` handles human labels, safe table markup and log-axis
+eligibility separately from analytical data and export definitions. The sole existing
+currency-test adjustment expects the improved `Revenue (ZAR)` display header; CSV
+checks and monetary expectations are preserved. Nine presentation cases are added in
+`tests/test_dashboard_presentation.py`.
+
+Changes: consistent headings/spacing/cards; stronger active navigation, icon contrast,
+multiselect surfaces and focus; explicit month coverage and ranked countries;
+semantic segment/model colors; more readable customer bars and optional log spending
+axes without dropping outliers; correct RFM labels; readable forecast comparisons and
+Lowest MAE markers; progressive methodology disclosure; grouped quality information;
+and aligned, escaped, focusable tables with readable counts/percentages/units.
+
+Verification: 105 tests passed in 22.74s on the final code, Ruff lint/format and pip
+check passed. Read-only Phase 1–4 verification again passed 7 integrity checks,
+3,982 SQL/pandas comparisons, 30 forecasting checks and 63 dashboard checks. Only
+the report-write statements were omitted in memory, preserving existing reports.
+Hashes confirm 42 protected data, RFM, SQL-access/evaluation and forecasting files
+unchanged. Full-data segment counts and forecasting results remain as reported above.
+GBP/ZAR behavior and the fixed rate are unchanged. The new browser CSV is identical
+to the prior verified export, including all 4,338 customers.
+
+Browser: 40 page/theme/width states at 600/1024/1280/1440px pass, plus real filter,
+currency/navigation, log/linear, held-out selection and keyboard-focus interactions.
+Representative `dashboard_polish_*.png` images and
+`phase_4_polish_browser_checks.json` record this review; precise scope, comparison and
+remaining limitations are in `phase_4_ui_verification.md`. No formal accessibility
+or universal device/performance certification is claimed.
+
+Performance: no additional SQL calls, model loads or dependencies. Isolated cold
+aggregate read 5.96s; cached read 0.010s. A concurrent verification run took 10.95s
+while tests/server work overlapped, so timing is load-dependent. The unchanged data
+layer and caching still dominate initial load time; this is not an optimization claim.
