@@ -6,6 +6,16 @@
 
 Use **Python 3.11** (`>=3.11,<3.12`), Git and the committed
 [dependency lock](../requirements-lock.txt). Windows PowerShell is the tested path.
+
+Python **3.11.9** is the verified runtime for exact reproduction of the published
+analytical and forecasting evidence. Other Python 3.11 patch releases may run the
+application but have not been equivalently verified. The forecasting evidence report
+includes environment provenance: the interpreter version and a checksum of artifact
+metadata. Consequently, the current strict report-hash check may reject regenerated
+evidence from another Python patch release even when numerical results match.
+For exact reproduction, confirm `py -3.11 --version` reports `Python 3.11.9` before
+creating the environment; `py -3.11` alone does not select a specific patch release.
+
 Run commands from the checkout root. Initial downloads require internet access;
 analysis and dashboard operation are local after installation and artifact preparation.
 Allow several minutes and disk space for the workbook, Parquet, database, models
