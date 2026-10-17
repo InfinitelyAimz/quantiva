@@ -1,0 +1,398 @@
+{
+  "date": "2026-10-15",
+  "phase4_accepted_sha": "63cb56d3e214d19b151b3cd6080f034a2372b131",
+  "baseline_main_sha": "53a6ee306e7cd81760feb99814d3060a4a42ad73",
+  "python": "3.11.9",
+  "fresh_clone_sha": "53a6ee306e7cd81760feb99814d3060a4a42ad73",
+  "fresh_reproduction": [
+    {
+      "step": "clone",
+      "returncode": 0,
+      "seconds": 2.21
+    },
+    {
+      "step": "environment",
+      "returncode": 0,
+      "seconds": 5.96
+    },
+    {
+      "step": "locked_install",
+      "returncode": 0,
+      "seconds": 94.78
+    },
+    {
+      "step": "editable_install",
+      "returncode": 0,
+      "seconds": 2.82
+    },
+    {
+      "step": "download",
+      "returncode": 0,
+      "seconds": 14.16
+    },
+    {
+      "step": "inspect",
+      "returncode": 0,
+      "seconds": 36.67
+    },
+    {
+      "step": "prepare",
+      "returncode": 0,
+      "seconds": 39.31
+    },
+    {
+      "step": "database",
+      "returncode": 0,
+      "seconds": 32.27
+    },
+    {
+      "step": "analyze",
+      "returncode": 0,
+      "seconds": 23.59
+    },
+    {
+      "step": "forecast-prepare",
+      "returncode": 0,
+      "seconds": 2.65
+    },
+    {
+      "step": "forecast-train",
+      "returncode": 0,
+      "seconds": 20.4
+    },
+    {
+      "step": "forecast-compare",
+      "returncode": 0,
+      "seconds": 1.13
+    },
+    {
+      "step": "forecast",
+      "returncode": 0,
+      "seconds": 2.76
+    },
+    {
+      "step": "forecast-verify",
+      "returncode": 0,
+      "seconds": 2.93
+    },
+    {
+      "step": "verify_data",
+      "returncode": 0,
+      "seconds": 1.45
+    },
+    {
+      "step": "verify_analytics",
+      "returncode": 0,
+      "seconds": 23.8
+    },
+    {
+      "step": "verify_forecasting",
+      "returncode": 0,
+      "seconds": 3.25
+    },
+    {
+      "step": "verify_dashboard",
+      "returncode": 0,
+      "seconds": 15.16
+    },
+    {
+      "step": "execute_notebooks",
+      "returncode": 0,
+      "seconds": 54.24
+    },
+    {
+      "step": "pip_check",
+      "returncode": 0,
+      "seconds": 1.43
+    },
+    {
+      "step": "tests",
+      "returncode": 0,
+      "seconds": 20.3
+    }
+  ],
+  "reproduced_evidence": {
+    "source_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d",
+    "phase2_metrics_identical": true,
+    "forecast_results_identical": true,
+    "normalized_forecast_csvs_identical": [
+      "forecast_demonstration.csv",
+      "forecast_sensitivity_metrics.csv",
+      "forecast_test_comparison.csv",
+      "forecast_test_horizons.csv",
+      "forecast_test_predictions.csv",
+      "forecast_validation_comparison.csv",
+      "forecast_validation_folds.csv",
+      "forecast_validation_horizons.csv",
+      "forecast_validation_predictions.csv"
+    ]
+  },
+  "primary_verification": {
+    "verify_data": {
+      "source_hash_matches": true,
+      "output_hashes_match": true,
+      "row_counts_reconcile": true,
+      "source_rows_partition_raw": true,
+      "completed_sales_rule_matches": true,
+      "signed_line_revenue_matches": true,
+      "category_counts_reconcile": true
+    },
+    "verify_analytics": {
+      "checks": {
+        "database_counts_match": true,
+        "foreign_keys_pass": true,
+        "sqlite_integrity_pass": true,
+        "ledger_provenance_matches": true,
+        "monthly_coverage_matches": true
+      },
+      "database_counts": {
+        "transactions": 536639,
+        "invoices": 25898,
+        "products": 4070,
+        "customers": 4372,
+        "countries": 38
+      },
+      "queries_executed": 14,
+      "reconciliation_rows": 3982,
+      "all_reconciled": true,
+      "max_absolute_difference": 1.862645149230957e-09
+    },
+    "verify_forecasting": {
+      "checks": {
+        "artifact_metadata_matches_report": true,
+        "raw_provenance_matches": true,
+        "ledger_provenance_matches": true,
+        "series_provenance_matches": true,
+        "eligibility_policy_unchanged": true,
+        "primary_validation_rows": true,
+        "test_models_selected_and_baselines_only": true,
+        "test_rows_accounted": true,
+        "validation_precedes_test": true,
+        "training_precedes_forecast_windows": true,
+        "test_weights_not_refit": true,
+        "pretest_selection_matches": true,
+        "validation_metrics_linear_regression": true,
+        "validation_horizons_linear_regression": true,
+        "validation_metrics_naive": true,
+        "validation_horizons_naive": true,
+        "validation_metrics_random_forest": true,
+        "validation_horizons_random_forest": true,
+        "validation_metrics_seasonal_naive": true,
+        "validation_horizons_seasonal_naive": true,
+        "test_metrics_naive": true,
+        "test_horizons_naive": true,
+        "test_metrics_random_forest": true,
+        "test_horizons_random_forest": true,
+        "test_metrics_seasonal_naive": true,
+        "test_horizons_seasonal_naive": true,
+        "saved_inference_matches_report": true,
+        "future_dates_without_actuals": true,
+        "deployment_cutoff_distinguished": true,
+        "selected_model_reload_matches": true
+      },
+      "passed": 30,
+      "failed": 0,
+      "artifact_inference": {
+        "artifact_checksums": "passed",
+        "inference_reproducibility": "passed",
+        "horizon": 7,
+        "origin": "2011-12-08",
+        "forecast_start": "2011-12-09",
+        "forecast_end": "2011-12-15",
+        "model": "random_forest"
+      }
+    },
+    "verify_dashboard": {
+      "checks": {
+        "full_gross_revenue_gbp": true,
+        "full_completed_orders": true,
+        "full_aov_gbp": true,
+        "full_units_sold": true,
+        "full_identifiable_customers": true,
+        "full_identifiable_revenue_gbp": true,
+        "full_revenue_per_identifiable_customer_gbp": true,
+        "full_repeat_customers": true,
+        "full_repeat_purchase_rate": true,
+        "full_product_revenue": true,
+        "full_country_revenue": true,
+        "country_gross_revenue_gbp": true,
+        "country_completed_orders": true,
+        "country_aov_gbp": true,
+        "country_units_sold": true,
+        "country_identifiable_customers": true,
+        "country_identifiable_revenue_gbp": true,
+        "country_revenue_per_identifiable_customer_gbp": true,
+        "country_repeat_customers": true,
+        "country_repeat_purchase_rate": true,
+        "country_product_revenue": true,
+        "country_country_revenue": true,
+        "date_gross_revenue_gbp": true,
+        "date_completed_orders": true,
+        "date_aov_gbp": true,
+        "date_units_sold": true,
+        "date_identifiable_customers": true,
+        "date_identifiable_revenue_gbp": true,
+        "date_revenue_per_identifiable_customer_gbp": true,
+        "date_repeat_customers": true,
+        "date_repeat_purchase_rate": true,
+        "date_product_revenue": true,
+        "date_country_revenue": true,
+        "product_gross_revenue_gbp": true,
+        "product_completed_orders": true,
+        "product_aov_gbp": true,
+        "product_units_sold": true,
+        "product_identifiable_customers": true,
+        "product_identifiable_revenue_gbp": true,
+        "product_revenue_per_identifiable_customer_gbp": true,
+        "product_repeat_customers": true,
+        "product_repeat_purchase_rate": true,
+        "product_product_revenue": true,
+        "product_country_revenue": true,
+        "empty_gross_revenue_gbp": true,
+        "empty_completed_orders": true,
+        "empty_aov_gbp": true,
+        "empty_units_sold": true,
+        "empty_identifiable_customers": true,
+        "empty_identifiable_revenue_gbp": true,
+        "empty_revenue_per_identifiable_customer_gbp": true,
+        "empty_repeat_customers": true,
+        "empty_repeat_purchase_rate": true,
+        "empty_product_revenue": true,
+        "empty_country_revenue": true,
+        "monthly_completeness_unchanged": true,
+        "monthly_growth_unchanged": true,
+        "rfm_customer_keys": true,
+        "rfm_recency": true,
+        "rfm_distinct_invoice_frequency": true,
+        "rfm_monetary": true,
+        "rfm_exhaustive": true,
+        "phase3_evidence_unchanged": true
+      },
+      "passed": 63,
+      "failed": 0,
+      "full_kpis": {
+        "gross_revenue_gbp": 10642110.804,
+        "completed_orders": 19960,
+        "aov_gbp": 533.1718839679359,
+        "units_sold": 5572420,
+        "identifiable_customers": 4338,
+        "identifiable_revenue_gbp": 8887208.894,
+        "revenue_per_identifiable_customer_gbp": 2048.688080682342,
+        "repeat_customers": 2845,
+        "repeat_purchase_rate": 0.6558321807284463
+      },
+      "rfm_reference_date": "2011-12-10",
+      "rfm_segment_counts": {
+        "At Risk": 513,
+        "Champions": 911,
+        "Hibernating": 1214,
+        "Loyal Customers": 381,
+        "New Customers": 515,
+        "Potential Loyalists": 804
+      },
+      "cold_bundle_seconds": 5.706061799999588,
+      "cached_bundle_seconds": 0.006674799999018433,
+      "source": "Actual verified UCI ledger and SQLite; synthetic fixtures are tests only"
+    }
+  },
+  "documentation": {
+    "positive": {
+      "documents": 11,
+      "local_references": 95,
+      "headline_fact_checks": 31,
+      "cli_commands": [
+        "analyze",
+        "database",
+        "download",
+        "forecast",
+        "forecast-compare",
+        "forecast-prepare",
+        "forecast-train",
+        "forecast-verify",
+        "inspect",
+        "prepare",
+        "query"
+      ],
+      "summary_words": {
+        "Short": 38,
+        "Medium": 111,
+        "Detailed": 271
+      },
+      "screenshots": [
+        "reports/figures/dashboard_polish_customer_patterns_light.png",
+        "reports/figures/dashboard_polish_evaluation_dark.png",
+        "reports/figures/dashboard_polish_overview_dark.png",
+        "reports/figures/dashboard_polish_overview_light.png",
+        "reports/figures/dashboard_polish_quality_light.png",
+        "reports/figures/dashboard_polish_sales_dark.png"
+      ],
+      "result": "passed"
+    },
+    "negative_checks_rejected": [
+      "broken_link",
+      "stale_metric",
+      "invented_command"
+    ]
+  },
+  "external_readme_links": [
+    {
+      "url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+      "status": 200,
+      "resolved": "https://archive.ics.uci.edu/dataset/352/online+retail"
+    },
+    {
+      "url": "https://creativecommons.org/licenses/by/4.0/",
+      "status": 200,
+      "resolved": "https://creativecommons.org/licenses/by/4.0/"
+    },
+    {
+      "url": "https://doi.org/10.24432/C5BW33",
+      "status": 200,
+      "resolved": "https://archive.ics.uci.edu/dataset/352/online+retail"
+    },
+    {
+      "url": "https://github.com/InfinitelyAimz",
+      "status": 200,
+      "resolved": "https://github.com/InfinitelyAimz"
+    }
+  ],
+  "local_checks": {
+    "pytest": {
+      "passed": 105,
+      "seconds": 18.61,
+      "warnings_as_errors": true
+    },
+    "ruff_lint": "passed",
+    "ruff_format": "passed",
+    "pip_check": "passed",
+    "installed_versions_match_lock": true,
+    "git_diff_check": "passed"
+  },
+  "preservation": {
+    "existing_files_hashed": 193,
+    "expected_changed_existing_files": [
+      ".github/workflows/tests.yml",
+      "README.md"
+    ],
+    "unchanged_existing_files": 191,
+    "application_sql_forecasting_dependency_changes": []
+  },
+  "fresh_browser_smoke": {
+    "pages": [
+      "Overview",
+      "Predictive Analytics"
+    ],
+    "exceptions": 0,
+    "predicted_days": 7,
+    "first_zar_prediction": "845,917.27",
+    "scope": "Fresh regenerated artifacts; previous Phase 4 full visual acceptance is historical evidence"
+  },
+  "merged_main_ci": [
+    {
+      "name": "tests",
+      "status": "completed",
+      "conclusion": "success",
+      "html_url": "https://github.com/InfinitelyAimz/quantiva/actions/runs/38746990909/job/116463127912"
+    }
+  ]
+}
