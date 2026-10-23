@@ -1,7 +1,7 @@
 {
   "schema_version": 1,
   "archive": {
-    "url": null,
+    "url": "https://github.com/InfinitelyAimz/quantiva/releases/download/deployment-runtime-v1/quantiva-runtime.tar.gz",
     "bytes": 32788556,
     "sha256": "bc2adbd925f3a59c0b424a5ee2284951701db7f615958d0c3f1acd8667ee7f9d"
   },
@@ -58,7 +58,7 @@
     "software_licensing": "The dataset's CC BY 4.0 license does not license Quantiva's own software. No explicit Quantiva software license is currently provided; no new software license is introduced by this attribution."
   },
   "publication_review": {
-    "approved": false,
+    "approved": true,
     "exposure": "Transaction-level UCI records and pseudonymous customer identifiers.",
     "excluded": "Raw workbook, environments, credentials, private files, pipeline extras."
   }

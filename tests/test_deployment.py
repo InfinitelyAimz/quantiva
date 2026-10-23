@@ -275,7 +275,7 @@ def test_manifest_and_configuration_fail_closed(package, tmp_path, monkeypatch):
         deploy.deployment_data(tmp_path)
 
 
-def test_environment_and_trusted_pending_manifest():
+def test_environment_and_trusted_public_manifest():
     root = Path(__file__).resolve().parents[1]
     content = (root / "environment.yml").read_text()
     assert "python=3.11.9=hb806964_0_cpython" in content
@@ -289,9 +289,16 @@ def test_environment_and_trusted_pending_manifest():
     assert inline == pins | {"pexpect==4.9.0", "ptyprocess==0.7.0"}
     assert "-e ." in lines
     manifest = json.loads((root / "deployment/community-cloud/artifacts.json").read_text())
-    deploy.validate_manifest(manifest, require_url=False)
-    assert manifest["archive"]["url"] is None
-    assert manifest["publication_review"]["approved"] is False
+    deploy.validate_manifest(manifest)
+    assert manifest["archive"]["url"] == (
+        "https://github.com/InfinitelyAimz/quantiva/releases/download/"
+        "deployment-runtime-v1/quantiva-runtime.tar.gz"
+    )
+    assert manifest["archive"]["sha256"] == (
+        "bc2adbd925f3a59c0b424a5ee2284951701db7f615958d0c3f1acd8667ee7f9d"
+    )
+    assert manifest["archive"]["bytes"] == 32788556
+    assert manifest["publication_review"]["approved"] is True
 
 
 def test_builder_is_deterministic_and_never_overwrites(tmp_path, monkeypatch):

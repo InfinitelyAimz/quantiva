@@ -1,7 +1,9 @@
 # Quantiva Community Cloud preparation
 
-Status: local preparation only. No artifact publication or dashboard deployment is
-approved. The existing compatibility canary is a separate application and branch.
+Status: the owner-approved runtime archive is published as `deployment-runtime-v1`
+and its public download has passed independent size and SHA-256 verification.
+The separate dashboard deployment is authorized, with hosted acceptance still pending.
+The existing compatibility canary remains a separate application and branch.
 
 ## Deployment contract
 
@@ -28,9 +30,11 @@ Do not deploy the canary entrypoint or repurpose its application.
 
 `artifacts.json` is the reviewable allowlist and trust anchor. It records actual
 archive/file SHA256 values, exact lengths, accepted project provenance, UCI source
-checksum, evaluation-report checksum and CC BY 4.0 attribution. Its URL is deliberately
-`null` and `publication_review.approved` is `false`. Neither is a deployment placeholder
-to silently fill in at runtime. Owner approval is required before editing them.
+checksum, evaluation-report checksum and CC BY 4.0 attribution. Its URL points to the
+versioned `deployment-runtime-v1/quantiva-runtime.tar.gz` release asset and
+`publication_review.approved` is `true`, following explicit owner approval and
+independent public-download verification. The original archive and all file hashes
+are unchanged. Provisioning remains opt-in through `QUANTIVA_DEPLOYMENT=1`.
 
 The archive itself contains exactly eight regular files:
 
@@ -149,7 +153,8 @@ uploads. Existing model-loader checks run after provisioning and remain unchange
 
 ## Approval and first cloud deployment
 
-The following actions remain separate owner decisions:
+The current publication and separate dashboard deployment are owner-authorized.
+For subsequent artifact versions, the following actions require owner review again:
 
 1. Approve publication of the exact reviewed eight-file package and its attribution.
 2. Choose an immutable hosting location, for example a versioned GitHub release
