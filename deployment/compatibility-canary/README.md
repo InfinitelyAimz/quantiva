@@ -8,11 +8,23 @@ The production entry point remains `app/Home.py`.
 ## Environment
 
 `environment.yml` requests the normal conda-forge Linux x86_64 build of CPython
-**3.11.9** (`hb806964_0_cpython`). Its pip section mirrors all 86 accepted
-`requirements-lock.txt` pins, then adds the Linux dependency closure
+**3.11.9** (`hb806964_0_cpython`). Conda alone installs deployment pip **26.2.2**.
+Its pip section mirrors the other 85 accepted `requirements-lock.txt` pins,
+then adds the Linux dependency closure
 `pexpect==4.9.0` and `ptyprocess==0.7.0`. Inline pins avoid ambiguity about paths
 relative to Conda's temporary pip requirements file. The configuration test rejects
-drift from the accepted lock. No Quantiva package installation is needed by this probe.
+drift from those accepted pins. The root lock keeps its original pip 24.0 pin;
+only this isolated deployment configuration uses a newer installer. Pip is not
+one of the six model-runtime version fields. No Quantiva package installation is
+needed by this probe.
+
+The first hosted attempt completed the Conda Python transaction but failed while
+starting pip, before runtime dependencies were installed. Its traceback is consistent
+with an older pip CLI/spinners module mixed with a newer `build_env/` package and
+could not import `open_rich_spinner`. A private overlay reproduction produced the
+same traceback. Keeping one modern, Conda-owned pip avoids the forced downgrade and
+prevents the pip phase from trying to manage its own installer. This repair is
+locally prepared; hosted success must still be demonstrated.
 
 The in-process contract includes NumPy **2.4.6**, pandas **2.3.3**, scikit-learn
 **1.9.1**, SciPy **1.17.1** and joblib **1.6.0**. Streamlit **1.66.0** and psutil
@@ -79,10 +91,14 @@ If routing fails, stop for review rather than changing production settings.
 2. Open the canary URL. Download its observation JSON and retain the corresponding
    `QUANTIVA_CANARY_OBSERVATION` runtime log privately. It records `sys.version`,
    `sys.executable`, PID, process creation time, implementation/platform, installed
-   and imported versions, native forecasting imports and the pip check command,
+   and imported versions, installer metadata versions, native forecasting imports
+   and the pip check command,
    exit status and output. Do not commit diagnostic outputs, logs or local paths.
 3. Require Linux, CPython **3.11.9 exactly**, every required package version, all
-   imports, and `pip check` exit status zero. A mismatch or missing check is
+   imports, deployment pip **26.2.2**, and `pip check` exit status zero. Conda's
+   metadata version is reported when installed in the worker; `null` means it is
+   unavailable there, not that a manager version has been verified. A mismatch or
+   missing check is
    **NO-GO**; never relax the comparisons or alter Quantiva metadata/checksums.
 4. Use Cloud's cold reboot/rebuild operation and retain that operation's logs.
    Download a second passing observation. Require a changed process creation time
@@ -109,6 +125,9 @@ Local preparation does not authorize a push, hosting-account authentication,
 account connection, application creation, deployment or artifact upload. Obtain
 explicit owner approval before any of those actions. Do not switch to a
 precomputed-forecast mode if this configuration fails.
+Pushing this branch may automatically rebuild its connected Cloud application;
+obtain approval for both actions together. The installer repair remains local
+until that approval is given.
 
 ## Official references
 

@@ -28,14 +28,19 @@ def test_environment_mirrors_accepted_lock_and_linux_closure():
         "  - nodefaults",
         "dependencies:",
         "  - python=3.11.9=hb806964_0_cpython",
-        "  - pip=24.0",
+        "  - pip=26.2.2",
         "  - pip:",
     ]
     assert all(line.startswith("      - ") for line in significant[8:])
     pins = [line.removeprefix("      - ") for line in significant[8:]]
-    accepted = [line for line in (ROOT / "requirements-lock.txt").read_text().splitlines() if line]
+    accepted = [
+        line
+        for line in (ROOT / "requirements-lock.txt").read_text().splitlines()
+        if line and not line.startswith("pip==")
+    ]
     assert pins == accepted + ["pexpect==4.9.0", "ptyprocess==0.7.0"]
-    assert len(pins) == len(set(pins)) == 88
+    assert len(pins) == len(set(pins)) == 87
+    assert not any(pin.partition("==")[0].lower() == "pip" for pin in pins)
     for distribution, (_, expected) in canary.EXPECTED_PACKAGES.items():
         assert f"{distribution}=={expected}" in pins
 
@@ -60,6 +65,21 @@ def test_matching_observation_cannot_claim_completed_cloud_acceptance(matching_r
     assert report["cold_restart_or_rebuild_verified"] is False
     assert report["linux_target"] == "PASS"
     assert {row["package"] for row in report["packages"]} >= {"pexpect", "ptyprocess"}
+
+
+def test_installer_versions_are_observed_without_assuming_conda_is_in_worker(
+    matching_runtime, monkeypatch
+):
+    def installed_version(name):
+        if name == "pip":
+            return "26.2.2"
+        raise canary.PackageNotFoundError(name)
+
+    monkeypatch.setattr(canary, "version", installed_version)
+    report = canary.collect_diagnostics()
+    assert report["build_tools"] == {"pip": "26.2.2", "conda": None}
+    assert report["process_runtime_verdict"] == "PASS"
+    assert report["cloud_acceptance"] == "UNVERIFIED"
 
 
 @pytest.mark.parametrize("actual", ["3.11.10", "3.12.0"])
@@ -140,6 +160,7 @@ def test_actual_streamlit_process_and_rerun():
     assert first["process"]["sys_version"] == sys.version
     assert first["pip_check"]["command"] == [sys.executable, "-m", "pip", "check"]
     assert first["cloud_acceptance"] == "UNVERIFIED"
+    assert first["build_tools"]["pip"] == canary.version("pip")
     app.button[0].click().run(timeout=90)
     assert not app.exception
     second = json.loads(app.json[0].value)

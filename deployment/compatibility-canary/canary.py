@@ -71,6 +71,13 @@ def check_pip():
 def collect_diagnostics():
     """Observe the serving process without reading Quantiva data or modifying its runtime."""
     system = platform.system()
+    build_tools = {}
+    for name in ["pip", "conda"]:
+        try:
+            build_tools[name] = version(name)
+        except PackageNotFoundError:
+            # The Cloud manager may own Conda outside the worker's Python environment.
+            build_tools[name] = None
     expected = EXPECTED_PACKAGES | (LINUX_PACKAGES if system == "Linux" else {})
     packages = [inspect_package(name, *spec) for name, spec in expected.items()]
     imports = []
@@ -108,6 +115,7 @@ def collect_diagnostics():
             "machine": platform.machine(),
         },
         "linux_target": "PASS" if system == "Linux" else "NOT VERIFIED",
+        "build_tools": build_tools,
         "packages": packages,
         "forecast_imports": imports,
         "pip_check": pip_check,

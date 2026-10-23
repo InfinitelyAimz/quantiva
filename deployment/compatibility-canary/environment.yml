@@ -1,5 +1,5 @@
 # Isolated canary only. Entry point: deployment/compatibility-canary/canary.py
-# Mirror the accepted lock inline to avoid Conda pip temporary-file path ambiguity.
+# Mirror runtime pins inline; Conda alone owns the deployment-specific pip version.
 # test_canary.py rejects drift from requirements-lock.txt.
 name: quantiva-compatibility-canary
 channels:
@@ -7,7 +7,7 @@ channels:
   - nodefaults
 dependencies:
   - python=3.11.9=hb806964_0_cpython
-  - pip=24.0
+  - pip=26.2.2
   - pip:
       - altair==6.3.0
       - anyio==4.15.1
@@ -55,7 +55,6 @@ dependencies:
       - pandas==2.3.3
       - parso==0.8.7
       - pillow==12.3.0
-      - pip==24.0
       - platformdirs==4.13.0
       - plotly==6.9.0
       - pluggy==1.6.0
