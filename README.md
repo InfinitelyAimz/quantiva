@@ -2,12 +2,16 @@
 
 Trace real retail transactions from an immutable source workbook to verified SQL
 metrics, customer segments, evaluated forecasts and an interactive Streamlit dashboard.
-Quantiva is a data science portfolio that runs locally with free tools.
+Quantiva is a publicly accessible retail analytics and forecasting portfolio project.
+
+**[Open the Live Dashboard](https://quantiva-dashboard.streamlit.app/)**
+
+Explore the interactive dashboard without installing anything. For local analysis,
+see [installation and reproduction instructions](#getting-started) below.
 
 This is a **historical analytical dashboard**, not a live business intelligence feed.
 Its five pages explore verified 2010–2011 transactions and a historical forecasting
 demonstration; they do not report current sales or real-time exchange rates.
-
 
 **Explore:** [Case study](reports/portfolio_case_study.md) ·
 [Dashboard gallery](docs/dashboard_gallery.md) · [Architecture](docs/architecture.md) ·
@@ -22,8 +26,8 @@ those decisions explicit using one UK retailer's 2010–2011 records.
 
 The project investigates where recorded sales concentrate, how identifiable customers
 purchase and how reliably seven-day sales can be forecast. It demonstrates analytical
-engineering and communication. No commercial adoption, measured revenue uplift or
-production deployment is claimed.
+engineering and communication through a publicly hosted interactive demonstration.
+No commercial adoption or measured revenue uplift is claimed.
 
 ## Key capabilities
 
@@ -132,7 +136,8 @@ data/                Ignored raw, processed and model artifacts; regenerate loca
 
 ## Getting started
 
-Run from the checkout root in Windows PowerShell with Git and Python **3.11**:
+To reproduce the analysis or run the dashboard locally, use the checkout root in
+Windows PowerShell with Git and Python **3.11**:
 
 ```powershell
 git clone https://github.com/InfinitelyAimz/quantiva.git
