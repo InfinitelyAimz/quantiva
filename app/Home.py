@@ -10,10 +10,17 @@ from quantiva.dashboard import pages
 from quantiva.dashboard.components import currency_selector
 from quantiva.dashboard.data import catalog
 from quantiva.dashboard.theme import css, theme_state
+from quantiva.deployment import ProvisioningError, deployment_data
 
 st.set_page_config(page_title="Quantiva | Retail intelligence", page_icon="◈", layout="wide")
-settings = Settings.from_environment()
 root = Path(__file__).resolve().parents[1]
+try:
+    with st.spinner("Verifying dashboard artifacts…"):
+        deployed_data = deployment_data(root)
+    settings = Settings(deployed_data) if deployed_data is not None else Settings.from_environment()
+except ProvisioningError as exc:
+    st.error(f"Dashboard deployment is not ready: {exc}")
+    st.stop()
 initial = st.context.theme.type
 theme = theme_state(st.session_state, initial)
 

@@ -1,0 +1,65 @@
+{
+  "schema_version": 1,
+  "archive": {
+    "url": null,
+    "bytes": 32788556,
+    "sha256": "bc2adbd925f3a59c0b424a5ee2284951701db7f615958d0c3f1acd8667ee7f9d"
+  },
+  "files": {
+    "data/models/context.csv": {
+      "bytes": 7441,
+      "sha256": "437de98f6b52f9305a9dae7c809185dd4f2f3b59a10b2596689fcd5d386bf335"
+    },
+    "data/models/manifest.json": {
+      "bytes": 269,
+      "sha256": "91535e0c0e341236bfa8f12a71f0a8bf9f360237110a40a1be35e1648c2955de"
+    },
+    "data/models/metadata.json": {
+      "bytes": 7177,
+      "sha256": "ba1d2077274117647bf110824f7b5d70ca5197b00808261a95e8f12294e169d4"
+    },
+    "data/models/selected.joblib": {
+      "bytes": 132916,
+      "sha256": "6f27f6489c5bb039437aa843b56f77a671ca7fde1660319316f1c94bf516b97e"
+    },
+    "data/processed/cleaning_report.json": {
+      "bytes": 658,
+      "sha256": "528b461e744a74e5070315f216aa554e769cbad0d6670164a64fb50d87a6a825"
+    },
+    "data/processed/forecasting/daily_series.parquet": {
+      "bytes": 15743,
+      "sha256": "54d7880b93d1e74e365840b48427a05f295b3eb1ae2d8321dc1a4821039f40ce"
+    },
+    "data/processed/initial_inspection.json": {
+      "bytes": 1891,
+      "sha256": "569048ea95a15cebe085b5f9476aceca87e792dc56a6086645f7cb38812a27f5"
+    },
+    "data/processed/quantiva.db": {
+      "bytes": 156139520,
+      "sha256": "fc48132648de09b84b9b198a1e1292ba90a8aed1a611ba715861c1378fd438d5"
+    }
+  },
+  "provenance": {
+    "accepted_project_commit": "ccf0b1b41b56ead1f13b07796d25e50bdc4e1fb5",
+    "dataset": "Online Retail",
+    "doi": "10.24432/C5BW33",
+    "source_workbook_sha256": "43465a06f2ccf7c8b5bd2892bc7defb52f97487934fe93b16ae4c3936424676d",
+    "license": "CC BY 4.0",
+    "license_url": "https://creativecommons.org/licenses/by/4.0/",
+    "changes": "Quantiva's SQLite database, analytical outputs and forecasting artifacts are derived from the original UCI dataset through documented cleaning, normalization, relational modeling, feature engineering and model fitting.",
+    "model_source": "Owner-built accepted Quantiva model; never a third-party pickle.",
+    "forecast_report_lf_sha256": "ff74f39a953b4d40097d165047c391bf3bbd7075c1ba7f4efcde1116ddd25e2d",
+    "creator": "Daqing Chen",
+    "repository": "UCI Machine Learning Repository",
+    "citation": "Chen, D. (2015). Online Retail. UCI Machine Learning Repository.",
+    "original_dataset_url": "https://archive.ics.uci.edu/dataset/352/online+retail",
+    "license_name": "Creative Commons Attribution 4.0 International",
+    "non_endorsement": "Quantiva is an independent project. No endorsement by UCI or the original dataset creator is claimed or implied.",
+    "software_licensing": "The dataset's CC BY 4.0 license does not license Quantiva's own software. No explicit Quantiva software license is currently provided; no new software license is introduced by this attribution."
+  },
+  "publication_review": {
+    "approved": false,
+    "exposure": "Transaction-level UCI records and pseudonymous customer identifiers.",
+    "excluded": "Raw workbook, environments, credentials, private files, pipeline extras."
+  }
+}
